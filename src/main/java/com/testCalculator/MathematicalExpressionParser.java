@@ -1,12 +1,21 @@
 package com.testCalculator;
 
-import java.util.Stack;
 import java.util.regex.Pattern;
 
 class MathematicalExpressionParser<T extends Number> 
 {
-	private Stack<T> numbers;
-	private Stack<String> operations;
+	/**
+	 * Reverse Polish Expression
+	 */
+	private ReversePolishExpression<T> rpExpression;
+	
+	/**
+	 * Initializer function.
+	 */
+	private void init()
+	{
+		this.rpExpression = new ReversePolishExpression<T>();
+	}
 	
 	/**
 	 * Forcing only object construction via using an expression.
@@ -14,8 +23,7 @@ class MathematicalExpressionParser<T extends Number>
 	 */
 	private MathematicalExpressionParser()
 	{
-		this.numbers = new Stack<T>();
-		this.operations = new Stack<String>();
+		this.init();
 	}
 	
 	/**
@@ -40,9 +48,31 @@ class MathematicalExpressionParser<T extends Number>
 	 * @return
 	 * @throws Exception
 	 */
-	public static <E extends Number> MathematicalExpressionParser<E> constructFromString(String expression) throws Exception
+	public static <E extends Number> MathematicalExpressionParser<E> constructFromExpression(String expression) throws Exception
 	{
 		return new MathematicalExpressionParser<E>(expression);
+	}
+	
+	/**
+	 * Changes current expression with a new one.
+	 * 
+	 * @param expression
+	 * @throws Exception
+	 */
+	public void changeExpression(String expression) throws Exception
+	{
+		this.init();
+		
+		this.parseMathematicalExpression(expression);
+	}
+	
+	/** 
+	 * Returns a copy of the inner Reverse polish notation.
+	 * @return ReversePolishExpression<T>
+	 */
+	public ReversePolishExpression<T> getRPExpression()
+	{
+		return new ReversePolishExpression<T>(this.rpExpression);
 	}
 	
 	/**
@@ -117,7 +147,7 @@ class MathematicalExpressionParser<T extends Number>
 	 */
 	private void addNumber(T number)
 	{
-		this.numbers.add(number);
+		this.rpExpression.addNumber(number);
 	}
 	
 	/**
@@ -125,56 +155,8 @@ class MathematicalExpressionParser<T extends Number>
 	 * 
 	 * @param operation
 	 */
-	private void addOperation(String operation)
+	private void addOperation(String operation) throws Exception
 	{
-		this.operations.add(operation);
-	}
-	
-	/**
-	 * Returns the next number by popping it from the Reverse Polish Stack.
-	 * On an empty stack it returns null.
-	 * 
-	 * @return T | null
-	 */
-	public T nextNum()
-	{
-		if (!this.hasNextNum())
-		{
-			return null;
-		}
-		
-		return this.numbers.pop();
-	}
-	
-	/**
-	 * Returns true if there is a number within the Reverse Polish number stack 
-	 * and false otherwise.
-	 * 
-	 * @return boolean
-	 */
-	public boolean hasNextNum()
-	{
-		return !(this.numbers.empty());
-	}
-	
-	/**
-	 * Returns the next operation if there is a such within the Reverse Polish
-	 * stack and null otherwise.
-	 * 
-	 * @return T | null
-	 */
-	public String nextOperation()
-	{
-		if (!this.hasNextOperation())
-		{
-			return null;
-		}
-		
-		return this.operations.pop();
-	}
-	
-	public boolean hasNextOperation()
-	{
-		return !(this.operations.empty());
+		this.rpExpression.addOperation(operation);
 	}
 }
