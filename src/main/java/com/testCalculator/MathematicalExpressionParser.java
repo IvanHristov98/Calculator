@@ -127,7 +127,7 @@ class MathematicalExpressionParser
 	 */
 	private boolean isNumber(String element)
 	{
-		return Pattern.matches("^(-|\\+){0,1}[0-9]+$", element);
+		return Pattern.matches("^(-|\\+){0,1}[0-9.]+$", element);
 	}
 	
 	/**
