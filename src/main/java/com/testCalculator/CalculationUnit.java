@@ -172,9 +172,15 @@ class CalculationUnit
 	 * @param left
 	 * @param right
 	 * @return Double
+	 * @throws Exception
 	 */
-	private Double getDivision(Double left, Double right)
+	private Double getDivision(Double left, Double right) throws Exception
 	{
+		if (right.doubleValue() == 0)
+		{
+			throw new Exception("Division by zero.");
+		}
+		
 		return Double.valueOf(left.doubleValue() / right.doubleValue());
 	}
 
