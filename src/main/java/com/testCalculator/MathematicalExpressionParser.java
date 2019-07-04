@@ -2,19 +2,19 @@ package com.testCalculator;
 
 import java.util.regex.Pattern;
 
-class MathematicalExpressionParser<T extends Number> 
+class MathematicalExpressionParser 
 {
 	/**
 	 * Reverse Polish Expression
 	 */
-	private ReversePolishExpression<T> rpExpression;
+	private ReversePolishExpression rpExpression;
 	
 	/**
 	 * Initializer function.
 	 */
 	private void init()
 	{
-		this.rpExpression = new ReversePolishExpression<T>();
+		this.rpExpression = new ReversePolishExpression();
 	}
 	
 	/**
@@ -43,14 +43,13 @@ class MathematicalExpressionParser<T extends Number>
 	/**
 	 * Used in order to construct a MathematicalExpression object via an expression.
 	 * 
-	 * @param <E>
 	 * @param expression
 	 * @return
 	 * @throws Exception
 	 */
-	public static <E extends Number> MathematicalExpressionParser<E> constructFromExpression(String expression) throws Exception
+	public static MathematicalExpressionParser constructFromExpression(String expression) throws Exception
 	{
-		return new MathematicalExpressionParser<E>(expression);
+		return new MathematicalExpressionParser(expression);
 	}
 	
 	/**
@@ -68,11 +67,11 @@ class MathematicalExpressionParser<T extends Number>
 	
 	/** 
 	 * Returns a copy of the inner Reverse polish notation.
-	 * @return ReversePolishExpression<T>
+	 * @return ReversePolishExpression
 	 */
-	public ReversePolishExpression<T> getRPExpression()
+	public ReversePolishExpression getRPExpression()
 	{
-		return new ReversePolishExpression<T>(this.rpExpression);
+		return new ReversePolishExpression(this.rpExpression);
 	}
 	
 	/**
@@ -119,7 +118,7 @@ class MathematicalExpressionParser<T extends Number>
 	 */
 	private boolean isNumber(String element)
 	{
-		return Pattern.matches("^[0-9]+$", element);
+		return Pattern.matches("^(-|\\+){0,1}[0-9]+$", element);
 	}
 	
 	/**
@@ -129,15 +128,14 @@ class MathematicalExpressionParser<T extends Number>
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	private T parseNumber(String number) throws Exception
+	private Double parseNumber(String number) throws Exception
 	{
-		if (this.isNumber(number))
+		if (!this.isNumber(number))
 		{
 			throw new Exception("Expected a number.");
 		}
 		
-		return (T)((Number)Double.parseDouble(number));
+		return Double.parseDouble(number);
 	}
 	
 	/**
@@ -145,7 +143,7 @@ class MathematicalExpressionParser<T extends Number>
 	 * 
 	 * @param number
 	 */
-	private void addNumber(T number)
+	private void addNumber(Double number)
 	{
 		this.rpExpression.addNumber(number);
 	}

@@ -3,9 +3,9 @@ package com.testCalculator;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-class ReversePolishExpression<T extends Number>
+class ReversePolishExpression
 {
-	private Stack<T> numbers;
+	private Stack<Double> numbers;
 	private Stack<String> operations;
 	
 	/**
@@ -13,7 +13,7 @@ class ReversePolishExpression<T extends Number>
 	 */
 	private void init()
 	{
-		this.numbers = new Stack<T>();
+		this.numbers = new Stack<Double>();
 		this.operations = new Stack<String>();
 	}
 	
@@ -22,8 +22,7 @@ class ReversePolishExpression<T extends Number>
 		this.init();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ReversePolishExpression(ReversePolishExpression<T> other)
+	public ReversePolishExpression(ReversePolishExpression other)
 	{
 		this.numbers = this.cloneNumberStack(other.numbers);
 		this.operations = (Stack<String>) other.operations.clone();
@@ -43,14 +42,15 @@ class ReversePolishExpression<T extends Number>
 	 * 
 	 * @param number
 	 */
-	public void addNumber(T number)
+	public void addNumber(Double number)
 	{
 		this.numbers.add(number);
 	}
 	
 	private void validateOperation(String operation) throws Exception
 	{
-		if (Pattern.matches("^+$|^-$|^*$|^/$", operation))
+		System.out.println(operation);
+		if (!Pattern.matches("^\\+$|^-$|^\\*$|^\\/$", operation))
 		{
 			throw new Exception("Invalid operation.");
 		}
@@ -72,9 +72,9 @@ class ReversePolishExpression<T extends Number>
 	 * Returns the next number by popping it from the Reverse Polish Stack.
 	 * On an empty stack it returns null.
 	 * 
-	 * @return T | null
+	 * @return Double | null
 	 */
-	public T nextNum()
+	public Double nextNum()
 	{
 		if (!this.hasNextNum())
 		{
@@ -99,7 +99,7 @@ class ReversePolishExpression<T extends Number>
 	 * Returns the next operation if there is a such within the Reverse Polish
 	 * stack and null otherwise.
 	 * 
-	 * @return T | null
+	 * @return String | null
 	 */
 	public String nextOperation()
 	{
@@ -123,21 +123,15 @@ class ReversePolishExpression<T extends Number>
 	}
 
 	
-	private <E extends Number> Stack<E> cloneNumberStack(Stack<E> other)
+	private Stack<Double> cloneNumberStack(Stack<Double> other)
 	{
-		Stack<E> copy = new Stack<E>();
+		Stack<Double> copy = new Stack<Double>();
 		
-		for (E item : other)
+		for (Double item : other)
 		{
-			copy.add(this.<E>copyNumber(item));
+			copy.add(Double.valueOf(item.doubleValue()));
 		}
 		
 		return copy;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private <E extends Number> E copyNumber(E number)
-	{
-		return (E)((Number)Double.valueOf(number.doubleValue()));
 	}
 }
