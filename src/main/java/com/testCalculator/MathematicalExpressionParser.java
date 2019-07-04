@@ -3,7 +3,7 @@ package com.testCalculator;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-public class MathematicalExpressionParser<T extends Number> 
+class MathematicalExpressionParser<T extends Number> 
 {
 	private Stack<T> numbers;
 	private Stack<String> operations;
