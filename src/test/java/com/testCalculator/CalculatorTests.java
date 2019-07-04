@@ -10,8 +10,8 @@ public class CalculatorTests
 	@Test
 	public void SumAndSubtractMultipleNumbers_Calculated() throws Exception
 	{
-		Calculator calc = Calculator.constructFromExpression("3 + 3 + 3 - 3");
-		assertEquals(6, calc.calculate().doubleValue(), CalculatorTests.DELTA);
+		Calculator calc = Calculator.constructFromExpression("3.5 + 2.3 + 3 - 3");
+		assertEquals(5.8, calc.calculate().doubleValue(), CalculatorTests.DELTA);
 	}
 	
 	@Test
@@ -21,10 +21,10 @@ public class CalculatorTests
 		assertEquals(1, calc.calculate().doubleValue(), 0);
 	}
 
-	@Test
+	@Test(expected = Exception.class)
 	public void DivideByZero_Calculated() throws Exception
 	{
-		Calculator calc  = Calculator.constructFromExpression("0 / 1");
+		Calculator calc  = Calculator.constructFromExpression("1 / 0");
 		assertEquals(0, calc.calculate().doubleValue(), CalculatorTests.DELTA);
 	}
 }
