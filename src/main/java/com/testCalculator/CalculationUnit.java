@@ -189,10 +189,9 @@ class CalculationUnit
 
 	
 	/**
-	 * 
 	 * @param calculationResult
 	 */
-	public void setCalculationResult(Double calculationResult) 
+	private void setCalculationResult(Double calculationResult) 
 	{
 		this.calculationResult = calculationResult;
 	}
