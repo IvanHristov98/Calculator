@@ -2,6 +2,15 @@ package com.testCalculator;
 
 import java.util.regex.Pattern;
 
+/**
+ * This class accepts an expression and converts it into 
+ * a reverse polish.
+ * 
+ * TODO Make it happen by the use of the Shunting Yard Algorithm.
+ * 
+ * @author I517939
+ *
+ */
 class MathematicalExpressionParser 
 {
 	/**
