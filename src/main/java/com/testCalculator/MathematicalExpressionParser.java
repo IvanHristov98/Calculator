@@ -129,4 +129,52 @@ class MathematicalExpressionParser<T extends Number>
 	{
 		this.operations.add(operation);
 	}
+	
+	/**
+	 * Returns the next number by popping it from the Reverse Polish Stack.
+	 * On an empty stack it returns null.
+	 * 
+	 * @return T | null
+	 */
+	public T nextNum()
+	{
+		if (!this.hasNextNum())
+		{
+			return null;
+		}
+		
+		return this.numbers.pop();
+	}
+	
+	/**
+	 * Returns true if there is a number within the Reverse Polish number stack 
+	 * and false otherwise.
+	 * 
+	 * @return boolean
+	 */
+	public boolean hasNextNum()
+	{
+		return !(this.numbers.empty());
+	}
+	
+	/**
+	 * Returns the next operation if there is a such within the Reverse Polish
+	 * stack and null otherwise.
+	 * 
+	 * @return T | null
+	 */
+	public String nextOperation()
+	{
+		if (!this.hasNextOperation())
+		{
+			return null;
+		}
+		
+		return this.operations.pop();
+	}
+	
+	public boolean hasNextOperation()
+	{
+		return !(this.operations.empty());
+	}
 }
