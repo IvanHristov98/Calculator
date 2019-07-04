@@ -3,6 +3,14 @@ package com.testCalculator;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
+/**
+ * This class encapsulates the principles of using a reverse
+ * polish notation by maintaining two stacks. One for numbers
+ * and the other for operations.
+ * 
+ * @author I517939
+ *
+ */
 class ReversePolishExpression
 {
 	private Stack<Double> numbers;
@@ -16,6 +24,7 @@ class ReversePolishExpression
 		this.numbers = new Stack<Double>();
 		this.operations = new Stack<String>();
 	}
+	
 	
 	public ReversePolishExpression()
 	{
@@ -47,10 +56,13 @@ class ReversePolishExpression
 		this.numbers.add(number);
 	}
 	
+	/**
+	 * Uses a regex to validate whether the String is a valid mathematical operation.
+	 */
 	private void validateOperation(String operation) throws Exception
 	{
 		System.out.println(operation);
-		if (!Pattern.matches("^\\+$|^-$|^\\*$|^\\/$", operation))
+		if (!Pattern.matches("^[-+*/]$", operation))
 		{
 			throw new Exception("Invalid operation.");
 		}
@@ -122,7 +134,12 @@ class ReversePolishExpression
 		return !(this.operations.empty());
 	}
 
-	
+	/**
+	 * Function used to deep copy stack<Double> elements.
+	 * 
+	 * @param other
+	 * @return Stack<Double>
+	 */
 	private Stack<Double> cloneNumberStack(Stack<Double> other)
 	{
 		Stack<Double> copy = new Stack<Double>();
