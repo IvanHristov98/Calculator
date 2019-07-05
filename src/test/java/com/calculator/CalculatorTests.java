@@ -8,38 +8,69 @@ public class CalculatorTests
 {	
 	private static final double ALLOWED_ERROR = 0.01;
 	
-	@Test
-	public void SumAndSubtractMultipleNumbers_Calculate() throws Exception
+	private double calculate(String expression) throws Exception
 	{
-		Calculator calc = Calculator.constructFromExpression("3.5 + 2.3 + 3 - 3");
-		assertEquals(5.8, calc.calculate().doubleValue(), CalculatorTests.ALLOWED_ERROR);
+		Calculator calc  = Calculator.constructFromExpression(expression);
+		return calc.calculate().doubleValue();
 	}
 	
 	@Test
-	public void MultiplyNegativeNumbers_Calculate() throws Exception
+	public void sumAndSubtractMultipleNumbers_calculate() throws Exception
 	{
-		Calculator calc  = Calculator.constructFromExpression("-1 * -1");
-		assertEquals(1, calc.calculate().doubleValue(), 0);
+		assertEquals(5.8, this.calculate("3.5+2.3+3-3"), CalculatorTests.ALLOWED_ERROR);
+	}
+	
+	@Test
+	public void multiplyNegativeNumbers_calculate() throws Exception
+	{
+		assertEquals(1, this.calculate("-1*-1"), 0);
 	}
 
 	@Test(expected = DivisionByZeroException.class)
-	public void DivideByZero_Calculate() throws Exception
+	public void divideByZero_calculate() throws Exception
 	{
-		Calculator calc  = Calculator.constructFromExpression("1 / 0");
-		assertEquals(0, calc.calculate().doubleValue(), CalculatorTests.ALLOWED_ERROR);
+		this.calculate("1/0");
 	}
 	
 	@Test
-	public void AssociativityWithBrackets_Calculate() throws Exception
+	public void associativityWithBrackets_calculate() throws Exception
 	{
-		Calculator calc = Calculator.constructFromExpression("2 + ( 3 / 2 ) * 4");
-		assertEquals(8, calc.calculate().doubleValue(), CalculatorTests.ALLOWED_ERROR);
+		assertEquals(8, this.calculate("2+(3/2)*4"), CalculatorTests.ALLOWED_ERROR);
 	}
 	
 	@Test(expected = BracketsException.class)
-	public void MissedFirstBracket_Calculate() throws Exception
+	public void missedOpeningBracket_calculate() throws Exception
 	{
-		Calculator calc = Calculator.constructFromExpression("3 + 4 ) / 2");
-		assertEquals(5, calc.calculate().doubleValue(), CalculatorTests.ALLOWED_ERROR);
+		this.calculate("3+4)/2");
+	}
+	
+	@Test(expected = BracketsException.class)
+	public void missedClosingBracket_calculate() throws Exception
+	{
+		this.calculate("(3+4/2");
+	}
+	
+	@Test(expected = OperatorMisplacementException.class)
+	public void operatorCount_calculate() throws Exception
+	{
+		this.calculate("3++5/2");
+	}
+	
+	@Test(expected = OperatorMisplacementException.class)
+	public void operatorMisplacementOnEachSide_calculate() throws Exception
+	{
+		this.calculate("*3+5+");
+	}
+	
+	@Test(expected = InvalidOperatorException.class)
+	public void letterInsteadOfNumber_calculate() throws Exception
+	{
+		this.calculate("5A5+3");
+	}
+	
+	@Test
+	public void spacedExpression_calculate() throws Exception
+	{
+		assertEquals(17, this.calculate("1 + 2*(3 +5)"), CalculatorTests.ALLOWED_ERROR);
 	}
 }
