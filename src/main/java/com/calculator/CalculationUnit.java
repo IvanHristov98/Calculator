@@ -1,4 +1,4 @@
-package com.testCalculator;
+package com.calculator;
 
 /**
  * This class takes an object representing reverse polish notation and 

@@ -1,4 +1,4 @@
-package com.testCalculator;
+package com.calculator;
 
 import java.util.Stack;
 import java.util.regex.Pattern;
