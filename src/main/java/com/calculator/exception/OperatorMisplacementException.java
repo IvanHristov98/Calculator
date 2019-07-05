@@ -1,6 +1,6 @@
 package com.calculator.exception;
 
-public class OperatorMisplacementException extends OperatorException
+public final class OperatorMisplacementException extends OperatorException
 {
 	private static final long serialVersionUID = -7066236372174568388L;
 	
