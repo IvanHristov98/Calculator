@@ -6,9 +6,9 @@ public abstract class OperatorException extends CalculatorException
 	
 	private String problematicOperator;
 
-	public OperatorException(String message, String reason, String problematicOperator) 
+	public OperatorException(String message, String problematicOperator) 
 	{
-		super(message, reason);
+		super(message);
 		
 		this.problematicOperator = problematicOperator;
 	}
