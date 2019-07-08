@@ -8,6 +8,13 @@ public class ExpressionParser
 {	
 	private String expression;
 	
+	/**
+	 * Given an expression it validates, modifies and saves it as a local field.
+	 * 
+	 * @param expression
+	 * @return ExpressionParser
+	 * @throws CalculatorException
+	 */
 	public static ExpressionParser constructFromExpression(String expression) throws CalculatorException
 	{
 		return new ExpressionParser(expression);
@@ -35,8 +42,6 @@ public class ExpressionParser
 		expression = this.recursivelyValidateAndStripEndings(expression);
 		expression = this.wrapWithBrackets(expression);
 		
-		
-		
 		expression = this.splitTokensWithIntervals(expression).trim();
 		
 		return expression;
@@ -55,8 +60,70 @@ public class ExpressionParser
 		return expression.replaceAll(" ", "");
 	}
 	
+	private void validateOperatorSequence(String expression) throws OperatorMisplacementException
+	{
+		if (this.hasConsequentialOperators(expression))
+		{
+			throw new OperatorMisplacementException("The given expression contains consecutive operators.");
+		}
+	}
+	
+	private boolean hasConsequentialOperators(String expression)
+	{
+		// There should be no two consecutive operators -, /, +, ^
+		return  Pattern.matches(".*[-*\\/+^]{2,}.*", expression);
+	}
+	
+	private void validateNumberSequence(String expression) throws OperatorMisplacementException
+	{
+		if (this.hasConsequentialNumbers(expression))
+		{
+			throw new OperatorMisplacementException("The given expression contains consecutive numbers.");
+		}
+	}
+	
+	private boolean hasConsequentialNumbers(String expression)
+	{
+		// checks if there are two floating point numbers one after another
+		// following the mantissa_1.exponent_1mantissa_2.exponent_2
+		return Pattern.matches(".*[0-9]+\\.[0-9]*\\..*", expression);
+	}
+
+	private void validateTokens(String expression) throws OperatorMisplacementException
+	{
+		if (this.hasInvalidTokens(expression))
+		{
+			throw new OperatorMisplacementException("The given expression contains invalid tokens.");
+		}
+	}
+	
+	private boolean hasInvalidTokens(String expression)
+	{
+		// An expression should only contain the symbols -, +, *, /, ^, (, ), .,  0-9 
+		return Pattern.matches(".*[^-+*\\/^()0-9.].*", expression);
+	}
+	
+	private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expression) throws BracketsException
+	{
+		if (this.hasNumbersGluedAroundBracketExpression(expression))
+		{
+			throw new BracketsException(
+					"It is not allowed to have numbers straight before or after a bracket symbol within an expression."
+					);
+		}
+	}
+	
+	private boolean hasNumbersGluedAroundBracketExpression(String expression)
+	{
+		// Prevents having expressions with the format number1([sub_expression])number2
+		return expression.matches(".*([0-9.]\\(|\\)[0-9]).*");
+	}
+	
 	private String recursivelyValidateAndStripEndings(String expression) throws OperatorMisplacementException, BracketsException
 	{
+		final char OPENING_BRACKET = '(';
+		final char CLOSING_BRACKET = ')';
+		
 		this.validateExpressionBeginning(expression);
 		expression = this.stripRendundantSymbolsAtBeginning(expression);
 		
@@ -67,13 +134,13 @@ public class ExpressionParser
 		
 		for (int i = 0; i < expression.length(); ++i)
 		{
-			if (expression.charAt(i) == '(')
+			if (expression.charAt(i) == OPENING_BRACKET)
 			{
 				nextLevelOpeningBracketPosition = i;
 				foundNextLevel = true;
 			}
 			
-			if (expression.charAt(i) == ')')
+			if (expression.charAt(i) == CLOSING_BRACKET)
 			{
 				if (!foundNextLevel)
 				{
@@ -137,60 +204,6 @@ public class ExpressionParser
 	{
 		return "(" + expression + ")";
 	}
-
-	private void validateOperatorSequence(String expression) throws OperatorMisplacementException
-	{
-		if (this.hasConsequentialOperators(expression))
-		{
-			throw new OperatorMisplacementException("The given expression contains consecutive operators.");
-		}
-	}
-	
-	private boolean hasConsequentialOperators(String expression)
-	{
-		return  Pattern.matches(".*[-*\\/+]{2,}.*", expression);
-	}
-	
-	private void validateNumberSequence(String expression) throws OperatorMisplacementException
-	{
-		if (this.hasConsequentialNumbers(expression))
-		{
-			throw new OperatorMisplacementException("The given expression contains consecutive numbers.");
-		}
-	}
-	
-	private boolean hasConsequentialNumbers(String expression)
-	{
-		return Pattern.matches(".*[0-9]+\\.[0-9]*\\..*", expression);
-	}
-
-	private void validateTokens(String expression) throws OperatorMisplacementException
-	{
-		if (this.hasInvalidTokens(expression))
-		{
-			throw new OperatorMisplacementException("The given expression contains invalid tokens.");
-		}
-	}
-	
-	private boolean hasInvalidTokens(String expression)
-	{
-		return Pattern.matches(".*[^-+*\\/^()0-9.].*", expression);
-	}
-	
-	private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expression) throws BracketsException
-	{
-		if (this.hasNumbersGluedAroundBracketExpression(expression))
-		{
-			throw new BracketsException(
-					"It is not allowed to have numbers straight before or after a bracket symbol within an expression."
-					);
-		}
-	}
-	
-	private boolean hasNumbersGluedAroundBracketExpression(String expression)
-	{
-		return expression.matches(".*([0-9.]\\(|\\)[0-9]).*");
-	}
 	
 	private String splitTokensWithIntervals(String expression)
 	{
@@ -203,16 +216,22 @@ public class ExpressionParser
 	
 	private String splitNumbersWithIntervals(String expression)
 	{
+		// Whenever a number of the format mantissa.exponent is found
+		// a whitespace is added in front of it.
 		return expression.replaceAll("([0-9.]+)", " $1");
 	}
 	
 	private String splitOperatorsWithIntervals(String expression)
 	{
+		// Whenever a valid operator is found 
+		// a whitespace character is added in front of it.
 		return expression.replaceAll("([-+*\\/^()]{1})", " $1");
 	}
 
 	private String mergeNegativeNumbersAtBeginning(String expression)
 	{
+		// A negative number can only be found at the start of the expression
+		// or after an opening bracket.
 		return expression.replaceFirst("(\\( -) ([0-9]+)", "$1$2");
 	}
 	
