@@ -6,7 +6,10 @@ import com.calculator.exception.*;
 
 public class ExpressionParser 
 {	
-	private String expression;
+	private Expression expression;
+	
+	private ExpressionParser()
+	{}
 	
 	/**
 	 * Given an expression it validates, modifies and saves it as a local field.
@@ -15,25 +18,26 @@ public class ExpressionParser
 	 * @return ExpressionParser
 	 * @throws CalculatorException
 	 */
-	public static ExpressionParser constructFromExpression(String expression) throws CalculatorException
+	public static ExpressionParser constructFromExpression(Expression expression) throws CalculatorException
 	{
 		return new ExpressionParser(expression);
 	}
 	
-	private ExpressionParser(String expression) throws CalculatorException
+	private ExpressionParser(Expression expression) throws CalculatorException
 	{
-		this.expression = parse(expression);
+		this.setExpression(expression);
 	}
-
-	private ExpressionParser()
-	{}
 	
-	private String parse(String expression) throws CalculatorException
+	public Expression getParsedExpression() throws CalculatorException
 	{
-		this.validateIfEmpty(expression);
-		
+		return Expression.constructFromExpressionContent(this.parseAndValidate(this.expression.getContent()));
+	}
+	
+	private String parseAndValidate(String expression) throws CalculatorException
+	{	
 		expression = this.stripSpaces(expression);
 		
+		this.validateIfEmpty(expression);
 		this.validateOperatorSequence(expression);
 		this.validateNumberSequence(expression);
 		this.validateTokens(expression);
@@ -235,8 +239,13 @@ public class ExpressionParser
 		return expression.replaceFirst("(\\( -) ([0-9]+)", "$1$2");
 	}
 	
-	public String getExression()
+	public Expression getExression()
 	{
-		return this.expression;
+		return this.expression.clone();
+	}
+	
+	public void setExpression(Expression expression)
+	{
+		this.expression = expression;
 	}
 }
