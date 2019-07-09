@@ -1,6 +1,6 @@
 package com.calculator.operator;
 
-public final class MinusOperator extends Operator 
+public final class MinusOperator extends ArithmeticOperator 
 {
 	protected static final int PRIORITY = 0;
 	
@@ -15,5 +15,4 @@ public final class MinusOperator extends Operator
 	{
 		return true;
 	}
-
 }

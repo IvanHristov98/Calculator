@@ -1,6 +1,6 @@
 package com.calculator.operator;
 
-public final class ProductOperator extends Operator 
+public final class ProductOperator extends ArithmeticOperator 
 {
 	protected static final int PRIORITY = 1;
 	

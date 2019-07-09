@@ -1,8 +1,12 @@
 package com.calculator.operator;
 
-public abstract class Operator 
+public abstract class Operator implements Comparable<Operator>
 {
 	public abstract int getPriority();
 	
-	public abstract boolean isLeftAssociative();
+	@Override
+	public int compareTo(Operator other)
+	{
+		return Integer.compare(this.getPriority(), other.getPriority());
+	}
 }
