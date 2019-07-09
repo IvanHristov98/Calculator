@@ -36,6 +36,6 @@ public class ExpressionTests
 		Expression expression = Expression.constructFromExpressionContent("1+1");
 		Expression clonedExpression = expression.clone();
 		
-		assertTrue(expression.getContent().equals(clonedExpression.getContent()));
+		assertTrue(expression.equals(clonedExpression));
 	}
 }
