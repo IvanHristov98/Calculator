@@ -11,6 +11,8 @@ public class OperatorFactory
 		static final String PRODUCT = "*";
 		static final String DIVISION = "/";
 		static final String POW = "^";
+		static final String LEFT_BRACKET = "(";
+		static final String RIGHT_BRACKET = ")";
 	}
 	
 	public static final Operator makeOperator(String operator) throws InvalidOperatorException
@@ -34,6 +36,14 @@ public class OperatorFactory
 		else if (operator.equals(Operators.POW))
 		{
 			return new PowOperator();
+		}
+		else if (operator.equals(Operators.LEFT_BRACKET))
+		{
+			return new LeftBracketOperator();
+		}
+		else if (operator.equals(Operators.RIGHT_BRACKET))
+		{
+			return new RightBracketOperator();
 		}
 		
 		throw new InvalidOperatorException("An invalid operator has been inserted.");
