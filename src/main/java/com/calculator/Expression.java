@@ -22,9 +22,21 @@ class Expression
 		this.content = content;
 	}
 	
+	@Override
 	public Expression clone()
 	{
 		return new Expression(this);
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof Expression))
+		{
+			return false;
+		}
+		
+		return this.content.equals(((Expression)obj).getContent());
 	}
 	
 	private Expression(Expression other)
