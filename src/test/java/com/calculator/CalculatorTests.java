@@ -68,6 +68,12 @@ public class CalculatorTests
 		this.calculate("5A5+3");
 	}
 	
+	@Test(expected = NumberMisplacementException.class)
+	public void spacedNumbers() throws Exception
+	{
+		this.calculate("5 4+6");
+	}
+	
 	@Test
 	public void spacedExpression_calculate() throws Exception
 	{
