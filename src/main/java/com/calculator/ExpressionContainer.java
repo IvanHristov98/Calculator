@@ -2,8 +2,6 @@ package com.calculator;
 
 import com.calculator.exception.*;
 
-import java.util.function.Function;
-
 public abstract class ExpressionContainer
 {
     protected Expression expression;
