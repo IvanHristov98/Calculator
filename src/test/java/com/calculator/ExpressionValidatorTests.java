@@ -43,6 +43,18 @@ public class ExpressionValidatorTests
         this.validateExpression("1A2");
     }
 
+    @Test(expected = BracketsException.class)
+    public void test_numberGluedToTheLeftOfABracketedExpression_getExpression() throws Exception
+    {
+        this.validateExpression("2(3+4)");
+    }
+
+    @Test(expected = BracketsException.class)
+    public void test_numberGluedToTheRightOfABracketedExpression_getExpression() throws Exception
+    {
+        this.validateExpression("(3+4)5");
+    }
+
     private void validateExpression(String expressionContent) throws Exception
     {
         Expression expression = Expression.constructFromExpressionContent(expressionContent);

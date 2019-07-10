@@ -104,18 +104,6 @@ public class ExpressionParserTests
 		this.getParsedExpression("1+()");
 	}
 	
-	@Test(expected = BracketsException.class)
-	public void test_numberGluedToTheLeftOfABracketedExpression_getExpression() throws Exception
-	{
-		this.getParsedExpression("2(3+4)");
-	}
-	
-	@Test(expected = BracketsException.class)
-	public void test_numberGluedToTheRightOfABracketedExpression_getExpression() throws Exception
-	{
-		this.getParsedExpression("(3+4)5");
-	}
-	
 	@Test(expected = OperatorMisplacementException.class)
 	public void test_singleOperator_getExpression() throws Exception
 	{

@@ -24,7 +24,7 @@ public class ExpressionParser extends ExpressionContainer
 		expression = this.stripSpaces(expression); //
 
 
-		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression); //
+
 		
 		expression = this.recursivelyValidateAndStripEndings(expression);
 		expression = this.wrapWithBrackets(expression);
@@ -32,22 +32,6 @@ public class ExpressionParser extends ExpressionContainer
 		expression = this.splitTokensWithIntervals(expression).trim();
 		
 		return expression;
-	}
-	
-	private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expression) throws BracketsException
-	{
-		if (this.hasNumbersGluedAroundBracketExpression(expression))
-		{
-			throw new BracketsException(
-					"It is not allowed to have numbers straight before or after a bracket symbol within an expression."
-					);
-		}
-	}
-	
-	private boolean hasNumbersGluedAroundBracketExpression(String expression)
-	{
-		// Prevents having expressions with the format number1([sub_expression])number2
-		return expression.matches(".*([0-9.]\\(|\\)[0-9]).*");
 	}
 	
 	private String recursivelyValidateAndStripEndings(String expression) throws OperatorMisplacementException, BracketsException

@@ -26,6 +26,7 @@ public class ExpressionValidator extends ExpressionContainer
         this.validateIfEmpty(expressionContent);
         this.validateOperatorSequence(expressionContent);
         this.validateTokens(expressionContent);
+        this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
     }
 
     private void validateIfAnyConsecutiveNumbers(String expression) throws NumberMisplacementException
@@ -90,5 +91,21 @@ public class ExpressionValidator extends ExpressionContainer
     {
         // An expression should only contain the symbols -, +, *, /, ^, (, ), .,  0-9
         return Pattern.matches(".*[^-+*/^()0-9.].*", expression);
+    }
+
+    private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expression) throws BracketsException
+    {
+        if (this.hasNumbersGluedAroundBracketExpression(expression))
+        {
+            throw new BracketsException(
+                    "It is not allowed to have numbers straight before or after a bracket symbol within an expression."
+            );
+        }
+    }
+
+    private boolean hasNumbersGluedAroundBracketExpression(String expression)
+    {
+        // Prevents having expressions with the format number1([sub_expression])number2
+        return expression.matches(".*([0-9.]\\(|\\)[0-9]).*");
     }
 }
