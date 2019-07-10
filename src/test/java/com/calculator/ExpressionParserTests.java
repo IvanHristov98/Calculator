@@ -146,12 +146,6 @@ public class ExpressionParserTests
 		this.getParsedExpression("(+)");
 	}
 	
-	@Test(expected = EmptyExpressionException.class)
-	public void test_emptyExpression_getExpression() throws Exception
-	{
-		this.getParsedExpression("");
-	}
-	
 	private String getParsedExpression(String content) throws Exception
 	{
 		Expression exp = Expression.constructFromExpressionContent(content);

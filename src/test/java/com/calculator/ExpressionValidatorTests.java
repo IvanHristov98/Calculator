@@ -19,6 +19,12 @@ public class ExpressionValidatorTests
         this.validateExpression("2+4.55.6");
     }
 
+    @Test(expected = EmptyExpressionException.class)
+    public void test_emptyExpression_getExpression() throws Exception
+    {
+        this.validateExpression("");
+    }
+
     private void validateExpression(String expressionContent) throws Exception
     {
         Expression expression = Expression.constructFromExpressionContent(expressionContent);

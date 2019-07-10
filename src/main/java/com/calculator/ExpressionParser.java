@@ -23,7 +23,7 @@ public class ExpressionParser extends ExpressionContainer
 	{
 		expression = this.stripSpaces(expression); //
 		
-		this.validateIfEmpty(expression); //
+
 		this.validateOperatorSequence(expression); //
 		this.validateTokens(expression); //
 		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression); //
@@ -34,18 +34,6 @@ public class ExpressionParser extends ExpressionContainer
 		expression = this.splitTokensWithIntervals(expression).trim();
 		
 		return expression;
-	}
-
-
-
-
-	
-	private void validateIfEmpty(String expression) throws EmptyExpressionException
-	{
-		if (expression.length() == 0)
-		{
-			throw new EmptyExpressionException("An empty expression is not a valid one.");
-		}
 	}
 	
 	private void validateOperatorSequence(String expression) throws OperatorMisplacementException

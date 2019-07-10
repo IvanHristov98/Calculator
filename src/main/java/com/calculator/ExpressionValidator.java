@@ -20,6 +20,11 @@ public class ExpressionValidator extends ExpressionContainer
 
         this.validateIfAnyConsecutiveNumbers(expressionContent);
         this.validateNumbersFormat(expressionContent);
+
+        expressionContent = this.stripSpaces(expressionContent);
+
+        this.validateIfEmpty(expressionContent);
+
     }
 
     private void validateIfAnyConsecutiveNumbers(String expression) throws NumberMisplacementException
@@ -50,5 +55,11 @@ public class ExpressionValidator extends ExpressionContainer
         return Pattern.matches(".*[0-9]+\\.[0-9]*\\..*", expression);
     }
 
-
+    private void validateIfEmpty(String expression) throws EmptyExpressionException
+    {
+        if (expression.length() == 0)
+        {
+            throw new EmptyExpressionException("An empty expression is not a valid one.");
+        }
+    }
 }
