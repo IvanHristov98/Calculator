@@ -10,11 +10,11 @@ public class ExpressionParser
 	
 	private ExpressionParser()
 	{}
-	
+
 	/**
 	 * Given an expression it validates, modifies and saves it as a local field.
-	 * 
-	 * @param expression
+	 *
+	 * @param  expression
 	 * @return ExpressionParser
 	 * @throws CalculatorException
 	 */
@@ -23,7 +23,7 @@ public class ExpressionParser
 		return new ExpressionParser(expression);
 	}
 	
-	private ExpressionParser(Expression expression) throws CalculatorException
+	private ExpressionParser(Expression expression)
 	{
 		this.setExpression(expression);
 	}
@@ -75,7 +75,7 @@ public class ExpressionParser
 	private boolean hasConsequentialOperators(String expression)
 	{
 		// There should be no two consecutive operators -, /, +, ^
-		return  Pattern.matches(".*[-*\\/+^]{2,}.*", expression);
+		return  Pattern.matches(".*[-*/+^]{2,}.*", expression);
 	}
 	
 	private void validateNumberSequence(String expression) throws OperatorMisplacementException
@@ -104,7 +104,7 @@ public class ExpressionParser
 	private boolean hasInvalidTokens(String expression)
 	{
 		// An expression should only contain the symbols -, +, *, /, ^, (, ), .,  0-9 
-		return Pattern.matches(".*[^-+*\\/^()0-9.].*", expression);
+		return Pattern.matches(".*[^-+*/^()0-9.].*", expression);
 	}
 	
 	private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expression) throws BracketsException
@@ -129,7 +129,7 @@ public class ExpressionParser
 		final char CLOSING_BRACKET = ')';
 		
 		this.validateExpressionBeginning(expression);
-		expression = this.stripRendundantSymbolsAtBeginning(expression);
+		expression = this.stripRedundantSymbolsAtBeginning(expression);
 		
 		this.validateExpressionAtEnd(expression);
 		
@@ -185,7 +185,7 @@ public class ExpressionParser
 		}
 	}
 	
-	private String stripRendundantSymbolsAtBeginning(String expression)
+	private String stripRedundantSymbolsAtBeginning(String expression)
 	{
 		// There is no need to have -, + operators at the beginning
 		return this.stripStringByPattern(expression, "^[+]+");
@@ -229,7 +229,7 @@ public class ExpressionParser
 	{
 		// Whenever a valid operator is found 
 		// a whitespace character is added in front of it.
-		return expression.replaceAll("([-+*\\/^()]{1})", " $1");
+		return expression.replaceAll("([-+*/^()])", " $1");
 	}
 
 	private String mergeNegativeNumbersAtBeginning(String expression)
