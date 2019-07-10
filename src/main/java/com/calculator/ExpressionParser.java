@@ -18,7 +18,7 @@ public class ExpressionParser
 	 * @return ExpressionParser
 	 * @throws CalculatorException
 	 */
-	public static ExpressionParser constructFromExpression(Expression expression) throws CalculatorException
+	public static ExpressionParser constructFromExpression(Expression expression)
 	{
 		return new ExpressionParser(expression);
 	}
@@ -34,12 +34,14 @@ public class ExpressionParser
 	}
 	
 	private String parseAndValidate(String expression) throws CalculatorException
-	{	
+	{
+		this.validateIfAnyConsecutiveNumbers(expression);
+		this.validateNumbersFormat(expression);
+
 		expression = this.stripSpaces(expression);
 		
 		this.validateIfEmpty(expression);
 		this.validateOperatorSequence(expression);
-		this.validateNumberSequence(expression);
 		this.validateTokens(expression);
 		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression);
 		
@@ -50,6 +52,24 @@ public class ExpressionParser
 		
 		return expression;
 	}
+
+	private void validateIfAnyConsecutiveNumbers(String expression) throws OperatorMisplacementException
+	{
+		if (this.hasConsecutiveNumbers(expression))
+		{
+			throw new OperatorMisplacementException("Invalid expression. Numbers should be separated by a valid operator.");
+		}
+	}
+
+	private boolean hasConsecutiveNumbers(String expression)
+	{
+		return expression.matches(".*[0-9.][ ]+[0-9.].*");
+	}
+
+	private String stripSpaces(String expression)
+	{
+		return expression.replaceAll(" ", "");
+	}
 	
 	private void validateIfEmpty(String expression) throws EmptyExpressionException
 	{
@@ -57,11 +77,6 @@ public class ExpressionParser
 		{
 			throw new EmptyExpressionException("An empty expression is not a valid one.");
 		}
-	}
-
-	private String stripSpaces(String expression)
-	{
-		return expression.replaceAll(" ", "");
 	}
 	
 	private void validateOperatorSequence(String expression) throws OperatorMisplacementException
@@ -78,15 +93,15 @@ public class ExpressionParser
 		return  Pattern.matches(".*[-*/+^]{2,}.*", expression);
 	}
 	
-	private void validateNumberSequence(String expression) throws OperatorMisplacementException
+	private void validateNumbersFormat(String expression) throws OperatorMisplacementException
 	{
-		if (this.hasConsequentialNumbers(expression))
+		if (this.isNotAValidNumber(expression))
 		{
 			throw new OperatorMisplacementException("The given expression contains consecutive numbers.");
 		}
 	}
 	
-	private boolean hasConsequentialNumbers(String expression)
+	private boolean isNotAValidNumber(String expression)
 	{
 		// checks if there are two floating point numbers one after another
 		// following the mantissa_1.exponent_1mantissa_2.exponent_2
