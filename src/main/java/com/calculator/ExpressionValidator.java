@@ -24,7 +24,7 @@ public class ExpressionValidator extends ExpressionContainer
         expressionContent = this.stripSpaces(expressionContent);
 
         this.validateIfEmpty(expressionContent);
-
+        this.validateOperatorSequence(expressionContent);
     }
 
     private void validateIfAnyConsecutiveNumbers(String expression) throws NumberMisplacementException
@@ -61,5 +61,19 @@ public class ExpressionValidator extends ExpressionContainer
         {
             throw new EmptyExpressionException("An empty expression is not a valid one.");
         }
+    }
+
+    private void validateOperatorSequence(String expression) throws OperatorMisplacementException
+    {
+        if (this.hasConsecutiveOperators(expression))
+        {
+            throw new OperatorMisplacementException("The given expression contains consecutive operators.");
+        }
+    }
+
+    private boolean hasConsecutiveOperators(String expression)
+    {
+        // There should be no two consecutive operators -, /, +, ^
+        return  Pattern.matches(".*[-*/+^]{2,}.*", expression);
     }
 }

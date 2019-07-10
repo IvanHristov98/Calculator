@@ -79,18 +79,6 @@ public class ExpressionParserTests
 	{
 		assertTrue("( -1 + 2 )".equals(this.getParsedExpression("-1+2")));
 	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_manyLegitimateOperatorsAtBeginning_getExpression() throws Exception
-	{
-		this.getParsedExpression("++1+2");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_consecutiveOperators_getExpression() throws Exception
-	{
-		this.getParsedExpression("2+*3");
-	}
 
 	@Test
 	public void test_minusStraightAfterBracket_getExpression() throws Exception

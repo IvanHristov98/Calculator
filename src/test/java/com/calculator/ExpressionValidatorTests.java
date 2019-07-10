@@ -25,6 +25,18 @@ public class ExpressionValidatorTests
         this.validateExpression("");
     }
 
+    @Test(expected = OperatorMisplacementException.class)
+    public void test_manyLegitimateOperatorsAtBeginning_getExpression() throws Exception
+    {
+        this.validateExpression("++1+2");
+    }
+
+    @Test(expected = OperatorMisplacementException.class)
+    public void test_consecutiveOperators_getExpression() throws Exception
+    {
+        this.validateExpression("2+*3");
+    }
+
     private void validateExpression(String expressionContent) throws Exception
     {
         Expression expression = Expression.constructFromExpressionContent(expressionContent);

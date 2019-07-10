@@ -22,9 +22,7 @@ public class ExpressionParser extends ExpressionContainer
 	private String parseAndValidate(String expression) throws CalculatorException
 	{
 		expression = this.stripSpaces(expression); //
-		
 
-		this.validateOperatorSequence(expression); //
 		this.validateTokens(expression); //
 		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression); //
 		
@@ -35,22 +33,6 @@ public class ExpressionParser extends ExpressionContainer
 		
 		return expression;
 	}
-	
-	private void validateOperatorSequence(String expression) throws OperatorMisplacementException
-	{
-		if (this.hasConsequentialOperators(expression))
-		{
-			throw new OperatorMisplacementException("The given expression contains consecutive operators.");
-		}
-	}
-	
-	private boolean hasConsequentialOperators(String expression)
-	{
-		// There should be no two consecutive operators -, /, +, ^
-		return  Pattern.matches(".*[-*/+^]{2,}.*", expression);
-	}
-	
-
 
 	private void validateTokens(String expression) throws OperatorMisplacementException
 	{
