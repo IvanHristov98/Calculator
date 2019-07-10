@@ -91,12 +91,6 @@ public class ExpressionParserTests
 	{
 		this.getParsedExpression("2+*3");
 	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_consecutive_getExpression() throws Exception
-	{
-		this.getParsedExpression("2+4.55.6");
-	}
 
 	@Test
 	public void test_minusStraightAfterBracket_getExpression() throws Exception

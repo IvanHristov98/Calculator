@@ -21,9 +21,6 @@ public class ExpressionParser extends ExpressionContainer
 	
 	private String parseAndValidate(String expression) throws CalculatorException
 	{
-		//this.validateIfAnyConsecutiveNumbers(expression); //
-		this.validateNumbersFormat(expression); //
-
 		expression = this.stripSpaces(expression); //
 		
 		this.validateIfEmpty(expression); //
@@ -65,20 +62,7 @@ public class ExpressionParser extends ExpressionContainer
 		return  Pattern.matches(".*[-*/+^]{2,}.*", expression);
 	}
 	
-	private void validateNumbersFormat(String expression) throws OperatorMisplacementException
-	{
-		if (this.isNotAValidNumber(expression))
-		{
-			throw new OperatorMisplacementException("The given expression contains consecutive numbers.");
-		}
-	}
-	
-	private boolean isNotAValidNumber(String expression)
-	{
-		// checks if there are two floating point numbers one after another
-		// following the mantissa_1.exponent_1mantissa_2.exponent_2
-		return Pattern.matches(".*[0-9]+\\.[0-9]*\\..*", expression);
-	}
+
 
 	private void validateTokens(String expression) throws OperatorMisplacementException
 	{
