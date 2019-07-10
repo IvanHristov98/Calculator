@@ -27,6 +27,8 @@ public class ExpressionValidator extends ExpressionContainer
         this.validateOperatorSequence(expressionContent);
         this.validateTokens(expressionContent);
         this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
+
+        this.operateOnExpression(expressionContent, this::validateEnds);
     }
 
     private void validateIfAnyConsecutiveNumbers(String expression) throws NumberMisplacementException
@@ -107,5 +109,39 @@ public class ExpressionValidator extends ExpressionContainer
     {
         // Prevents having expressions with the format number1([sub_expression])number2
         return expression.matches(".*([0-9.]\\(|\\)[0-9]).*");
+    }
+
+    private String validateEnds(String expressionContent) throws CalculatorException
+    {
+        this.validateExpressionBeginning(expressionContent);
+        this.validateExpressionAtEnd(expressionContent);
+
+        return expressionContent; // todo explain reason
+    }
+
+    private void validateExpressionBeginning(String expression) throws OperatorMisplacementException
+    {
+        // An expression should start only with -, +, (, 0-9
+        String validExpressionBeginningPattern = "^[-+(0-9]+.*";
+
+        this.validateStringByPattern(expression, validExpressionBeginningPattern);
+    }
+
+    private void validateStringByPattern(String expression, String validPattern) throws OperatorMisplacementException
+    {
+        if (!Pattern.matches(validPattern, expression))
+        {
+            throw new OperatorMisplacementException(
+                    "Expression is not ordered properly."
+            );
+        }
+    }
+
+    private void validateExpressionAtEnd(String expression) throws OperatorMisplacementException
+    {
+        // And expression should end only with 0-9, )
+        String validEndPattern = ".*[0-9)]$";
+
+        this.validateStringByPattern(expression, validEndPattern);
     }
 }
