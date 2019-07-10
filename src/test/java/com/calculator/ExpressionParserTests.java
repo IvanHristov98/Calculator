@@ -97,7 +97,13 @@ public class ExpressionParserTests
 	{
 		this.getParsedExpression("2+4.55.6");
 	}
-	
+
+	@Test(expected = OperatorMisplacementException.class)
+	public void test_spacedConsecutiveNumbers() throws Exception
+	{
+		this.getParsedExpression("1 2");
+	}
+
 	@Test
 	public void test_minusStraightAfterBracket_getExpression() throws Exception
 	{
