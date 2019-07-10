@@ -1,7 +1,6 @@
 package com.calculator;
 
 import org.junit.Test;
-import com.calculator.exception.*;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,47 +30,10 @@ public class ExpressionParserTests
 		assertTrue("( 1 + 1 + 2 )".equals(this.getParsedExpression("1 +1+ 2")));
 	}
 	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_misplacedOperatorAtStart_getExpression() throws Exception
-	{
-		this.getParsedExpression("*1+2");
-	}
-	
 	@Test
 	public void test_misplacedRedundantOperatorAtStart_getExpression() throws Exception
 	{
 		assertTrue("( 1 / 2 )".equals(this.getParsedExpression("+1/2")));
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_manyMisplacedOperatorsAtBeginning_getExpression() throws Exception
-	{
-		this.getParsedExpression("**/1/2");
-	}
-	
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_misplacedOperatorsStraightAfterOpeningBracket_getExpression() throws Exception
-	{
-		this.getParsedExpression("(*3)");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_misplacedOperatorsAtEndsWithinBrackets_getExpression() throws Exception
-	{
-		this.getParsedExpression("(4+5*)");
-	}
-	
-	@Test(expected = BracketsException.class)
-	public void test_noOpeningBracket_getExpression() throws Exception
-	{
-		this.getParsedExpression("3+5)");
-	}
-	
-	@Test(expected = BracketsException.class)
-	public void test_noClosingBracket_getExpression() throws Exception
-	{
-		this.getParsedExpression("(1+2)+(3+4");
 	}
 	
 	@Test
@@ -85,37 +47,7 @@ public class ExpressionParserTests
 	{
 		assertTrue("( ( -1 + 1 ) )".equals(this.getParsedExpression("(-1+1)")));
 	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_misplacedOperatorAtEnd_getExpression() throws Exception
-	{
-		this.getParsedExpression("1/2*");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_manyMisplacedOperatorsAtEnd_getExpression() throws Exception
-	{
-		this.getParsedExpression("1/2*/*/*");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_emptyBrackets_getExpression() throws Exception
-	{
-		this.getParsedExpression("1+()");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_singleOperator_getExpression() throws Exception
-	{
-		this.getParsedExpression("+");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
-	public void test_singleOperatorWithinBrackets_getExpression() throws Exception
-	{
-		this.getParsedExpression("(+)");
-	}
-	
+
 	private String getParsedExpression(String content) throws Exception
 	{
 		Expression exp = Expression.constructFromExpressionContent(content);
