@@ -4,28 +4,14 @@ import java.util.regex.Pattern;
 
 import com.calculator.exception.*;
 
-public class ExpressionParser 
-{	
-	private Expression expression;
-	
+public class ExpressionParser extends ExpressionContainer
+{
 	private ExpressionParser()
 	{}
-
-	/**
-	 * Given an expression it validates, modifies and saves it as a local field.
-	 *
-	 * @param  expression
-	 * @return ExpressionParser
-	 * @throws CalculatorException
-	 */
-	public static ExpressionParser constructFromExpression(Expression expression)
-	{
-		return new ExpressionParser(expression);
-	}
 	
-	private ExpressionParser(Expression expression)
+	protected ExpressionParser(Expression expression)
 	{
-		this.setExpression(expression);
+		super(expression);
 	}
 	
 	public Expression getParsedExpression() throws CalculatorException
@@ -35,15 +21,15 @@ public class ExpressionParser
 	
 	private String parseAndValidate(String expression) throws CalculatorException
 	{
-		this.validateIfAnyConsecutiveNumbers(expression);
-		this.validateNumbersFormat(expression);
+		//this.validateIfAnyConsecutiveNumbers(expression); //
+		this.validateNumbersFormat(expression); //
 
-		expression = this.stripSpaces(expression);
+		expression = this.stripSpaces(expression); //
 		
-		this.validateIfEmpty(expression);
-		this.validateOperatorSequence(expression);
-		this.validateTokens(expression);
-		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression);
+		this.validateIfEmpty(expression); //
+		this.validateOperatorSequence(expression); //
+		this.validateTokens(expression); //
+		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression); //
 		
 		expression = this.recursivelyValidateAndStripEndings(expression);
 		expression = this.wrapWithBrackets(expression);
@@ -53,23 +39,9 @@ public class ExpressionParser
 		return expression;
 	}
 
-	private void validateIfAnyConsecutiveNumbers(String expression) throws OperatorMisplacementException
-	{
-		if (this.hasConsecutiveNumbers(expression))
-		{
-			throw new OperatorMisplacementException("Invalid expression. Numbers should be separated by a valid operator.");
-		}
-	}
 
-	private boolean hasConsecutiveNumbers(String expression)
-	{
-		return expression.matches(".*[0-9.][ ]+[0-9.].*");
-	}
 
-	private String stripSpaces(String expression)
-	{
-		return expression.replaceAll(" ", "");
-	}
+
 	
 	private void validateIfEmpty(String expression) throws EmptyExpressionException
 	{
@@ -252,15 +224,5 @@ public class ExpressionParser
 		// A negative number can only be found at the start of the expression
 		// or after an opening bracket.
 		return expression.replaceFirst("(\\( -) ([0-9]+)", "$1$2");
-	}
-	
-	public Expression getExression()
-	{
-		return this.expression.clone();
-	}
-	
-	public void setExpression(Expression expression)
-	{
-		this.expression = expression;
 	}
 }
