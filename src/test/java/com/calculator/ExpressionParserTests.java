@@ -99,12 +99,6 @@ public class ExpressionParserTests
 	}
 	
 	@Test(expected = OperatorMisplacementException.class)
-	public void test_invalidTokenException_getExpression() throws Exception
-	{
-		this.getParsedExpression("1A2");
-	}
-	
-	@Test(expected = OperatorMisplacementException.class)
 	public void test_emptyBrackets_getExpression() throws Exception
 	{
 		this.getParsedExpression("1+()");

@@ -23,7 +23,7 @@ public class ExpressionParser extends ExpressionContainer
 	{
 		expression = this.stripSpaces(expression); //
 
-		this.validateTokens(expression); //
+
 		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expression); //
 		
 		expression = this.recursivelyValidateAndStripEndings(expression);
@@ -32,20 +32,6 @@ public class ExpressionParser extends ExpressionContainer
 		expression = this.splitTokensWithIntervals(expression).trim();
 		
 		return expression;
-	}
-
-	private void validateTokens(String expression) throws OperatorMisplacementException
-	{
-		if (this.hasInvalidTokens(expression))
-		{
-			throw new OperatorMisplacementException("The given expression contains invalid tokens.");
-		}
-	}
-	
-	private boolean hasInvalidTokens(String expression)
-	{
-		// An expression should only contain the symbols -, +, *, /, ^, (, ), .,  0-9 
-		return Pattern.matches(".*[^-+*/^()0-9.].*", expression);
 	}
 	
 	private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expression) throws BracketsException
