@@ -50,6 +50,12 @@ public class ShuntingYardParserTests
     }
 
     @Test
+    public void test_equalPriorityOfLeftAssociativeOperators_getConversedExpression() throws Exception
+    {
+        assertEquals("1 2 / 3 *", this.getConversedExpression("1 / 2 * 3"));
+    }
+
+    @Test
     public void test_leftSideAssociativity_getConversedExpression() throws Exception
     {
         assertEquals("1 2 + 3 *", this.getConversedExpression("( 1 + 2 ) * 3"));
