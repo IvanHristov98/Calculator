@@ -50,7 +50,7 @@ public class ExpressionParserTests
 
 	private String getParsedExpression(String content) throws Exception
 	{
-		Expression exp = Expression.constructFromExpressionContent(content);
+		Expression exp = new Expression(content);
 		ExpressionParser parser = ExpressionContainer.makeParserFromExpression(exp);
 		
 		return parser.getParsedExpression().getContent();

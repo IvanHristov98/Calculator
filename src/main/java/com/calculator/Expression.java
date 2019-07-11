@@ -3,13 +3,8 @@ package com.calculator;
 class Expression 
 {
 	private String content;
-
-	public static Expression constructFromExpressionContent(String content)
-	{
-		return new Expression(content);
-	}
 	
-	private Expression(String content)
+	public Expression(String content)
 	{
 		this.content = content;
 	}

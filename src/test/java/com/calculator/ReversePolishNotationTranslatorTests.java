@@ -9,7 +9,7 @@ public class ReversePolishNotationTranslatorTests
     @Test
     public void test_constructFromExpression()
     {
-        Expression expression = Expression.constructFromExpressionContent("( 1 + 1 )");
+        Expression expression = new Expression("( 1 + 1 )");
         ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
 
         assertEquals(expression, parser.getExpression());
@@ -18,7 +18,7 @@ public class ReversePolishNotationTranslatorTests
     @Test
     public void test_setExpression()
     {
-        Expression expression = Expression.constructFromExpressionContent("( 1 + 1 )");
+        Expression expression = new Expression("( 1 + 1 )");
         ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
         parser.setExpression(expression);
 
@@ -99,7 +99,7 @@ public class ReversePolishNotationTranslatorTests
 
     public String getConversedExpression(String expressionContent) throws Exception
     {
-        Expression expression = Expression.constructFromExpressionContent(expressionContent);
+        Expression expression = new Expression(expressionContent);
         ReversePolishNotationTranslator parser = ExpressionContainer.makeReversePolishNotationTranslatorFromExpression(expression);
 
         return parser.getConvertedExpression().getContent();

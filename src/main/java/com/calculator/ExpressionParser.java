@@ -13,7 +13,7 @@ public class ExpressionParser extends ExpressionContainer
 	
 	public Expression getParsedExpression() throws CalculatorException
 	{
-		return Expression.constructFromExpressionContent(this.parseAndValidate(this.expression.getContent()));
+		return new Expression(this.parseAndValidate(this.expression.getContent()));
 	}
 	
 	private String parseAndValidate(String expression) throws CalculatorException
