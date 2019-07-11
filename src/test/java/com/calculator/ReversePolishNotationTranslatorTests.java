@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ReversePolishNotationTranslatorTests
 {
     @Test
-    public void test_constructFromExpression() throws Exception
+    public void test_constructFromExpression()
     {
         Expression expression = Expression.constructFromExpressionContent("( 1 + 1 )");
         ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
@@ -16,7 +16,7 @@ public class ReversePolishNotationTranslatorTests
     }
 
     @Test
-    public void test_setExpression() throws Exception
+    public void test_setExpression()
     {
         Expression expression = Expression.constructFromExpressionContent("( 1 + 1 )");
         ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
