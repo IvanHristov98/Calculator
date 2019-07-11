@@ -77,11 +77,6 @@ public abstract class ExpressionContainer
         return expressionContent;
     }
 
-    public static ExpressionParser makeParserFromExpression(Expression expression)
-    {
-        return new ExpressionParser(expression);
-    }
-
     public static ReversePolishNotationTranslator makeReversePolishNotationTranslatorFromExpression(Expression expression)
     {
         return new ReversePolishNotationTranslator(expression);
