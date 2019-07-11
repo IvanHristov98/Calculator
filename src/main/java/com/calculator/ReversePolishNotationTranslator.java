@@ -31,59 +31,66 @@ class ReversePolishNotationTranslator extends ExpressionContainer
         Queue<String> output = new LinkedList<>();
         Stack<String> operators = new Stack<>();
 
-        this.fillOutputQueue(output, operators, tokens);
+        this.readTokens(output, operators, tokens);
+        this.moveTokensFromOperatorsStackToOutputQueue(output, operators);
 
         return this.popQueueToString(output);
     }
 
-    private void fillOutputQueue(Queue<String> output, Stack<String> operators, String[] tokens) throws OperatorException
-    {
-        this.readExpression(output, operators, tokens);
-
-        this.moveTokensFromOperatorsStackToOutputQueue(output, operators);
-    }
-
-    // TODO Think of a better name.
-    private void readExpression(Queue<String> output, Stack<String> operators, String[] tokens) throws OperatorException
+    private void readTokens(Queue<String> output, Stack<String> operators, String[] tokens) throws OperatorException
     {
         for (String token : tokens)
         {
-            if (this.isNumber(token))
-            {
-                output.add(token);
-            }
-            else if (this.isArithmeticOperator(token))
-            {
-                while (!operators.empty() && this.shouldPopFromTheOperatorStack(operators, token))
-                {
-                    moveTokenFromOperatorStackToOutputQueue(operators, output);
-                }
-
-                operators.add(token);
-            }
-            else if (this.isLeftBracket(this.makeOperator(token)))
-            {
-                operators.addElement(token);
-            }
-            else if (this.isRightBracket(this.makeOperator(token)))
-            {
-                this.moveTokensFromOperatorStackToOutputQueueUntilLeftBracket(operators, output);
-            }
+            this.distributeToken(output, operators, token);
         }
     }
 
-    private boolean isArithmeticOperator(String token)
+    private void distributeToken(Queue<String> output, Stack<String> operators, String token) throws OperatorException
     {
-        // The arithmetic operators are -, +, /, *, ^
-        return token.matches("[-+/*^]");
+        if (this.isNumber(token))
+        {
+            this.addItemToOutput(output, token);
+        }
+        else if (OperatorChecker.isArithmeticOperator(this.convertToOperator(token)))
+        {
+            this.addArithmeticOperatorToOperatorStack(output, operators, token);
+        }
+        else if (OperatorChecker.isLeftBracket(this.convertToOperator(token)))
+        {
+            this.addItemToOperatorStack(operators, token);
+        }
+        else if (OperatorChecker.isRightBracket(this.convertToOperator(token)))
+        {
+            this.moveTokensFromOperatorStackToOutputUntilLeftBracket(operators, output);
+        }
+    }
+
+    private void addItemToOutput(Queue<String> output, String token)
+    {
+        output.add(token);
+    }
+
+    private Operator convertToOperator(String operator) throws InvalidOperatorException
+    {
+        return OperatorFactory.makeOperator(operator);
+    }
+
+    private void addArithmeticOperatorToOperatorStack(Queue<String> output, Stack<String> operators, String token) throws OperatorException
+    {
+        while (!operators.empty() && this.shouldPopFromTheOperatorStack(operators, token))
+        {
+            this.moveTokenFromOperatorStackToOutput(operators, output);
+        }
+
+        this.addItemToOperatorStack(operators, token);
     }
 
     private boolean shouldPopFromTheOperatorStack(Stack<String> operators, String token) throws InvalidOperatorException
     {
-        Operator nextOperator = this.makeOperator(operators.peek());
-        Operator current = this.makeOperator(token);
+        Operator nextOperator = this.convertToOperator(operators.peek());
+        Operator current = this.convertToOperator(token);
 
-        if (this.isLeftBracket(nextOperator))
+        if (OperatorChecker.isLeftBracket(nextOperator))
         {
             return false;
         }
@@ -94,32 +101,21 @@ class ReversePolishNotationTranslator extends ExpressionContainer
         return result;
     }
 
-    private boolean isBracket(Operator operator)
+    private void moveTokenFromOperatorStackToOutput(Stack<String> operators, Queue<String> output)
     {
-        return this.isLeftBracket(operator) || this.isRightBracket(operator);
+        this.addItemToOutput(output, operators.pop());
     }
 
-    private boolean isLeftBracket(Operator operator)
+    private void addItemToOperatorStack(Stack<String> operators, String token)
     {
-        return operator instanceof LeftBracketOperator;
+        operators.add(token);
     }
 
-    private boolean isRightBracket(Operator operator)
+    private void moveTokensFromOperatorStackToOutputUntilLeftBracket(Stack<String> operators, Queue<String> output) throws OperatorException
     {
-        return operator instanceof RightBracketOperator;
-    }
-
-    private void moveTokenFromOperatorStackToOutputQueue(Stack<String> operators, Queue<String> output)
-    {
-        String topOperator = operators.pop();
-        output.add(topOperator);
-    }
-
-    private void moveTokensFromOperatorStackToOutputQueueUntilLeftBracket(Stack<String> operators, Queue<String> output) throws OperatorException
-    {
-        while (!operators.empty() && !this.isLeftBracket(this.makeOperator(operators.peek())))
+        while (!operators.empty() && !OperatorChecker.isLeftBracket(this.convertToOperator(operators.peek())))
         {
-            moveTokenFromOperatorStackToOutputQueue(operators, output);
+            moveTokenFromOperatorStackToOutput(operators, output);
         }
 
         // Removing the opening bracket
@@ -137,32 +133,28 @@ class ReversePolishNotationTranslator extends ExpressionContainer
     {
         while (!operators.empty())
         {
-            Operator topOperator = this.makeOperator(operators.peek());
+            Operator topOperator = this.convertToOperator(operators.peek());
 
-            if (this.isBracket(topOperator))
+            if (OperatorChecker.isBracket(topOperator))
             {
                 throw new BracketsException("Invalid bracket ordering encountered.");
             }
 
-            this.moveTokenFromOperatorStackToOutputQueue(operators, output);
+            this.moveTokenFromOperatorStackToOutput(operators, output);
         }
-    }
-
-    private Operator makeOperator(String operator) throws InvalidOperatorException
-    {
-        return OperatorFactory.makeOperator(operator);
     }
 
     private String popQueueToString(Queue<String> output)
     {
-        StringBuilder result = new StringBuilder();
+        StringBuilder outputString = new StringBuilder();
+        final String WHITE_SPACE = " ";
 
         while(!output.isEmpty())
         {
-            result.append(" ");
-            result.append(output.remove());
+            outputString.append(WHITE_SPACE).append(output.remove());
         }
 
-        return result.toString().trim();
+        // result with surrounding whitespaces removed
+        return outputString.toString().trim();
     }
 }
