@@ -77,11 +77,6 @@ public abstract class ExpressionContainer
         return expressionContent;
     }
 
-    public static ReversePolishNotationTranslator makeReversePolishNotationTranslatorFromExpression(Expression expression)
-    {
-        return new ReversePolishNotationTranslator(expression);
-    }
-
     protected boolean isNumber(String token)
     {
         try
