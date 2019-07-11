@@ -6,9 +6,6 @@ public abstract class ExpressionContainer
 {
     protected Expression expression;
 
-    protected ExpressionContainer()
-    {}
-
     protected ExpressionContainer(Expression expression)
     {
         this.setExpression(expression);

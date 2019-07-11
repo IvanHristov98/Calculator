@@ -2,9 +2,6 @@ package com.calculator;
 
 public class Calculator
 {
-	private Calculator()
-	{}
-	
 	private Calculator(String expression) throws Exception
 	{
 

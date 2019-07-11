@@ -9,9 +9,6 @@ import com.calculator.operator.*;
 
 class ReversePolishNotationTranslator extends ExpressionContainer
 {
-    private ReversePolishNotationTranslator()
-    {}
-
     protected ReversePolishNotationTranslator(Expression expression)
     {
         super(expression);

@@ -6,9 +6,6 @@ import java.util.regex.Pattern;
 
 public class ExpressionValidator extends ExpressionContainer
 {
-    private ExpressionValidator()
-    {}
-
     protected ExpressionValidator(Expression expression)
     {
         super(expression);

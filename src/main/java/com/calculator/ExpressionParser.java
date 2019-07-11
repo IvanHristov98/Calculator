@@ -6,9 +6,6 @@ import com.calculator.exception.*;
 
 public class ExpressionParser extends ExpressionContainer
 {
-	private ExpressionParser()
-	{}
-	
 	protected ExpressionParser(Expression expression)
 	{
 		super(expression);
