@@ -94,4 +94,18 @@ public abstract class ExpressionContainer
     {
         return new ShuntingYardParser(expression);
     }
+
+    protected boolean isNumber(String token)
+    {
+        try
+        {
+            Double.parseDouble(token);
+        }
+        catch (NumberFormatException exception)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

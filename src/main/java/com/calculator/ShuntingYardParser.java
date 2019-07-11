@@ -75,20 +75,6 @@ class ShuntingYardParser extends ExpressionContainer
         }
     }
 
-    private boolean isNumber(String token)
-    {
-        try
-        {
-            Double.parseDouble(token);
-        }
-        catch (NumberFormatException exception)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     private boolean isArithmeticOperator(String token)
     {
         // The arithmetic operators are -, +, /, *, ^
