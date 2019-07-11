@@ -90,9 +90,9 @@ public abstract class ExpressionContainer
         return new ExpressionParser(expression);
     }
 
-    public static ShuntingYardParser makeShuntingYardParserFromExpression(Expression expression)
+    public static ReversePolishNotationTranslator makeReversePolishNotationTranslatorFromExpression(Expression expression)
     {
-        return new ShuntingYardParser(expression);
+        return new ReversePolishNotationTranslator(expression);
     }
 
     protected boolean isNumber(String token)

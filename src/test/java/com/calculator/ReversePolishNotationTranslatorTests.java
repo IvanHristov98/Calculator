@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ShuntingYardParserTests
+public class ReversePolishNotationTranslatorTests
 {
     @Test
     public void test_constructFromExpression() throws Exception
     {
         Expression expression = Expression.constructFromExpressionContent("( 1 + 1 )");
-        ShuntingYardParser parser = ShuntingYardParser.constructFromExpression(expression);
+        ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
 
         assertEquals(expression, parser.getExpression());
     }
@@ -19,7 +19,7 @@ public class ShuntingYardParserTests
     public void test_setExpression() throws Exception
     {
         Expression expression = Expression.constructFromExpressionContent("( 1 + 1 )");
-        ShuntingYardParser parser = ShuntingYardParser.constructFromExpression(expression);
+        ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
         parser.setExpression(expression);
 
         assertEquals(expression, parser.getExpression());
@@ -100,7 +100,7 @@ public class ShuntingYardParserTests
     public String getConversedExpression(String expressionContent) throws Exception
     {
         Expression expression = Expression.constructFromExpressionContent(expressionContent);
-        ShuntingYardParser parser = ExpressionContainer.makeShuntingYardParserFromExpression(expression);
+        ReversePolishNotationTranslator parser = ExpressionContainer.makeReversePolishNotationTranslatorFromExpression(expression);
 
         return parser.getConvertedExpression().getContent();
     }

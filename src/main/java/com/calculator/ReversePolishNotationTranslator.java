@@ -7,19 +7,19 @@ import java.util.Stack;
 import com.calculator.exception.*;
 import com.calculator.operator.*;
 
-class ShuntingYardParser extends ExpressionContainer
+class ReversePolishNotationTranslator extends ExpressionContainer
 {
-    private ShuntingYardParser()
+    private ReversePolishNotationTranslator()
     {}
 
-    protected ShuntingYardParser(Expression expression)
+    protected ReversePolishNotationTranslator(Expression expression)
     {
         super(expression);
     }
 
-    public static ShuntingYardParser constructFromExpression(Expression expression)
+    public static ReversePolishNotationTranslator constructFromExpression(Expression expression)
     {
-        return new ShuntingYardParser(expression);
+        return new ReversePolishNotationTranslator(expression);
     }
 
     public Expression getConvertedExpression() throws CalculatorException
