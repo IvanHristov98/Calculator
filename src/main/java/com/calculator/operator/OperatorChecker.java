@@ -33,6 +33,11 @@ public class OperatorChecker
         return operator instanceof RightBracketOperator;
     }
 
+    public static boolean isBracket(Operator operator)
+    {
+        return isLeftBracket(operator) || isRightBracket(operator);
+    }
+
     private OperatorChecker()
     {}
 }
