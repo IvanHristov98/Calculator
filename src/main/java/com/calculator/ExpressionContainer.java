@@ -89,4 +89,9 @@ public abstract class ExpressionContainer
     {
         return new ExpressionParser(expression);
     }
+
+    public static ShuntingYardParser makeShuntingYardParserFromExpression(Expression expression)
+    {
+        return new ShuntingYardParser(expression);
+    }
 }
