@@ -51,7 +51,7 @@ public class ExpressionParserTests
 	private String getParsedExpression(String content) throws Exception
 	{
 		Expression exp = new Expression(content);
-		ExpressionParser parser = ExpressionContainer.makeParserFromExpression(exp);
+		ExpressionParser parser = new ExpressionParser(exp);
 		
 		return parser.getParsedExpression().getContent();
 	}

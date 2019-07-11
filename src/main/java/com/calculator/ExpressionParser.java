@@ -1,12 +1,10 @@
 package com.calculator;
 
-import java.util.regex.Pattern;
-
 import com.calculator.exception.*;
 
 public class ExpressionParser extends ExpressionContainer
 {
-	protected ExpressionParser(Expression expression)
+	public ExpressionParser(Expression expression)
 	{
 		super(expression);
 	}
