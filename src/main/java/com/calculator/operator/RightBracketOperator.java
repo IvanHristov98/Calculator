@@ -1,6 +1,6 @@
 package com.calculator.operator;
 
-public final class RightBracketOperator extends ArithmeticOperator 
+public final class RightBracketOperator extends Operator
 {
 	protected static final int PRIORITY = 0;
 	
@@ -8,11 +8,5 @@ public final class RightBracketOperator extends ArithmeticOperator
 	public int getPriority() 
 	{
 		return MinusOperator.PRIORITY;
-	}
-
-	@Override
-	public boolean isLeftAssociative() 
-	{
-		return true;
 	}
 }
