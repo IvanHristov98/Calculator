@@ -7,21 +7,19 @@ import java.util.Stack;
 import com.calculator.exception.*;
 import com.calculator.operator.*;
 
-class ShuntingYardParser
+class ShuntingYardParser extends ExpressionContainer
 {
-    private Expression expression;
-
     private ShuntingYardParser()
     {}
+
+    protected ShuntingYardParser(Expression expression)
+    {
+        super(expression);
+    }
 
     public static ShuntingYardParser constructFromExpression(Expression expression)
     {
         return new ShuntingYardParser(expression);
-    }
-
-    private ShuntingYardParser(Expression expression)
-    {
-        this.setExpression(expression);
     }
 
     public Expression getConvertedExpression() throws CalculatorException
@@ -63,6 +61,8 @@ class ShuntingYardParser
                 {
                     moveTokenFromOperatorStackToOutputQueue(operators, output);
                 }
+
+                operators.add(token);
             }
             else if (this.isLeftBracket(this.makeOperator(token)))
             {
@@ -139,6 +139,7 @@ class ShuntingYardParser
             moveTokenFromOperatorStackToOutputQueue(operators, output);
         }
 
+        // Removing the opening bracket
         if (!operators.empty())
         {
             operators.pop();
@@ -175,19 +176,10 @@ class ShuntingYardParser
 
         while(!output.isEmpty())
         {
+            result.append(" ");
             result.append(output.remove());
         }
 
-        return result.toString();
-    }
-
-    public Expression getExpression()
-    {
-        return this.expression.clone();
-    }
-
-    public void setExpression(Expression expression)
-    {
-        this.expression = expression;
+        return result.toString().trim();
     }
 }
