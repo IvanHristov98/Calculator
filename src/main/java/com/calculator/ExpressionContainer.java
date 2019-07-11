@@ -77,11 +77,6 @@ public abstract class ExpressionContainer
         return expressionContent;
     }
 
-    public static ExpressionValidator makeValidatorFromExpression(Expression expression)
-    {
-        return new ExpressionValidator(expression);
-    }
-
     public static ExpressionParser makeParserFromExpression(Expression expression)
     {
         return new ExpressionParser(expression);

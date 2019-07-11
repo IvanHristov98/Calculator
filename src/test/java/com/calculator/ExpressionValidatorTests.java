@@ -128,7 +128,7 @@ public class ExpressionValidatorTests
     private void validateExpression(String expressionContent) throws Exception
     {
         Expression expression = new Expression(expressionContent);
-        ExpressionValidator validator = ExpressionContainer.makeValidatorFromExpression(expression);
+        ExpressionValidator validator = new ExpressionValidator(expression);
 
         validator.validateExpression();
     }
