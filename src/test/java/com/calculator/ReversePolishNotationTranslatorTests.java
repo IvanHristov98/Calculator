@@ -100,7 +100,7 @@ public class ReversePolishNotationTranslatorTests
     public String getConversedExpression(String expressionContent) throws Exception
     {
         Expression expression = new Expression(expressionContent);
-        ReversePolishNotationTranslator parser = ExpressionContainer.makeReversePolishNotationTranslatorFromExpression(expression);
+        ReversePolishNotationTranslator parser = new ReversePolishNotationTranslator(expression);
 
         return parser.getConvertedExpression().getContent();
     }
