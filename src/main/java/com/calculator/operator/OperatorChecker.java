@@ -23,6 +23,11 @@ public class OperatorChecker
         return operator instanceof DivisionOperator;
     }
 
+    public static boolean isPow(Operator operator)
+    {
+        return operator instanceof PowOperator;
+    }
+
     public static boolean isLeftBracket(Operator operator)
     {
         return operator instanceof LeftBracketOperator;
@@ -36,6 +41,11 @@ public class OperatorChecker
     public static boolean isBracket(Operator operator)
     {
         return isLeftBracket(operator) || isRightBracket(operator);
+    }
+
+    public static boolean isArithmeticOperator(Operator operator)
+    {
+        return operator instanceof ArithmeticOperator;
     }
 
     private OperatorChecker()
