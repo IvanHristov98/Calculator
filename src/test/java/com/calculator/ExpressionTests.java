@@ -7,14 +7,6 @@ import static org.junit.Assert.assertNull;
 public class ExpressionTests
 {
 	@Test
-	public void test_constructEmptyExpression()
-	{
-		Expression expression = Expression.constructEmptyExpression();
-
-		assertNull(expression.getContent());
-	}
-
-	@Test
 	public void test_constructFromExpression()
 	{
 		Expression expression = Expression.constructFromExpressionContent("1+1");
@@ -25,7 +17,7 @@ public class ExpressionTests
 	@Test
 	public void test_setContent()
 	{
-		Expression expression = Expression.constructEmptyExpression();
+		Expression expression = Expression.constructFromExpressionContent("2+2");
 		expression.setContent("1+1");
 
 		assertEquals("1+1", expression.getContent());

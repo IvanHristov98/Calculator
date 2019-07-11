@@ -3,15 +3,7 @@ package com.calculator;
 class Expression 
 {
 	private String content;
-	
-	public static Expression constructEmptyExpression()
-	{
-		return new Expression();
-	}
-	
-	private Expression()
-	{}
-	
+
 	public static Expression constructFromExpressionContent(String content)
 	{
 		return new Expression(content);
