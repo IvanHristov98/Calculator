@@ -15,4 +15,9 @@ public final class DivisionOperator extends ArithmeticOperator
 	{
 		return true;
 	}
+
+	@Override
+	public Double operate(Double leftNumber, Double rightNumber) {
+		return leftNumber / rightNumber;
+	}
 }

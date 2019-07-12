@@ -15,4 +15,9 @@ public final class PowOperator extends ArithmeticOperator
 	{
 		return false;
 	}
+
+	@Override
+	public Double operate(Double leftNumber, Double rightNumber) {
+		return Math.pow(leftNumber, rightNumber);
+	}
 }

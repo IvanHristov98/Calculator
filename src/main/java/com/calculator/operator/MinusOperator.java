@@ -11,8 +11,13 @@ public final class MinusOperator extends ArithmeticOperator
 	}
 
 	@Override
-	public boolean isLeftAssociative() 
+	public boolean isLeftAssociative()
 	{
 		return true;
+	}
+
+	@Override
+	public Double operate(Double leftNumber, Double rightNumber) {
+		return leftNumber - rightNumber;
 	}
 }
