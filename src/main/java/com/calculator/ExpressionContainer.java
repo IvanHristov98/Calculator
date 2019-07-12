@@ -77,11 +77,12 @@ public abstract class ExpressionContainer
         return expressionContent;
     }
 
+    // TODO move to another class
     protected boolean isNumber(String token)
     {
         try
         {
-            Double.parseDouble(token);
+            this.toNumber(token);
         }
         catch (NumberFormatException exception)
         {
@@ -89,5 +90,10 @@ public abstract class ExpressionContainer
         }
 
         return true;
+    }
+
+    protected Double toNumber(String token) throws NumberFormatException
+    {
+        return Double.parseDouble(token);
     }
 }
