@@ -42,7 +42,7 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
     {
         for (String token : this.getExpressionTokens())
         {
-            if (this.isNumber(token))
+            if (NumberValidator.isNumber(token))
             {
                 numbers = this.addNumberToNumbersStack(numbers, token);
             }
@@ -61,7 +61,7 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
 
     private Stack<Double> addNumberToNumbersStack(Stack<Double> numbers, String token)
     {
-        numbers.add(this.toNumber(token));
+        numbers.add(NumberValidator.toNumber(token));
         return numbers;
     }
 

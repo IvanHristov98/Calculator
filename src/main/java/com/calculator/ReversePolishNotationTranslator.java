@@ -47,7 +47,7 @@ class ReversePolishNotationTranslator extends ExpressionContainer
 
     private void distributeToken(Queue<String> output, Stack<String> operators, String token) throws OperatorException
     {
-        if (this.isNumber(token))
+        if (NumberValidator.isNumber(token))
         {
             this.addItemToOutput(output, token);
         }

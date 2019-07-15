@@ -78,24 +78,4 @@ public abstract class ExpressionContainer
     }
 
     public abstract Expression process() throws CalculatorException;
-
-    // TODO move to another class
-    protected boolean isNumber(String token)
-    {
-        try
-        {
-            this.toNumber(token);
-        }
-        catch (NumberFormatException exception)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected Double toNumber(String token) throws NumberFormatException
-    {
-        return Double.parseDouble(token);
-    }
 }
