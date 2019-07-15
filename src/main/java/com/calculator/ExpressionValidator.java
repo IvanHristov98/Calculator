@@ -1,6 +1,7 @@
 package com.calculator;
 
 import com.calculator.exception.*;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.util.regex.Pattern;
 
@@ -78,11 +79,11 @@ public class ExpressionValidator extends ExpressionContainer
         return  Pattern.matches(".*[-*/+^]{2,}.*", expression);
     }
 
-    private void validateTokens(String expression) throws OperatorMisplacementException
+    private void validateTokens(String expression) throws InvalidOperatorException
     {
         if (this.hasInvalidTokens(expression))
         {
-            throw new OperatorMisplacementException("The given expression contains invalid tokens.");
+            throw new InvalidOperatorException("The given expression contains invalid tokens.");
         }
     }
 

@@ -35,7 +35,7 @@ public class ExpressionValidatorTests
         this.validateExpression("2+*3");
     }
 
-    @Test(expected = OperatorMisplacementException.class)
+    @Test(expected = InvalidOperatorException.class)
     public void test_invalidTokenException_validateExpression() throws Exception
     {
         this.validateExpression("1A2");
