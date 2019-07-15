@@ -1,8 +1,10 @@
 package com.calculator.operator;
 
-public abstract class ArithmeticOperator extends Operator 
+import com.calculator.exception.CalculatorException;
+
+public abstract class ArithmeticOperator extends Operator
 {
 	public abstract boolean isLeftAssociative();
 
-	public abstract Double operate(Double leftNumber, Double rightNumber);
+	public abstract Double operate(Double leftNumber, Double rightNumber) throws CalculatorException;
 }
