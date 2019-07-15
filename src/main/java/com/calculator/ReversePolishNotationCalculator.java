@@ -17,7 +17,6 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
         super(expression);
     }
 
-    // TODO empty stack exception
     public Double getExpressionResult () throws CalculatorException
     {
         Stack<Double> numbers = new Stack<>();
