@@ -4,17 +4,6 @@ import com.calculator.exception.InvalidOperatorException;
 
 public class OperatorFactory 
 {
-	static class Operators
-	{
-		static final String PLUS = "+";
-		static final String MINUS = "-";
-		static final String PRODUCT = "*";
-		static final String DIVISION = "/";
-		static final String POW = "^";
-		static final String LEFT_BRACKET = "(";
-		static final String RIGHT_BRACKET = ")";
-	}
-	
 	public static final Operator makeOperator(String operator) throws InvalidOperatorException
 	{
 		switch(operator)
