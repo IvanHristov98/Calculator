@@ -53,6 +53,6 @@ public class ExpressionParserTests
 		Expression exp = new Expression(content);
 		ExpressionParser parser = new ExpressionParser(exp);
 		
-		return parser.getParsedExpression().getContent();
+		return parser.process().getContent();
 	}
 }

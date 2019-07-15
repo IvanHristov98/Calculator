@@ -130,6 +130,6 @@ public class ExpressionValidatorTests
         Expression expression = new Expression(expressionContent);
         ExpressionValidator validator = new ExpressionValidator(expression);
 
-        validator.validateExpression();
+        validator.process();
     }
 }

@@ -17,7 +17,7 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
         super(expression);
     }
 
-    public Double getExpressionResult () throws CalculatorException
+    public Expression process () throws CalculatorException
     {
         Stack<Double> numbers = new Stack<>();
 
@@ -35,7 +35,7 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
             throw new NumberMisplacementException("Invalid number of numbers has been received.");
         }
 
-        return numbers.peek();
+        return new Expression(numbers.peek().toString());
     }
 
     private Stack<Double> getReversePolishNotationValue(Stack<Double> numbers) throws CalculatorException

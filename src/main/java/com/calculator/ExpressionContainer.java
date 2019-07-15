@@ -77,6 +77,8 @@ public abstract class ExpressionContainer
         return expressionContent;
     }
 
+    public abstract Expression process() throws CalculatorException;
+
     // TODO move to another class
     protected boolean isNumber(String token)
     {

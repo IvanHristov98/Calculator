@@ -1,7 +1,6 @@
 package com.calculator;
 
 import com.calculator.exception.*;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.util.regex.Pattern;
 
@@ -12,7 +11,7 @@ public class ExpressionValidator extends ExpressionContainer
         super(expression);
     }
 
-    public void validateExpression() throws CalculatorException
+    public Expression process() throws CalculatorException
     {
         String expressionContent = this.expression.getContent();
 
@@ -27,6 +26,8 @@ public class ExpressionValidator extends ExpressionContainer
         this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
 
         this.operateOnExpression(expressionContent, this::validateEnds);
+
+        return this.expression;
     }
 
     private void validateIfAnyConsecutiveNumbers(String expression) throws NumberMisplacementException

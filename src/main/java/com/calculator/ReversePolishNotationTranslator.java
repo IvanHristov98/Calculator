@@ -19,7 +19,7 @@ class ReversePolishNotationTranslator extends ExpressionContainer
         return new ReversePolishNotationTranslator(expression);
     }
 
-    public Expression getConvertedExpression() throws CalculatorException
+    public Expression process() throws CalculatorException
     {
         return new Expression(
                 this.toReversePolishNotation(this.expression.getContent().split(" "))

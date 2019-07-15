@@ -45,6 +45,6 @@ public class ReversePolishNotationCalculatorTests
         this.expression = new Expression(expressionContent);
         this.calculator = new ReversePolishNotationCalculator(this.expression);
 
-        return this.calculator.getExpressionResult();
+        return Double.parseDouble(this.calculator.process().getContent());
     }
 }

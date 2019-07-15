@@ -9,7 +9,7 @@ public class ExpressionParser extends ExpressionContainer
 		super(expression);
 	}
 	
-	public Expression getParsedExpression() throws CalculatorException
+	public Expression process() throws CalculatorException
 	{
 		return new Expression(this.parseAndValidate(this.expression.getContent()));
 	}

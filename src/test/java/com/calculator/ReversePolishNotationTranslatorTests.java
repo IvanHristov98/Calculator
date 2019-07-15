@@ -102,6 +102,6 @@ public class ReversePolishNotationTranslatorTests
         Expression expression = new Expression(expressionContent);
         ReversePolishNotationTranslator parser = new ReversePolishNotationTranslator(expression);
 
-        return parser.getConvertedExpression().getContent();
+        return parser.process().getContent();
     }
 }

@@ -16,17 +16,17 @@ public class Calculator
 		Expression resultExpression = this.expression.clone();
 
 		ExpressionValidator validator = new ExpressionValidator(resultExpression);
-		validator.validateExpression();
+		resultExpression = validator.process();
 
 		ExpressionParser parser = new ExpressionParser(resultExpression);
-		resultExpression = parser.getParsedExpression();
+		resultExpression = parser.process();
 
 
 
 		ReversePolishNotationTranslator translator = new ReversePolishNotationTranslator(resultExpression);
-		resultExpression = translator.getConvertedExpression();
+		resultExpression = translator.process();
 
 		ReversePolishNotationCalculator calculator = new ReversePolishNotationCalculator(resultExpression);
-		return calculator.getExpressionResult();
+		return Double.valueOf(calculator.process().getContent());
 	}
 }
