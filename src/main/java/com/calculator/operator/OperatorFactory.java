@@ -17,35 +17,24 @@ public class OperatorFactory
 	
 	public static final Operator makeOperator(String operator) throws InvalidOperatorException
 	{
-		if (operator.equals(Operators.PLUS))
+		switch(operator)
 		{
-			return new PlusOperator();
+			case Operators.PLUS:
+				return new PlusOperator();
+			case Operators.MINUS:
+				return new MinusOperator();
+			case Operators.PRODUCT:
+				return new ProductOperator();
+			case Operators.DIVISION:
+				return new DivisionOperator();
+			case Operators.POW:
+				return new PowOperator();
+			case Operators.LEFT_BRACKET:
+				return new LeftBracketOperator();
+			case Operators.RIGHT_BRACKET:
+				return new RightBracketOperator();
+			default:
+				throw new InvalidOperatorException("An invalid operator has been inserted.");
 		}
-		else if (operator.equals(Operators.MINUS))
-		{
-			return new MinusOperator();
-		}
-		else if (operator.equals(Operators.PRODUCT))
-		{
-			return new ProductOperator();
-		}
-		else if (operator.equals(Operators.DIVISION))
-		{
-			return new DivisionOperator();
-		}
-		else if (operator.equals(Operators.POW))
-		{
-			return new PowOperator();
-		}
-		else if (operator.equals(Operators.LEFT_BRACKET))
-		{
-			return new LeftBracketOperator();
-		}
-		else if (operator.equals(Operators.RIGHT_BRACKET))
-		{
-			return new RightBracketOperator();
-		}
-		
-		throw new InvalidOperatorException("An invalid operator has been inserted.");
 	}
 }
