@@ -1,11 +1,14 @@
 package com.calculator;
 
+import com.calculator.exception.CalculatorException;
 import com.calculator.exception.InvalidOperatorException;
+import com.calculator.exception.NumberMisplacementException;
 import com.calculator.operator.ArithmeticOperator;
 import com.calculator.operator.Operator;
 import com.calculator.operator.OperatorChecker;
 import com.calculator.operator.OperatorFactory;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class ReversePolishNotationCalculator extends ExpressionContainer
@@ -16,29 +19,43 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
     }
 
     // TODO empty stack exception
-    public Double getExpressionResult () throws InvalidOperatorException
+    public Double getExpressionResult () throws CalculatorException
     {
         Stack<Double> numbers = new Stack<>();
 
-        for (String token : this.getExpressionTokens())
+        try
         {
-            if (this.isNumber(token))
+            for (String token : this.getExpressionTokens())
             {
-                numbers.add(this.toNumber(token));
-            }
-            else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token)))
-            {
-                Double rightNumber = numbers.pop();
-                Double leftNumber = numbers.pop();
-                ArithmeticOperator operator = (ArithmeticOperator) OperatorFactory.makeOperator(token);
+                if (this.isNumber(token))
+                {
+                    numbers.add(this.toNumber(token));
+                }
+                else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token)))
+                {
+                    Double rightNumber = numbers.pop();
+                    Double leftNumber = numbers.pop();
+                    ArithmeticOperator operator = (ArithmeticOperator) OperatorFactory.makeOperator(token);
 
-                Double operationResult = operator.operate(leftNumber, rightNumber);
-                numbers.push(operationResult);
+                    Double operationResult = operator.operate(leftNumber, rightNumber);
+                    numbers.push(operationResult);
+                }
+                else
+                {
+                    throw new InvalidOperatorException("Unexpected operator has been received.");
+                }
             }
-            else
-            {
-                throw new InvalidOperatorException("Unexpected operator has been received.");
-            }
+        }
+        catch (EmptyStackException exception)
+        {
+            throw new NumberMisplacementException("Invalid number of numbers has been received.");
+        }
+
+
+
+        if (numbers.size() > 1)
+        {
+            throw new NumberMisplacementException("Invalid number of numbers has been received.");
         }
 
         return numbers.peek();
