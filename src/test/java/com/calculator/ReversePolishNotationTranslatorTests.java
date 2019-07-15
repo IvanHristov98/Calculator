@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ReversePolishNotationTranslatorTests
 {
     @Test
-    public void test_constructFromExpression()
+    public void constructFromExpression()
     {
         Expression expression = new Expression("( 1 + 1 )");
         ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
@@ -16,7 +16,7 @@ public class ReversePolishNotationTranslatorTests
     }
 
     @Test
-    public void test_setExpression()
+    public void setExpression()
     {
         Expression expression = new Expression("( 1 + 1 )");
         ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
@@ -26,73 +26,73 @@ public class ReversePolishNotationTranslatorTests
     }
 
     @Test
-    public void test__twoOperators_getConversedExpression() throws Exception
+    public void twoOperators_process() throws Exception
     {
         assertEquals("1 1 +", this.getConversedExpression("( 1 + 1 )"));
     }
 
     @Test
-    public void test__expressionWithoutBrackets_getConversedExpression() throws Exception
+    public void expressionWithoutBrackets_process() throws Exception
     {
         assertEquals("1 1 +", this.getConversedExpression("1 + 1"));
     }
 
     @Test
-    public void test_negativeNumbers_getConversedExpression() throws Exception
+    public void negativeNumbers_process() throws Exception
     {
         assertEquals("-1 1 +", this.getConversedExpression("-1 + 1"));
     }
 
     @Test
-    public void test_priorityOfOperators_getConversedExpression() throws Exception
+    public void priorityOfOperators_process() throws Exception
     {
         assertEquals("1 2 * 3 +", this.getConversedExpression("1 * 2 + 3"));
     }
 
     @Test
-    public void test_equalPriorityOfLeftAssociativeOperators_getConversedExpression() throws Exception
+    public void equalPriorityOfLeftAssociativeOperators_process() throws Exception
     {
         assertEquals("1 2 / 3 *", this.getConversedExpression("1 / 2 * 3"));
     }
 
     @Test
-    public void test_leftSideAssociativity_getConversedExpression() throws Exception
+    public void leftSideAssociativity_process() throws Exception
     {
         assertEquals("1 2 + 3 *", this.getConversedExpression("( 1 + 2 ) * 3"));
     }
 
     @Test
-    public void test_rightSideAssociativity_getConversedExpression() throws Exception
+    public void rightSideAssociativity_process() throws Exception
     {
         assertEquals("1 2 3 + *", this.getConversedExpression("1 * ( 2 + 3 )"));
     }
 
     @Test
-    public void test_multipleBrackets_getConversedExpression() throws Exception
+    public void multipleBrackets_process() throws Exception
     {
         assertEquals("1 1 +", this.getConversedExpression("( ( ( 1 + 1 ) ) )"));
     }
 
     @Test
-    public void test_productOfTwoBracketedExpression_getConversedExpression() throws Exception
+    public void productOfTwoBracketedExpression_process() throws Exception
     {
         assertEquals("1 2 + 3 4 + *", this.getConversedExpression("( 1 + 2 ) * ( 3 + 4 )"));
     }
 
     @Test
-    public void test_singlePowOfABracketedExpression_getConversedExpression() throws Exception
+    public void singlePowOfABracketedExpression_process() throws Exception
     {
         assertEquals("1 2 + 3 ^", this.getConversedExpression("( 1 + 2 ) ^ 3"));
     }
 
     @Test
-    public void test_multiplePows_getConversedExpression() throws Exception
+    public void multiplePows_process() throws Exception
     {
         assertEquals("1 2 3 4 ^ ^ ^", this.getConversedExpression("1 ^ 2 ^ 3 ^ 4"));
     }
 
     @Test
-    public void test_expressionWithinBracketsBetweenPows_getConversedExpression() throws Exception
+    public void expressionWithinBracketsBetweenPows_process() throws Exception
     {
         assertEquals("1 2 3 + 4 ^ ^", this.getConversedExpression("1 ^ ( 2 + 3 ) ^ 4"));
     }

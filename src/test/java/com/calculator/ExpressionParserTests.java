@@ -7,43 +7,43 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionParserTests 
 {
 	@Test
-	public void test_condensed_getExpression() throws Exception
+	public void condensed_process() throws Exception
 	{
 		assertEquals("( 3 + 4 + 5 )", this.getParsedExpression("3+4+5"));
 	}
 	
 	@Test
-	public void test_condensedBrackets_getExpression() throws Exception
+	public void condensedBrackets_process() throws Exception
 	{
 		assertEquals("( 3 * ( 4 + 5 ) )", this.getParsedExpression("3*(4+5)"));
 	}
 	
 	@Test
-	public void test_floatingPointNumbers_getExpression() throws Exception
+	public void floatingPointNumbers_process() throws Exception
 	{
 		assertEquals("( 3.5 + 123.4567 )", this.getParsedExpression("3.5+123.4567"));
 	}
 	
 	@Test
-	public void test_sparseExpression_getExpression() throws Exception
+	public void sparseExpression_process() throws Exception
 	{
 		assertEquals("( 1 + 1 + 2 )", this.getParsedExpression("1 +1+ 2"));
 	}
 	
 	@Test
-	public void test_misplacedRedundantOperatorAtStart_getExpression() throws Exception
+	public void misplacedRedundantOperatorAtStart_process() throws Exception
 	{
 		assertEquals("( 1 / 2 )", this.getParsedExpression("+1/2"));
 	}
 	
 	@Test
-	public void test_minusAtBeginning_getExpression() throws Exception
+	public void minusAtBeginning_process() throws Exception
 	{
 		assertEquals("( -1 + 2 )", this.getParsedExpression("-1+2"));
 	}
 
 	@Test
-	public void test_minusStraightAfterBracket_getExpression() throws Exception
+	public void minusStraightAfterBracket_process() throws Exception
 	{
 		assertEquals("( ( -1 + 1 ) )", this.getParsedExpression("(-1+1)"));
 	}
