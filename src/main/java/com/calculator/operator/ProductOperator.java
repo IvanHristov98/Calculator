@@ -3,6 +3,10 @@ package com.calculator.operator;
 public final class ProductOperator extends ArithmeticOperator 
 {
 	protected static final int PRIORITY = 1;
+
+	{
+		this.symbolicRepresentation = Operators.PRODUCT;
+	}
 	
 	@Override
 	public int getPriority() 

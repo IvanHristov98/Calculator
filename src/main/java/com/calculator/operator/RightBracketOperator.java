@@ -2,11 +2,15 @@ package com.calculator.operator;
 
 public final class RightBracketOperator extends Operator
 {
-	protected static final int PRIORITY = 0;
+	protected static final int PRIORITY = 3;
+
+	{
+		this.symbolicRepresentation = Operators.RIGHT_BRACKET;
+	}
 	
 	@Override
 	public int getPriority() 
 	{
-		return MinusOperator.PRIORITY;
+		return RightBracketOperator.PRIORITY;
 	}
 }

@@ -6,6 +6,10 @@ import com.calculator.exception.DivisionByZeroException;
 public final class DivisionOperator extends ArithmeticOperator
 {
 	protected static final int PRIORITY = 1;
+
+	{
+		this.symbolicRepresentation = Operators.DIVISION;
+	}
 	
 	@Override
 	public int getPriority() 

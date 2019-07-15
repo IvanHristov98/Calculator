@@ -3,6 +3,10 @@ package com.calculator.operator;
 public final class MinusOperator extends ArithmeticOperator 
 {
 	protected static final int PRIORITY = 0;
+
+	{
+		this.symbolicRepresentation = Operators.MINUS;
+	}
 	
 	@Override
 	public int getPriority() 
