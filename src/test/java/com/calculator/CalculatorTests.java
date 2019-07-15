@@ -10,8 +10,8 @@ public class CalculatorTests
 	
 	private double calculate(String expression) throws Exception
 	{
-		Calculator calc  = Calculator.constructFromExpression(expression);
-		return calc.calculate().doubleValue();
+		Calculator calc  = new Calculator(expression);
+		return calc.calculate();
 	}
 	
 	@Test
@@ -20,7 +20,7 @@ public class CalculatorTests
 		assertEquals(5.8, this.calculate("3.5+2.3+3-3"), CalculatorTests.ALLOWED_ERROR);
 	}
 	
-	@Test
+	@Test(expected = OperatorMisplacementException.class)
 	public void multiplyNegativeNumbers_calculate() throws Exception
 	{
 		assertEquals(1, this.calculate("-1*-1"), 0);

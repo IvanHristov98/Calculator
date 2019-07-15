@@ -1,20 +1,32 @@
 package com.calculator;
 
+import com.calculator.exception.CalculatorException;
+
 public class Calculator
 {
-	private Calculator(String expression) throws Exception
-	{
+	Expression expression;
 
-	}
-	
-	public static Calculator constructFromExpression(String expression) throws Exception
+	public Calculator(String expressionContent)
 	{
-		return new Calculator(expression);
+		this.expression = new Expression(expressionContent);
 	}
 
-	public Double calculate() throws Exception
+	public Double calculate() throws CalculatorException
 	{
-		// stub
-		return 0.0d;
+		Expression resultExpression = this.expression.clone();
+
+		ExpressionValidator validator = new ExpressionValidator(resultExpression);
+		validator.validateExpression();
+
+		ExpressionParser parser = new ExpressionParser(resultExpression);
+		resultExpression = parser.getParsedExpression();
+
+
+
+		ReversePolishNotationTranslator translator = new ReversePolishNotationTranslator(resultExpression);
+		resultExpression = translator.getConvertedExpression();
+
+		ReversePolishNotationCalculator calculator = new ReversePolishNotationCalculator(resultExpression);
+		return calculator.getExpressionResult();
 	}
 }
