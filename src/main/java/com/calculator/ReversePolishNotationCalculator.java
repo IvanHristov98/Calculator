@@ -4,7 +4,6 @@ import com.calculator.exception.CalculatorException;
 import com.calculator.exception.InvalidOperatorException;
 import com.calculator.exception.NumberMisplacementException;
 import com.calculator.operator.ArithmeticOperator;
-import com.calculator.operator.Operator;
 import com.calculator.operator.OperatorChecker;
 import com.calculator.operator.OperatorFactory;
 
@@ -25,33 +24,12 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
 
         try
         {
-            for (String token : this.getExpressionTokens())
-            {
-                if (this.isNumber(token))
-                {
-                    numbers.add(this.toNumber(token));
-                }
-                else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token)))
-                {
-                    Double rightNumber = numbers.pop();
-                    Double leftNumber = numbers.pop();
-                    ArithmeticOperator operator = (ArithmeticOperator) OperatorFactory.makeOperator(token);
-
-                    Double operationResult = operator.operate(leftNumber, rightNumber);
-                    numbers.push(operationResult);
-                }
-                else
-                {
-                    throw new InvalidOperatorException("Unexpected operator has been received.");
-                }
-            }
+            numbers = this.getReversePolishNotationValue(numbers);
         }
         catch (EmptyStackException exception)
         {
             throw new NumberMisplacementException("Invalid number of numbers has been received.");
         }
-
-
 
         if (numbers.size() > 1)
         {
@@ -59,6 +37,45 @@ public class ReversePolishNotationCalculator extends ExpressionContainer
         }
 
         return numbers.peek();
+    }
+
+    private Stack<Double> getReversePolishNotationValue(Stack<Double> numbers) throws CalculatorException
+    {
+        for (String token : this.getExpressionTokens())
+        {
+            if (this.isNumber(token))
+            {
+                numbers = this.addNumberToNumbersStack(numbers, token);
+            }
+            else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token)))
+            {
+                numbers = this.operateWithNumbersFromStackTop(numbers, token);
+            }
+            else
+            {
+                throw new InvalidOperatorException("Unexpected operator has been received.");
+            }
+        }
+
+        return numbers;
+    }
+
+    private Stack<Double> addNumberToNumbersStack(Stack<Double> numbers, String token)
+    {
+        numbers.add(this.toNumber(token));
+        return numbers;
+    }
+
+    private Stack<Double> operateWithNumbersFromStackTop(Stack<Double> numbers, String token) throws CalculatorException
+    {
+        Double rightNumber = numbers.pop();
+        Double leftNumber = numbers.pop();
+        ArithmeticOperator operator = (ArithmeticOperator) OperatorFactory.makeOperator(token);
+
+        Double operationResult = operator.operate(leftNumber, rightNumber);
+        numbers.push(operationResult);
+
+        return numbers;
     }
 
     private String[] getExpressionTokens()
