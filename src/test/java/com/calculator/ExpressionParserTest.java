@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExpressionParserTests 
+public class ExpressionParserTest
 {
 	@Test
 	public void condensed_process() throws Exception

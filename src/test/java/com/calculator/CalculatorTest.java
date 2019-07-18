@@ -4,7 +4,7 @@ import com.calculator.exception.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class CalculatorTests 
+public class CalculatorTest
 {	
 	private static final double ALLOWED_ERROR = 0.01;
 	
@@ -17,7 +17,7 @@ public class CalculatorTests
 	@Test
 	public void sumAndSubtractMultipleNumbers_calculate() throws Exception
 	{
-		assertEquals(5.8, this.calculate("3.5+2.3+3-3"), CalculatorTests.ALLOWED_ERROR);
+		assertEquals(5.8, this.calculate("3.5+2.3+3-3"), CalculatorTest.ALLOWED_ERROR);
 	}
 	
 	@Test(expected = OperatorMisplacementException.class)
@@ -35,7 +35,7 @@ public class CalculatorTests
 	@Test
 	public void associativityWithBrackets_calculate() throws Exception
 	{
-		assertEquals(8, this.calculate("2+(3/2)*4"), CalculatorTests.ALLOWED_ERROR);
+		assertEquals(8, this.calculate("2+(3/2)*4"), CalculatorTest.ALLOWED_ERROR);
 	}
 	
 	@Test(expected = BracketsException.class)
@@ -77,6 +77,6 @@ public class CalculatorTests
 	@Test
 	public void spacedExpression_calculate() throws Exception
 	{
-		assertEquals(17, this.calculate("1 + 2*(3 +5)"), CalculatorTests.ALLOWED_ERROR);
+		assertEquals(17, this.calculate("1 + 2*(3 +5)"), CalculatorTest.ALLOWED_ERROR);
 	}
 }

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ReversePolishNotationTranslatorTests
+public class ReversePolishNotationTranslatorTest
 {
     @Test
     public void constructFromExpression()

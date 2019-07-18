@@ -5,7 +5,7 @@ import com.calculator.exception.*;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
-public class ReversePolishNotationCalculatorTests
+public class ReversePolishNotationCalculatorTest
 {
     ReversePolishNotationCalculator calculator;
     Expression expression;

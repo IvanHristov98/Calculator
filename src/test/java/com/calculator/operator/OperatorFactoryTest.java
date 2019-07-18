@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import com.calculator.exception.InvalidOperatorException;
 
 
-public class OperatorFactoryTests 
+public class OperatorFactoryTest
 {
 	@Test
 	public void test_plus_makeOperator() throws InvalidOperatorException
