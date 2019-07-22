@@ -2,9 +2,9 @@ package com.calculator.core;
 
 import com.calculator.core.exception.*;
 
-public class ExpressionParser extends ExpressionContainer
+public class InfixExpressionFormatUnifier extends ExpressionContainer
 {
-	public ExpressionParser(Expression expression)
+	public InfixExpressionFormatUnifier(Expression expression)
 	{
 		super(expression);
 	}

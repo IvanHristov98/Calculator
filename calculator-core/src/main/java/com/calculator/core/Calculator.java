@@ -18,7 +18,7 @@ public class Calculator
 		UnformattedInfixExpressionValidator validator = new UnformattedInfixExpressionValidator(resultExpression);
 		resultExpression = validator.process();
 
-		ExpressionParser parser = new ExpressionParser(resultExpression);
+		InfixExpressionFormatUnifier parser = new InfixExpressionFormatUnifier(resultExpression);
 		resultExpression = parser.process();
 
 

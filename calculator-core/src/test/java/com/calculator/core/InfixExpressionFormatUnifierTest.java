@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExpressionParserTest
+public class InfixExpressionFormatUnifierTest
 {
 	@Test
 	public void condensed_process() throws Exception
@@ -51,7 +51,7 @@ public class ExpressionParserTest
 	private String getParsedExpression(String content) throws Exception
 	{
 		Expression exp = new Expression(content);
-		ExpressionParser parser = new ExpressionParser(exp);
+		InfixExpressionFormatUnifier parser = new InfixExpressionFormatUnifier(exp);
 		
 		return parser.process().getContent();
 	}
