@@ -21,8 +21,6 @@ public class Calculator
 		InfixExpressionFormatUnifier parser = new InfixExpressionFormatUnifier(resultExpression);
 		resultExpression = parser.process();
 
-
-
 		InfixToPostfixExpressionTranslator translator = new InfixToPostfixExpressionTranslator(resultExpression);
 		resultExpression = translator.process();
 
