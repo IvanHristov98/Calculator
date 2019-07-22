@@ -3,7 +3,7 @@ package com.calculator.core;
 import org.junit.Test;
 import com.calculator.core.exception.*;
 
-public class ExpressionValidatorTest
+public class UnformattedInfixExpressionValidatorTest
 {
     @Test(expected = NumberMisplacementException.class)
     public void spacedConsecutiveNumbers_process() throws Exception
@@ -128,7 +128,7 @@ public class ExpressionValidatorTest
     private void validateExpression(String expressionContent) throws Exception
     {
         Expression expression = new Expression(expressionContent);
-        ExpressionValidator validator = new ExpressionValidator(expression);
+        UnformattedInfixExpressionValidator validator = new UnformattedInfixExpressionValidator(expression);
 
         validator.process();
     }

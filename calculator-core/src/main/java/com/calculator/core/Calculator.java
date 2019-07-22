@@ -15,7 +15,7 @@ public class Calculator
 	{
 		Expression resultExpression = this.expression.clone();
 
-		ExpressionValidator validator = new ExpressionValidator(resultExpression);
+		UnformattedInfixExpressionValidator validator = new UnformattedInfixExpressionValidator(resultExpression);
 		resultExpression = validator.process();
 
 		ExpressionParser parser = new ExpressionParser(resultExpression);

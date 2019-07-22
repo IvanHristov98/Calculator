@@ -4,9 +4,9 @@ import com.calculator.core.exception.*;
 
 import java.util.regex.Pattern;
 
-public class ExpressionValidator extends ExpressionContainer
+public class UnformattedInfixExpressionValidator extends ExpressionContainer
 {
-    public ExpressionValidator(Expression expression)
+    public UnformattedInfixExpressionValidator(Expression expression)
     {
         super(expression);
     }
