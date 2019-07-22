@@ -22,11 +22,11 @@ class InfixToPostfixExpressionTranslator extends ExpressionContainer
     public Expression process() throws CalculatorException
     {
         return new Expression(
-                this.toReversePolishNotation(this.expression.getContent().split(" "))
+                this.toPostfixExpression(this.expression.getContent().split(" "))
         );
     }
 
-    private String toReversePolishNotation(String[] tokens) throws OperatorException
+    private String toPostfixExpression(String[] tokens) throws OperatorException
     {
         Queue<String> output = new LinkedList<>();
         Stack<String> operators = new Stack<>();

@@ -23,7 +23,7 @@ public class PostfixExpressionCalculator extends ExpressionContainer
 
         try
         {
-            numbers = this.getReversePolishNotationValue(numbers);
+            numbers = this.getPostfixExpressionValue(numbers);
         }
         catch (EmptyStackException exception)
         {
@@ -38,7 +38,7 @@ public class PostfixExpressionCalculator extends ExpressionContainer
         return new Expression(numbers.peek().toString());
     }
 
-    private Stack<Double> getReversePolishNotationValue(Stack<Double> numbers) throws CalculatorException
+    private Stack<Double> getPostfixExpressionValue(Stack<Double> numbers) throws CalculatorException
     {
         for (String token : this.getExpressionTokens())
         {
