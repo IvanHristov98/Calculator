@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.calculator.core.exception.BracketsException;
+
 public class InfixToPostfixExpressionTranslatorTest
 {
     @Test
@@ -23,6 +25,18 @@ public class InfixToPostfixExpressionTranslatorTest
         parser.setExpression(expression);
 
         assertEquals(expression, parser.getExpression());
+    }
+    
+    @Test(expected = BracketsException.class)
+    public void missingOpeningBracket_process() throws Exception
+    {
+    	this.getConversedExpression("1 + 1 )");
+    }
+    
+    @Test(expected = BracketsException.class)
+    public void missingClosingBracket_process() throws Exception
+    {
+    	this.getConversedExpression("( 1 + 1");
     }
 
     @Test

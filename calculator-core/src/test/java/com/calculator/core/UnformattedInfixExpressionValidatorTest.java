@@ -96,27 +96,6 @@ public class UnformattedInfixExpressionValidatorTest
         this.validateExpression("(4+5*)");
     }
 
-    @Test(expected = BracketsException.class)
-    @Ignore
-    public void noClosingBracket_process() throws Exception
-    {
-        this.validateExpression("(1+2)+(3+4");
-    }
-
-    @Test(expected = BracketsException.class)
-    @Ignore
-    public void noOpeningBracket_process() throws Exception
-    {
-        this.validateExpression("3+5)");
-    }
-
-    @Test(expected = BracketsException.class)
-    @Ignore
-    public void notEnoughClosingBrackets_process() throws Exception
-    {
-        this.validateExpression("(()");
-    }
-
     @Test(expected = EmptyExpressionException.class)
     public void emptyBrackets_process() throws Exception
     {

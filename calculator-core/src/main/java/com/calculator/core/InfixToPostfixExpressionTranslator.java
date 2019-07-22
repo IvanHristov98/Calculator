@@ -125,7 +125,7 @@ class InfixToPostfixExpressionTranslator extends ExpressionContainer
         }
         else
         {
-            throw new BracketsException("Invalid expression - no closing bracket encountered.");
+            throw new BracketsException("Brackets error encountered - missing opening bracket.");
         }
     }
 
@@ -137,7 +137,7 @@ class InfixToPostfixExpressionTranslator extends ExpressionContainer
 
             if (OperatorChecker.isBracket(topOperator))
             {
-                throw new BracketsException("Invalid bracket ordering encountered.");
+                throw new BracketsException("Brackets error encountered - missing closing bracket.");
             }
 
             this.moveTokenFromOperatorStackToOutput(operators, output);
