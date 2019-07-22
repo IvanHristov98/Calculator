@@ -16,8 +16,8 @@ public class InfixExpressionFormatUnifier extends ExpressionContainer
 	
 	private String unify(String expression) throws CalculatorException
 	{
-		expression = this.stripSpaces(expression);
-		expression = this.wrapStringWithBrackets(expression);
+		expression = StringUtility.stripSpaces(expression);
+		expression = StringUtility.wrapStringWithBrackets(expression);
 		expression = this.stripRedundantSymbolsAtBeginning(expression);
 		expression = this.splitTokensWithIntervals(expression).trim();
 		

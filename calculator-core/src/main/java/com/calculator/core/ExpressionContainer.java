@@ -21,15 +21,5 @@ public abstract class ExpressionContainer
         return this.expression.clone();
     }
 
-    protected String stripSpaces(String string)
-    {
-        return string.replaceAll(" ", "");
-    }
-    
-    protected String wrapStringWithBrackets(String string)
-    {
-    	return "(" + string + ")";
-    }
-
     public abstract Expression process() throws CalculatorException;
 }
