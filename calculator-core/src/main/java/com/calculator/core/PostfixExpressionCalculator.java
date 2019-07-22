@@ -10,9 +10,9 @@ import com.calculator.core.operator.OperatorFactory;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-public class ReversePolishNotationCalculator extends ExpressionContainer
+public class PostfixExpressionCalculator extends ExpressionContainer
 {
-    public ReversePolishNotationCalculator(Expression expression)
+    public PostfixExpressionCalculator(Expression expression)
     {
         super(expression);
     }

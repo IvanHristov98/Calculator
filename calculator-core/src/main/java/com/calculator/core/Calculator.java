@@ -26,7 +26,7 @@ public class Calculator
 		InfixToPostfixExpressionTranslator translator = new InfixToPostfixExpressionTranslator(resultExpression);
 		resultExpression = translator.process();
 
-		ReversePolishNotationCalculator calculator = new ReversePolishNotationCalculator(resultExpression);
+		PostfixExpressionCalculator calculator = new PostfixExpressionCalculator(resultExpression);
 		return Double.valueOf(calculator.process().getContent());
 	}
 }

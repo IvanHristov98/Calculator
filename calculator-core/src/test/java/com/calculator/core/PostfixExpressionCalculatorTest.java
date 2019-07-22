@@ -5,9 +5,9 @@ import com.calculator.core.exception.*;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
-public class ReversePolishNotationCalculatorTest
+public class PostfixExpressionCalculatorTest
 {
-    ReversePolishNotationCalculator calculator;
+    PostfixExpressionCalculator calculator;
     Expression expression;
 
     @Test
@@ -43,7 +43,7 @@ public class ReversePolishNotationCalculatorTest
     private double getExpressionResult(String expressionContent) throws CalculatorException
     {
         this.expression = new Expression(expressionContent);
-        this.calculator = new ReversePolishNotationCalculator(this.expression);
+        this.calculator = new PostfixExpressionCalculator(this.expression);
 
         return Double.parseDouble(this.calculator.process().getContent());
     }
