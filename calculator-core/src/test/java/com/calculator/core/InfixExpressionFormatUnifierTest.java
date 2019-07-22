@@ -31,21 +31,21 @@ public class InfixExpressionFormatUnifierTest
 	}
 	
 	@Test
-	public void misplacedRedundantOperatorAtStart_process() throws Exception
+	public void redundantOperatorAtStart_process() throws Exception
 	{
 		assertEquals("( 1 / 2 )", this.getParsedExpression("+1/2"));
+	}
+	
+	@Test
+	public void minusStraightAfterBracket_process() throws Exception
+	{
+		assertEquals("( ( -1 + 1 ) )", this.getParsedExpression("(-1+1)"));
 	}
 	
 	@Test
 	public void minusAtBeginning_process() throws Exception
 	{
 		assertEquals("( -1 + 2 )", this.getParsedExpression("-1+2"));
-	}
-
-	@Test
-	public void minusStraightAfterBracket_process() throws Exception
-	{
-		assertEquals("( ( -1 + 1 ) )", this.getParsedExpression("(-1+1)"));
 	}
 
 	private String getParsedExpression(String content) throws Exception

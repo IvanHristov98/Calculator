@@ -17,8 +17,8 @@ public class InfixExpressionFormatUnifier extends ExpressionContainer
 	private String unify(String expression) throws CalculatorException
 	{
 		expression = this.stripSpaces(expression);
-		expression = this.operateOnExpression(expression, this::stripRedundantSymbolsAtBeginning);
-		expression = this.wrapWithBrackets(expression);
+		expression = this.wrapStringWithBrackets(expression);
+		expression = this.stripRedundantSymbolsAtBeginning(expression);
 		expression = this.splitTokensWithIntervals(expression).trim();
 		
 		return expression;
@@ -26,20 +26,10 @@ public class InfixExpressionFormatUnifier extends ExpressionContainer
 	
 	private String stripRedundantSymbolsAtBeginning(String expression)
 	{
-		// There is no need to have -, + operators at the beginning
-		return this.stripStringByPattern(expression, "^[+]+");
-	}
-	
-	private String stripStringByPattern(String expression, String pattern)
-	{	
-		return expression.replaceAll(pattern, "");
+		// There is no need to have + operators at the beginning of a subexpression
+		return expression.replaceAll("(\\()[+]+", "$1");
 	}
 
-	private String wrapWithBrackets(String expression) 
-	{
-		return "(" + expression + ")";
-	}
-	
 	private String splitTokensWithIntervals(String expression)
 	{
 		expression = this.splitNumbersWithIntervals(expression);
