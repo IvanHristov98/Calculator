@@ -7,16 +7,16 @@ import java.util.Stack;
 import com.calculator.core.exception.*;
 import com.calculator.core.operator.*;
 
-class ReversePolishNotationTranslator extends ExpressionContainer
+class InfixToPostfixExpressionTranslator extends ExpressionContainer
 {
-    public ReversePolishNotationTranslator(Expression expression)
+    public InfixToPostfixExpressionTranslator(Expression expression)
     {
         super(expression);
     }
 
-    public static ReversePolishNotationTranslator constructFromExpression(Expression expression)
+    public static InfixToPostfixExpressionTranslator constructFromExpression(Expression expression)
     {
-        return new ReversePolishNotationTranslator(expression);
+        return new InfixToPostfixExpressionTranslator(expression);
     }
 
     public Expression process() throws CalculatorException

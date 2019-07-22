@@ -23,7 +23,7 @@ public class Calculator
 
 
 
-		ReversePolishNotationTranslator translator = new ReversePolishNotationTranslator(resultExpression);
+		InfixToPostfixExpressionTranslator translator = new InfixToPostfixExpressionTranslator(resultExpression);
 		resultExpression = translator.process();
 
 		ReversePolishNotationCalculator calculator = new ReversePolishNotationCalculator(resultExpression);

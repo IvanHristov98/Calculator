@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ReversePolishNotationTranslatorTest
+public class InfixToPostfixExpressionTranslatorTest
 {
     @Test
     public void constructFromExpression()
     {
         Expression expression = new Expression("( 1 + 1 )");
-        ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
+        InfixToPostfixExpressionTranslator parser = InfixToPostfixExpressionTranslator.constructFromExpression(expression);
 
         assertEquals(expression, parser.getExpression());
     }
@@ -19,7 +19,7 @@ public class ReversePolishNotationTranslatorTest
     public void setExpression()
     {
         Expression expression = new Expression("( 1 + 1 )");
-        ReversePolishNotationTranslator parser = ReversePolishNotationTranslator.constructFromExpression(expression);
+        InfixToPostfixExpressionTranslator parser = InfixToPostfixExpressionTranslator.constructFromExpression(expression);
         parser.setExpression(expression);
 
         assertEquals(expression, parser.getExpression());
@@ -100,7 +100,7 @@ public class ReversePolishNotationTranslatorTest
     public String getConversedExpression(String expressionContent) throws Exception
     {
         Expression expression = new Expression(expressionContent);
-        ReversePolishNotationTranslator parser = new ReversePolishNotationTranslator(expression);
+        InfixToPostfixExpressionTranslator parser = new InfixToPostfixExpressionTranslator(expression);
 
         return parser.process().getContent();
     }
