@@ -21,9 +21,14 @@ public abstract class ExpressionContainer
         return this.expression.clone();
     }
 
-    protected String stripSpaces(String expression)
+    protected String stripSpaces(String string)
     {
-        return expression.replaceAll(" ", "");
+        return string.replaceAll(" ", "");
+    }
+    
+    protected String wrapStringWithBrackets(String string)
+    {
+    	return "(" + string + ")";
     }
 
     protected String operateOnExpression(String expressionContent, ExceptionThrowingFunction<String, String, CalculatorException> action) throws CalculatorException
