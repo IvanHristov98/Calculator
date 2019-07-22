@@ -11,10 +11,10 @@ public class InfixExpressionFormatUnifier extends ExpressionContainer
 	
 	public Expression process() throws CalculatorException
 	{
-		return new Expression(this.parseAndValidate(this.expression.getContent()));
+		return new Expression(this.unify(this.expression.getContent()));
 	}
 	
-	private String parseAndValidate(String expression) throws CalculatorException
+	private String unify(String expression) throws CalculatorException
 	{
 		expression = this.stripSpaces(expression);
 		expression = this.operateOnExpression(expression, this::stripRedundantSymbolsAtBeginning);
