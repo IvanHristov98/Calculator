@@ -27,20 +27,22 @@ public class Calculator
 
 	public Double calculate() throws CalculatorException
 	{
-		Expression resultExpression = this.expression.clone();
-
-		this.infixValidator.setExpression(resultExpression);
-		resultExpression = this.infixValidator.process();
-
-		this.infixFormatter.setExpression(resultExpression);
-		resultExpression = this.infixFormatter.process();
-
-		this.postfixTranslator.setExpression(resultExpression);
-		resultExpression = this.postfixTranslator.process();
-
-		this.postfixCalculator.setExpression(resultExpression);
-		resultExpression = this.postfixCalculator.process();
-		
+		Expression resultExpression = this.getCalculationResult(this.expression.clone());
 		return Double.valueOf(resultExpression.getContent());
+	}
+	
+	private Expression getCalculationResult(Expression expression) throws CalculatorException
+	{
+		this.infixValidator.setExpression(expression);
+		expression = this.infixValidator.process();
+
+		this.infixFormatter.setExpression(expression);
+		expression = this.infixFormatter.process();
+
+		this.postfixTranslator.setExpression(expression);
+		expression = this.postfixTranslator.process();
+
+		this.postfixCalculator.setExpression(expression);
+		return this.postfixCalculator.process();
 	}
 }
