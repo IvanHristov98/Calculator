@@ -20,7 +20,8 @@ public class UnformattedInfixExpressionValidator extends ExpressionContainer
         this.validateIfAnyConsecutiveNumbers(expressionContent);
         this.validateNumbersFormat(expressionContent);
 
-        expressionContent = StringUtility.stripSpaces(expressionContent);
+        this.expression.stripContentSpaces();
+        expressionContent = this.expression.getContent();
 
         this.validateIfExpressionHasEmptySubexpressions(expressionContent);
         this.validateOperatorSequence(expressionContent);

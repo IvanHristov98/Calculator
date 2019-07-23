@@ -47,9 +47,13 @@ class Expression
         return this.getContent().split(" ");
     }
     
-    
     protected void wrapWithBrackets()
     {
     	this.setContent("(" + this.getContent() + ")");
+    }
+    
+    protected void stripContentSpaces()
+    {
+    	this.setContent(this.getContent().replaceAll(" ", ""));
     }
 }
