@@ -9,9 +9,21 @@ public class CalculatorTest
 {	
 	private static final double ALLOWED_ERROR = 0.01;
 	
-	private double calculate(String expression) throws Exception
+	private double calculate(String expressionContent) throws Exception
 	{
-		Calculator calc  = new Calculator(expression);
+		Expression expression = new Expression(expressionContent);
+		UnformattedInfixExpressionValidator infixValidator = new UnformattedInfixExpressionValidator(expression);
+		InfixExpressionFormatUnifier infixFormatter = new InfixExpressionFormatUnifier(expression);
+		InfixToPostfixExpressionTranslator postfixTranslator = new InfixToPostfixExpressionTranslator(expression);
+		PostfixExpressionCalculator postfixCalculator = new PostfixExpressionCalculator(expression);
+		
+		Calculator calc  = new Calculator(
+				expression, 
+				infixValidator,
+				infixFormatter,
+				postfixTranslator,
+				postfixCalculator
+				);
 		return calc.calculate();
 	}
 	
