@@ -6,9 +6,4 @@ class StringUtility
     {
         return string.replaceAll(" ", "");
     }
-    
-    protected static String wrapStringWithBrackets(String string)
-    {
-    	return "(" + string + ")";
-    }
 }

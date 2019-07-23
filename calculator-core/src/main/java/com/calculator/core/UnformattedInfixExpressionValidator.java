@@ -13,18 +13,20 @@ public class UnformattedInfixExpressionValidator extends ExpressionContainer
 
     public Expression process() throws CalculatorException
     {
-        String wrappedExpressionContent = StringUtility.wrapStringWithBrackets(this.expression.getContent());
+    	
+    	this.expression.wrapWithBrackets();
+        String expressionContent = this.expression.getContent();
 
-        this.validateIfAnyConsecutiveNumbers(wrappedExpressionContent);
-        this.validateNumbersFormat(wrappedExpressionContent);
+        this.validateIfAnyConsecutiveNumbers(expressionContent);
+        this.validateNumbersFormat(expressionContent);
 
-        wrappedExpressionContent = StringUtility.stripSpaces(wrappedExpressionContent);
+        expressionContent = StringUtility.stripSpaces(expressionContent);
 
-        this.validateIfExpressionHasEmptySubexpressions(wrappedExpressionContent);
-        this.validateOperatorSequence(wrappedExpressionContent);
-        this.validateTokens(wrappedExpressionContent);
-        this.validateIfAnyNumbersAreGluedAroundBracketedExpression(wrappedExpressionContent);
-        this.validateSubexpressionEnds(StringUtility.wrapStringWithBrackets(wrappedExpressionContent));
+        this.validateIfExpressionHasEmptySubexpressions(expressionContent);
+        this.validateOperatorSequence(expressionContent);
+        this.validateTokens(expressionContent);
+        this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
+        this.validateSubexpressionEnds(expressionContent);
 
         return this.expression;
     }

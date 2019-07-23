@@ -46,4 +46,10 @@ class Expression
     {
         return this.getContent().split(" ");
     }
+    
+    
+    protected void wrapWithBrackets()
+    {
+    	this.setContent("(" + this.getContent() + ")");
+    }
 }
