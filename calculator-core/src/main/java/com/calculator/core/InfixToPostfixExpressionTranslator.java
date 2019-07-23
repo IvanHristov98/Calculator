@@ -22,7 +22,7 @@ class InfixToPostfixExpressionTranslator extends ExpressionContainer
     public Expression process() throws CalculatorException
     {
         return new Expression(
-                this.toPostfixExpression(this.expression.getContent().split(" "))
+                this.toPostfixExpression(this.expression.getTokens())
         );
     }
 

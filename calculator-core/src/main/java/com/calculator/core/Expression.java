@@ -41,4 +41,9 @@ class Expression
 	{
 		return this.content;
 	}
+	
+    protected String[] getTokens()
+    {
+        return this.getContent().split(" ");
+    }
 }

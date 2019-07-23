@@ -40,7 +40,7 @@ public class PostfixExpressionCalculator extends ExpressionContainer
 
     private Stack<Double> getPostfixExpressionValue(Stack<Double> numbers) throws CalculatorException
     {
-        for (String token : this.getExpressionTokens())
+        for (String token : this.expression.getTokens())
         {
             if (NumberValidator.isNumber(token))
             {
@@ -75,10 +75,5 @@ public class PostfixExpressionCalculator extends ExpressionContainer
         numbers.push(operationResult);
 
         return numbers;
-    }
-
-    private String[] getExpressionTokens()
-    {
-        return this.expression.getContent().split(" ");
     }
 }
