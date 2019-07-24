@@ -1,121 +1,153 @@
 package com.calculator.core;
 
-import static org.junit.Assert.assertEquals;
+import com.calculator.core.exception.BracketsException;
+
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
+import org.junit.Before;
 
-import com.calculator.core.exception.BracketsException;
+import static org.junit.Assert.assertEquals;
 
 public class InfixToPostfixExpressionTranslatorTest
 {
-    @Test
-    public void constructFromExpression()
-    {
-        Expression expression = new Expression("( 1 + 1 )");
-        InfixToPostfixExpressionTranslator parser = InfixToPostfixExpressionTranslator.constructFromExpression(expression);
-
-        assertEquals(expression, parser.getExpression());
-    }
-
-    @Test
-    public void setExpression()
-    {
-        Expression expression = new Expression("( 1 + 1 )");
-        InfixToPostfixExpressionTranslator parser = InfixToPostfixExpressionTranslator.constructFromExpression(expression);
-        parser.setExpression(expression);
-
-        assertEquals(expression, parser.getExpression());
-    }
+	@Mock
+	public Expression expression;
+	public Expression resultExpression;
+	public InfixToPostfixExpressionTranslator postfixTranslator;
+	
+	@Before
+	public void setUp()
+	{
+		MockitoAnnotations.initMocks(this);
+		
+		this.postfixTranslator = new InfixToPostfixExpressionTranslator(this.expression);
+	}
     
     @Test(expected = BracketsException.class)
     public void missingOpeningBracket_process() throws Exception
     {
-    	this.getConversedExpression("1 + 1 )");
+    	when(this.expression.getTokens()).thenReturn(new String[] {"1", "+", "1", ")"});
+    	
+    	this.postfixTranslator.process();
     }
     
     @Test(expected = BracketsException.class)
     public void missingClosingBracket_process() throws Exception
     {
-    	this.getConversedExpression("( 1 + 1");
+    	when(this.expression.getTokens()).thenReturn(new String[] {"(", "1", "+", "1"});
+    	
+    	this.postfixTranslator.process();
     }
-
+    
     @Test
     public void twoOperators_process() throws Exception
     {
-        assertEquals("1 1 +", this.getConversedExpression("( 1 + 1 )"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"(", "1", "+", "1", ")"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 1 +", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void expressionWithoutBrackets_process() throws Exception
     {
-        assertEquals("1 1 +", this.getConversedExpression("1 + 1"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"1", "+", "1"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 1 +", this.resultExpression.getContent());
     }
-
+   
     @Test
     public void negativeNumbers_process() throws Exception
     {
-        assertEquals("-1 1 +", this.getConversedExpression("-1 + 1"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"-1", "+", "1"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("-1 1 +", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void priorityOfOperators_process() throws Exception
     {
-        assertEquals("1 2 * 3 +", this.getConversedExpression("1 * 2 + 3"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"1", "*", "2", "+", "3"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 * 3 +", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void equalPriorityOfLeftAssociativeOperators_process() throws Exception
     {
-        assertEquals("1 2 / 3 *", this.getConversedExpression("1 / 2 * 3"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"1", "/", "2", "*", "3"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 / 3 *", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void leftSideAssociativity_process() throws Exception
     {
-        assertEquals("1 2 + 3 *", this.getConversedExpression("( 1 + 2 ) * 3"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "3"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 + 3 *", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void rightSideAssociativity_process() throws Exception
     {
-        assertEquals("1 2 3 + *", this.getConversedExpression("1 * ( 2 + 3 )"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"1", "*", "(", "2", "+", "3", ")"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 3 + *", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void multipleBrackets_process() throws Exception
     {
-        assertEquals("1 1 +", this.getConversedExpression("( ( ( 1 + 1 ) ) )"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"(", "(", "(", "1", "+", "1", ")", ")", ")"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 1 +", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void productOfTwoBracketedExpression_process() throws Exception
     {
-        assertEquals("1 2 + 3 4 + *", this.getConversedExpression("( 1 + 2 ) * ( 3 + 4 )"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 + 3 4 + *", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void singlePowOfABracketedExpression_process() throws Exception
     {
-        assertEquals("1 2 + 3 ^", this.getConversedExpression("( 1 + 2 ) ^ 3"));
+    	when(this.expression.getTokens()).thenReturn(new String[] {"(", "1", "+", "2", ")", "^", "3"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 + 3 ^", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void multiplePows_process() throws Exception
     {
-        assertEquals("1 2 3 4 ^ ^ ^", this.getConversedExpression("1 ^ 2 ^ 3 ^ 4"));
+    	when(this.expression.getTokens()).thenReturn(new String [] {"1", "^", "2", "^", "3", "^", "4"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 3 4 ^ ^ ^", this.resultExpression.getContent());
     }
-
+    
     @Test
     public void expressionWithinBracketsBetweenPows_process() throws Exception
     {
-        assertEquals("1 2 3 + 4 ^ ^", this.getConversedExpression("1 ^ ( 2 + 3 ) ^ 4"));
-    }
-
-    public String getConversedExpression(String expressionContent) throws Exception
-    {
-        Expression expression = new Expression(expressionContent);
-        InfixToPostfixExpressionTranslator parser = new InfixToPostfixExpressionTranslator(expression);
-
-        return parser.process().getContent();
+    	when(this.expression.getTokens()).thenReturn(new String [] {"1", "^", "(", "2", "+", "3", ")", "^", "4"});
+    	
+    	this.resultExpression = this.postfixTranslator.process();
+        assertEquals("1 2 3 + 4 ^ ^", this.resultExpression.getContent());
     }
 }

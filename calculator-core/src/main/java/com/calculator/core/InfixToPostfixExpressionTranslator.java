@@ -14,11 +14,6 @@ class InfixToPostfixExpressionTranslator extends ExpressionContainer
         super(expression);
     }
 
-    public static InfixToPostfixExpressionTranslator constructFromExpression(Expression expression)
-    {
-        return new InfixToPostfixExpressionTranslator(expression);
-    }
-
     public Expression process() throws CalculatorException
     {
         return new Expression(
