@@ -17,13 +17,15 @@ public class UnformattedInfixExpressionValidatorTest
 {
 	@Mock
 	public Expression expression;
+	@Mock
+	public ExpressionModifier expressionModifier;
 	public UnformattedInfixExpressionValidator validator;
 	
 	@Before
 	public void setUp()
 	{
 		MockitoAnnotations.initMocks(this);
-		this.validator = new UnformattedInfixExpressionValidator(this.expression);
+		this.validator = new UnformattedInfixExpressionValidator(this.expression, this.expressionModifier);
 	}
 	
 	@Test
@@ -36,9 +38,9 @@ public class UnformattedInfixExpressionValidatorTest
 		
 		InOrder mockOrder = inOrder(this.expression);
 		
-		mockOrder.verify(this.expression).wrapWithBrackets();
+		//mockOrder.verify(this.expression).wrapWithBrackets();
 		mockOrder.verify(this.expression).getContent();
-		mockOrder.verify(this.expression).stripContentSpaces();
+		//mockOrder.verify(this.expression).stripContentSpaces();
 		mockOrder.verify(this.expression).getContent();
 		
 		verifyNoMoreInteractions(this.expression);

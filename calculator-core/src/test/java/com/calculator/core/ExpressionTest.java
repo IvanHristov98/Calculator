@@ -23,22 +23,4 @@ public class ExpressionTest
 		
 		assertArrayEquals(new String[] {"(", "1", "+", "2", ")", "*", "3"}, expression.getTokens());
 	}
-	
-	@Test
-	public void testWrapWithBrackets()
-	{
-		Expression expression = new Expression("1+2");
-		expression.wrapWithBrackets();
-		
-		assertEquals("(1+2)", expression.getContent());
-	}
-	
-	@Test
-	public void stripContentSpaces()
-	{
-		Expression expression = new Expression("1 + 1");
-		expression.stripContentSpaces();
-		
-		assertEquals("1+1", expression.getContent());
-	}
 }

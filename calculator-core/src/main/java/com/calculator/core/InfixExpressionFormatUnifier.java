@@ -4,15 +4,18 @@ import com.calculator.core.exception.*;
 
 public class InfixExpressionFormatUnifier extends ExpressionContainer
 {
-	public InfixExpressionFormatUnifier(Expression expression)
+	ExpressionModifier expressionModifier;
+	
+	public InfixExpressionFormatUnifier(Expression expression, ExpressionModifier expressionModifier)
 	{
 		super(expression);
+		this.expressionModifier = expressionModifier;
 	}
 	
 	public Expression process() throws CalculatorException
 	{
-		this.expression.wrapWithBrackets();
-		this.expression.stripContentSpaces();
+		this.expression = this.expressionModifier.getExpressionWrappedWithBrackets(this.expression);
+		this.expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(this.expression);
 		
 		return new Expression(this.unify(this.expression.getContent()));
 	}

@@ -6,21 +6,24 @@ import java.util.regex.Pattern;
 
 public class UnformattedInfixExpressionValidator extends ExpressionContainer
 {
-    public UnformattedInfixExpressionValidator(Expression expression)
+	ExpressionModifier expressionModifier;
+	
+    public UnformattedInfixExpressionValidator(Expression expression, ExpressionModifier expressionModifier)
     {
         super(expression);
+        this.expressionModifier = expressionModifier;
     }
 
     public Expression process() throws CalculatorException
     {
     	
-    	this.expression.wrapWithBrackets();
+    	this.expression = this.expressionModifier.getExpressionWrappedWithBrackets(this.expression);
         String expressionContent = this.expression.getContent();
 
         this.validateIfAnyConsecutiveNumbers(expressionContent);
         this.validateNumbersFormat(expressionContent);
 
-        this.expression.stripContentSpaces();
+        this.expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(this.expression);
         expressionContent = this.expression.getContent();
 
         this.validateIfExpressionHasEmptySubexpressions(expressionContent);
