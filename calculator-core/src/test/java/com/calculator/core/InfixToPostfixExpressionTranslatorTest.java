@@ -1,11 +1,14 @@
 package com.calculator.core;
 
-import com.calculator.core.exception.BracketsException;
+import com.calculator.core.exception.*;
 
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -25,6 +28,20 @@ public class InfixToPostfixExpressionTranslatorTest
 		MockitoAnnotations.initMocks(this);
 		
 		this.postfixTranslator = new InfixToPostfixExpressionTranslator(this.expression);
+	}
+	
+	@Test
+	public void verifyOrderOfExpressionMethodCalls() throws CalculatorException
+	{
+		when(this.expression.getTokens()).thenReturn(new String[] {"1"});
+		
+		this.postfixTranslator.process();
+		
+		InOrder mockOrder = inOrder(this.expression);
+		
+		mockOrder.verify(this.expression).getTokens();
+		
+		verifyNoMoreInteractions(this.expression);
 	}
     
     @Test(expected = BracketsException.class)
