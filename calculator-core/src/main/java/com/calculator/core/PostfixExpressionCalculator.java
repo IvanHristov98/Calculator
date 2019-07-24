@@ -10,7 +10,7 @@ import com.calculator.core.operator.OperatorFactory;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-public class PostfixExpressionCalculator extends ExpressionContainer
+public class PostfixExpressionCalculator extends ExpressionFilter
 {
     public PostfixExpressionCalculator(Expression expression)
     {

@@ -4,7 +4,7 @@ import com.calculator.core.exception.*;
 
 import java.util.regex.Pattern;
 
-public class UnformattedInfixExpressionValidator extends ExpressionContainer
+public class UnformattedInfixExpressionValidator extends ExpressionFilter
 {
 	ExpressionModifier expressionModifier;
 	

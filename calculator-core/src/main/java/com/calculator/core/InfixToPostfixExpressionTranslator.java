@@ -7,7 +7,7 @@ import java.util.Stack;
 import com.calculator.core.exception.*;
 import com.calculator.core.operator.*;
 
-class InfixToPostfixExpressionTranslator extends ExpressionContainer
+class InfixToPostfixExpressionTranslator extends ExpressionFilter
 {
     public InfixToPostfixExpressionTranslator(Expression expression)
     {

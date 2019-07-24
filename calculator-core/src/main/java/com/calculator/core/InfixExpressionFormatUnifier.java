@@ -2,7 +2,7 @@ package com.calculator.core;
 
 import com.calculator.core.exception.*;
 
-public class InfixExpressionFormatUnifier extends ExpressionContainer
+public class InfixExpressionFormatUnifier extends ExpressionFilter
 {
 	ExpressionModifier expressionModifier;
 	
