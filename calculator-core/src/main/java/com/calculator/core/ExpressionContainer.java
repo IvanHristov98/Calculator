@@ -16,10 +16,5 @@ public abstract class ExpressionContainer
         this.expression = expression;
     }
 
-    public Expression getExpression()
-    {
-        return this.expression.clone();
-    }
-
     public abstract Expression process() throws CalculatorException;
 }
