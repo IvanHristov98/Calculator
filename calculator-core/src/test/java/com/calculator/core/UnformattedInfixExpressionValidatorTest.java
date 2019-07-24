@@ -44,7 +44,7 @@ public class UnformattedInfixExpressionValidatorTest
 		mockOrder.verify(this.expressionModifier).getExpressionWrappedWithBrackets(any());
 		mockOrder.verify(this.expressionModifier).getExpressionWithStrippedWhiteSpaces(any());
 		
-		verifyNoMoreInteractions(this.expressionModifier);
+		mockOrder.verifyNoMoreInteractions();
 	}
 	
     @Test(expected = NumberMisplacementException.class)
