@@ -9,19 +9,19 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionManipulatorTest 
 {
 	Expression expression;
-	ExpressionManipulator manipulator;
+	ExpressionModifier expressionModifier;
 	
 	@Before
 	public void setUp()
 	{
-		this.manipulator = new ExpressionManipulator();
+		this.expressionModifier = new ExpressionModifier();
 	}
 	
 	@Test
 	public void testWrapWithBrackets()
 	{
 		this.expression = new Expression("1+2");
-		this.expression = this.manipulator.getExpressionWrappedWithBrackets(expression);
+		this.expression = this.expressionModifier.getExpressionWrappedWithBrackets(expression);
 		
 		assertEquals("(1+2)", expression.getContent());
 	}
@@ -30,7 +30,7 @@ public class ExpressionManipulatorTest
 	public void testStripWhiteSpaces()
 	{
 		this.expression = new Expression("1 + 2");
-		this.expression = this.manipulator.getExpressionWithStrippedWhiteSpaces(expression);
+		this.expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 		
 		assertEquals("1+2", expression.getContent());
 	}

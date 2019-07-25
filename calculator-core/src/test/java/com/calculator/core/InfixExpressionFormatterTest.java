@@ -19,7 +19,7 @@ public class InfixExpressionFormatterTest
 {
 	public Expression expression;
 	@Mock
-	public ExpressionManipulator expressionModifier;
+	public ExpressionModifier expressionModifier;
 	InfixExpressionFormatter formatUnifier;
 	
 	@Before
