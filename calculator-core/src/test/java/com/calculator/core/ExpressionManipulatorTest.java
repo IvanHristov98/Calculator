@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExpressionModifierTest 
+public class ExpressionManipulatorTest 
 {
 	Expression expression;
 	ExpressionManipulator modifier;
