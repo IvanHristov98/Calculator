@@ -9,15 +9,18 @@ import com.calculator.core.operator.*;
 
 class InfixToPostfixExpressionTranslator extends ExpressionFilter
 {
-    public InfixToPostfixExpressionTranslator(Expression expression)
+	private ExpressionManipulator expressionManipulator;
+	
+    public InfixToPostfixExpressionTranslator(Expression expression, ExpressionManipulator expressionManipulator)
     {
         super(expression);
+        this.expressionManipulator = expressionManipulator;
     }
 
     public Expression process() throws CalculatorException
     {
         return new Expression(
-                this.toPostfixExpression(this.expression.getTokens())
+                this.toPostfixExpression(this.expressionManipulator.getExpressionTokens(this.expression))
         );
     }
 
