@@ -6,14 +6,14 @@ public class Calculator
 {
 	private Expression expression;
 	private UnformattedInfixExpressionValidator infixValidator;
-	private InfixExpressionFormatUnifier infixFormatter;
+	private InfixExpressionFormatter infixFormatter;
 	private InfixToPostfixExpressionTranslator postfixTranslator;
 	private PostfixExpressionCalculator postfixCalculator;
 
 	public Calculator(
 			Expression expression, 
 			UnformattedInfixExpressionValidator infixValidator, 
-			InfixExpressionFormatUnifier infixFormatter, 
+			InfixExpressionFormatter infixFormatter, 
 			InfixToPostfixExpressionTranslator postfixTranslator,
 			PostfixExpressionCalculator postfixCalculator
 			)

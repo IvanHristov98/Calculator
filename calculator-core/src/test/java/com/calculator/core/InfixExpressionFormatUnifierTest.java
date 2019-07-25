@@ -21,7 +21,7 @@ public class InfixExpressionFormatUnifierTest
 	public Expression expression;
 	@Mock
 	public ExpressionModifier expressionModifier;
-	InfixExpressionFormatUnifier formatUnifier;
+	InfixExpressionFormatter formatUnifier;
 	
 	@Before
 	public void setUp()
@@ -30,7 +30,7 @@ public class InfixExpressionFormatUnifierTest
 		
 		// initializing with a correct stub value
 		this.expression = new Expression("1");
-		this.formatUnifier = new InfixExpressionFormatUnifier(this.expression, this.expressionModifier);
+		this.formatUnifier = new InfixExpressionFormatter(this.expression, this.expressionModifier);
 	}
 	
 	@Test

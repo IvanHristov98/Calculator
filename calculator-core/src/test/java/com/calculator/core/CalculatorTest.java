@@ -24,7 +24,7 @@ public class CalculatorTest
 	@Mock
 	public UnformattedInfixExpressionValidator infixValidator;
 	@Mock
-	public InfixExpressionFormatUnifier infixFormatter;
+	public InfixExpressionFormatter infixFormatter;
 	@Mock
 	public InfixToPostfixExpressionTranslator postfixTranslator;
 	@Mock
