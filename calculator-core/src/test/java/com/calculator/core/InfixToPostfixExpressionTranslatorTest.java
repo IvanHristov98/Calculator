@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class InfixToPostfixExpressionTranslatorTest
 {
 	@Mock
-	public ExpressionManipulator expressionManipulator;
+	public ExpressionTokenSplitter expressionTokenSplitter;
 	public Expression resultExpression;
 	public InfixToPostfixExpressionTranslator postfixTranslator;
 	
@@ -28,27 +28,27 @@ public class InfixToPostfixExpressionTranslatorTest
 	{
 		MockitoAnnotations.initMocks(this);
 		
-		this.postfixTranslator = new InfixToPostfixExpressionTranslator(new Expression(""), this.expressionManipulator);
+		this.postfixTranslator = new InfixToPostfixExpressionTranslator(new Expression(""), this.expressionTokenSplitter);
 	}
 	
 	@Test
 	public void verifyOrderOfExpressionMethodCalls() throws CalculatorException
 	{
-		when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1"});
+		when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1"});
 		
 		this.postfixTranslator.process();
 		
-		InOrder mockOrder = inOrder(this.expressionManipulator);
+		InOrder mockOrder = inOrder(this.expressionTokenSplitter);
 		
-		mockOrder.verify(this.expressionManipulator).getExpressionTokens(any());
+		mockOrder.verify(this.expressionTokenSplitter).getExpressionTokens(any());
 		
-		verifyNoMoreInteractions(this.expressionManipulator);
+		verifyNoMoreInteractions(this.expressionTokenSplitter);
 	}
     
     @Test(expected = BracketsException.class)
     public void missingOpeningBracket_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1", "+", "1", ")"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "+", "1", ")"});
     	
     	this.postfixTranslator.process();
     }
@@ -56,7 +56,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test(expected = BracketsException.class)
     public void missingClosingBracket_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "1"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "1"});
     	
     	this.postfixTranslator.process();
     }
@@ -64,7 +64,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void twoOperators_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "1", ")"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "1", ")"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 1 +", this.resultExpression.getContent());
@@ -73,7 +73,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void expressionWithoutBrackets_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1", "+", "1"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "+", "1"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 1 +", this.resultExpression.getContent());
@@ -82,7 +82,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void negativeNumbers_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"-1", "+", "1"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"-1", "+", "1"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("-1 1 +", this.resultExpression.getContent());
@@ -91,7 +91,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void priorityOfOperators_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1", "*", "2", "+", "3"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "*", "2", "+", "3"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 * 3 +", this.resultExpression.getContent());
@@ -100,7 +100,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void equalPriorityOfLeftAssociativeOperators_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1", "/", "2", "*", "3"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "/", "2", "*", "3"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 / 3 *", this.resultExpression.getContent());
@@ -109,7 +109,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void leftSideAssociativity_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "3"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "3"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 + 3 *", this.resultExpression.getContent());
@@ -118,7 +118,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void rightSideAssociativity_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1", "*", "(", "2", "+", "3", ")"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "*", "(", "2", "+", "3", ")"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 3 + *", this.resultExpression.getContent());
@@ -127,7 +127,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void multipleBrackets_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"(", "(", "(", "1", "+", "1", ")", ")", ")"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "(", "(", "1", "+", "1", ")", ")", ")"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 1 +", this.resultExpression.getContent());
@@ -136,7 +136,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void productOfTwoBracketedExpression_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 + 3 4 + *", this.resultExpression.getContent());
@@ -145,7 +145,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void singlePowOfABracketedExpression_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "^", "3"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "^", "3"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 + 3 ^", this.resultExpression.getContent());
@@ -154,7 +154,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void multiplePows_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String [] {"1", "^", "2", "^", "3", "^", "4"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "^", "2", "^", "3", "^", "4"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 3 4 ^ ^ ^", this.resultExpression.getContent());
@@ -163,7 +163,7 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void expressionWithinBracketsBetweenPows_process() throws Exception
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String [] {"1", "^", "(", "2", "+", "3", ")", "^", "4"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "^", "(", "2", "+", "3", ")", "^", "4"});
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 3 + 4 ^ ^", this.resultExpression.getContent());

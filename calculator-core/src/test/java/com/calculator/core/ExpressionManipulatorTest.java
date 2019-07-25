@@ -34,12 +34,4 @@ public class ExpressionManipulatorTest
 		
 		assertEquals("1+2", expression.getContent());
 	}
-	
-	@Test
-	public void testGetExpressionTokens()
-	{
-		this.expression = new Expression("( 1 + 2 ) * 3");
-		
-		assertArrayEquals(new String[] {"(", "1", "+", "2", ")", "*", "3"}, this.manipulator.getExpressionTokens(expression));
-	}
 }

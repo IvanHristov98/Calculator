@@ -19,7 +19,7 @@ public class PostfixExpressionCalculatorTest
 {
 	Expression expression;
 	@Mock
-	ExpressionManipulator expressionManipulator;
+	ExpressionTokenSplitter expressionTokenSplitter;
 	Expression resultExpression;
 	Double calculationResult;
     PostfixExpressionCalculator calculator;
@@ -29,19 +29,19 @@ public class PostfixExpressionCalculatorTest
     {
     	MockitoAnnotations.initMocks(this);
     	
-    	this.calculator = new PostfixExpressionCalculator(this.expression, this.expressionManipulator);
+    	this.calculator = new PostfixExpressionCalculator(this.expression, this.expressionTokenSplitter);
     }
     
     @Test
     public void verifyOrderOfExpressionMethodCalls() throws CalculatorException
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1"});
     	
     	this.calculator.process();
     	
-    	InOrder mockOrder = inOrder(this.expressionManipulator);
+    	InOrder mockOrder = inOrder(this.expressionTokenSplitter);
     	
-    	mockOrder.verify(this.expressionManipulator).getExpressionTokens(any());
+    	mockOrder.verify(this.expressionTokenSplitter).getExpressionTokens(any());
     
     	mockOrder.verifyNoMoreInteractions();
     }
@@ -49,7 +49,7 @@ public class PostfixExpressionCalculatorTest
     @Test
     public void twoOperators_process() throws CalculatorException
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String[] {"1", "2", "+"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "2", "+"});
     	
         assertEquals(3.0, this.getExpressionCalculationResult(), 0.0001);
     }
@@ -57,7 +57,7 @@ public class PostfixExpressionCalculatorTest
     @Test
     public void allExpression_process() throws CalculatorException
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String [] {"1", "2", "3", "4", "5", "+", "*", "/", "^"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "2", "3", "4", "5", "+", "*", "/", "^"});
     	
         assertEquals(1 ^ (2 / (3 * (4 + 5))), this.getExpressionCalculationResult(), 0.0001);
     }
@@ -65,7 +65,7 @@ public class PostfixExpressionCalculatorTest
     @Test(expected = InvalidOperatorException.class)
     public void invalidOperator_process() throws CalculatorException
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String [] {"1", "A", "5"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "A", "5"});
     	
         this.calculator.process();
     }
@@ -73,7 +73,7 @@ public class PostfixExpressionCalculatorTest
     @Test(expected = NumberMisplacementException.class)
     public void tooManyNumbers_process() throws CalculatorException
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String [] {"1", "2", "3", "+"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "2", "3", "+"});
     	
         this.calculator.process();
     }
@@ -81,7 +81,7 @@ public class PostfixExpressionCalculatorTest
     @Test(expected = NumberMisplacementException.class)
     public void tooFewNumbers_process() throws CalculatorException
     {
-    	when(this.expressionManipulator.getExpressionTokens(any())).thenReturn(new String [] {"1", "+"});
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "+"});
     	
     	this.calculator.process();
     }

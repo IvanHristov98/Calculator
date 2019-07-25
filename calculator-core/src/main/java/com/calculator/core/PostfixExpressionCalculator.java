@@ -12,12 +12,12 @@ import java.util.Stack;
 
 public class PostfixExpressionCalculator extends ExpressionFilter
 {
-	private ExpressionManipulator expressionManipulator;
+	private ExpressionTokenSplitter expressionTokenSplitter;
 	
-    public PostfixExpressionCalculator(Expression expression, ExpressionManipulator expressionManipulator)
+    public PostfixExpressionCalculator(Expression expression, ExpressionTokenSplitter expressionTokenSplitter)
     {
         super(expression);
-        this.expressionManipulator = expressionManipulator;
+        this.expressionTokenSplitter = expressionTokenSplitter;
     }
 
     public Expression process () throws CalculatorException
@@ -43,7 +43,7 @@ public class PostfixExpressionCalculator extends ExpressionFilter
 
     private Stack<Double> getPostfixExpressionValue(Stack<Double> numbers) throws CalculatorException
     {
-        for (String token : this.expressionManipulator.getExpressionTokens(this.expression))
+        for (String token : this.expressionTokenSplitter.getExpressionTokens(this.expression))
         {
             if (NumberValidator.isNumber(token))
             {
