@@ -1,6 +1,6 @@
 package com.calculator.core;
 
-class Expression 
+public class Expression 
 {
 	private String content;
 	
