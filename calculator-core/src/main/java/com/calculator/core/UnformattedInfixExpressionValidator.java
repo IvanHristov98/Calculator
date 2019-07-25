@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 public class UnformattedInfixExpressionValidator extends ExpressionFilter
 {
-	ExpressionModifier expressionModifier;
+	ExpressionManipulator expressionModifier;
 	
-    public UnformattedInfixExpressionValidator(Expression expression, ExpressionModifier expressionModifier)
+    public UnformattedInfixExpressionValidator(Expression expression, ExpressionManipulator expressionModifier)
     {
         super(expression);
         this.expressionModifier = expressionModifier;

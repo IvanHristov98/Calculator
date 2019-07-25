@@ -4,9 +4,9 @@ import com.calculator.core.exception.*;
 
 public class InfixExpressionFormatter extends ExpressionFilter
 {
-	ExpressionModifier expressionModifier;
+	ExpressionManipulator expressionModifier;
 	
-	public InfixExpressionFormatter(Expression expression, ExpressionModifier expressionModifier)
+	public InfixExpressionFormatter(Expression expression, ExpressionManipulator expressionModifier)
 	{
 		super(expression);
 		this.expressionModifier = expressionModifier;

@@ -8,12 +8,12 @@ import static org.junit.Assert.assertEquals;
 public class ExpressionModifierTest 
 {
 	Expression expression;
-	ExpressionModifier modifier;
+	ExpressionManipulator modifier;
 	
 	@Before
 	public void setUp()
 	{
-		this.modifier = new ExpressionModifier();
+		this.modifier = new ExpressionManipulator();
 	}
 	
 	@Test

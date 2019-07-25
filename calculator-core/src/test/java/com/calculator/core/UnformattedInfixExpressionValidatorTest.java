@@ -18,7 +18,7 @@ public class UnformattedInfixExpressionValidatorTest
 {
 	public Expression expression;
 	@Mock
-	public ExpressionModifier expressionModifier;
+	public ExpressionManipulator expressionModifier;
 	public UnformattedInfixExpressionValidator validator;
 	
 	@Before

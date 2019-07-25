@@ -1,8 +1,8 @@
 package com.calculator.core;
 
-public class ExpressionModifier 
+public class ExpressionManipulator 
 {
-	public ExpressionModifier()
+	public ExpressionManipulator()
 	{}
 	
 	public Expression getExpressionWrappedWithBrackets(Expression expression)
