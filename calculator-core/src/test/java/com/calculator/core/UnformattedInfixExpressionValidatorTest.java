@@ -6,7 +6,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.ArgumentMatchers.any;
 
 import org.junit.Before;
