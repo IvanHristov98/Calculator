@@ -9,7 +9,7 @@ public class NumberValidator
     {
         try
         {
-            NumberValidator.toNumber(token);
+        	Double.parseDouble(token);
         }
         catch (NumberFormatException exception)
         {
@@ -17,10 +17,5 @@ public class NumberValidator
         }
 
         return true;
-    }
-
-    protected static Double toNumber(String token) throws NumberFormatException
-    {
-        return Double.parseDouble(token);
     }
 }

@@ -64,8 +64,13 @@ public class PostfixExpressionCalculator extends ExpressionFilter
 
     private Stack<Double> addNumberToNumbersStack(Stack<Double> numbers, String token)
     {
-        numbers.add(NumberValidator.toNumber(token));
+        numbers.add(this.toNumber(token));
         return numbers;
+    }
+    
+    protected Double toNumber(String token) throws NumberFormatException
+    {
+        return Double.parseDouble(token);
     }
 
     private Stack<Double> operateWithNumbersFromStackTop(Stack<Double> numbers, String token) throws CalculatorException
