@@ -3,24 +3,25 @@ package com.calculator.core;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class ExpressionManipulatorTest 
 {
 	Expression expression;
-	ExpressionManipulator modifier;
+	ExpressionManipulator manipulator;
 	
 	@Before
 	public void setUp()
 	{
-		this.modifier = new ExpressionManipulator();
+		this.manipulator = new ExpressionManipulator();
 	}
 	
 	@Test
 	public void testWrapWithBrackets()
 	{
 		this.expression = new Expression("1+2");
-		this.expression = this.modifier.getExpressionWrappedWithBrackets(expression);
+		this.expression = this.manipulator.getExpressionWrappedWithBrackets(expression);
 		
 		assertEquals("(1+2)", expression.getContent());
 	}
@@ -29,8 +30,16 @@ public class ExpressionManipulatorTest
 	public void testStripWhiteSpaces()
 	{
 		this.expression = new Expression("1 + 2");
-		this.expression = this.modifier.getExpressionWithStrippedWhiteSpaces(expression);
+		this.expression = this.manipulator.getExpressionWithStrippedWhiteSpaces(expression);
 		
 		assertEquals("1+2", expression.getContent());
+	}
+	
+	@Test
+	public void testGetExpressionTokens()
+	{
+		this.expression = new Expression("( 1 + 2 ) * 3");
+		
+		assertArrayEquals(new String[] {"(", "1", "+", "2", ")", "*", "3"}, this.manipulator.getExpressionTokens(expression));
 	}
 }

@@ -3,7 +3,6 @@ package com.calculator.core;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
 
 public class ExpressionTest
 {
@@ -14,13 +13,5 @@ public class ExpressionTest
 		Expression clonedExpression = expression.clone();
 
 		assertEquals(expression, clonedExpression);
-	}
-	
-	@Test
-	public void testGetTokens()
-	{
-		Expression expression = new Expression("( 1 + 2 ) * 3");
-		
-		assertArrayEquals(new String[] {"(", "1", "+", "2", ")", "*", "3"}, expression.getTokens());
 	}
 }

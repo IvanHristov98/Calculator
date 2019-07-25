@@ -20,4 +20,9 @@ public class ExpressionManipulator
 		
 		return expression;
 	}
+	
+    protected String[] getExpressionTokens(Expression expression)
+    {
+        return expression.getContent().split(" ");
+    }
 }
