@@ -2,7 +2,7 @@ package com.calculator.core;
 
 public class NumberChecker
 {
-    private NumberChecker()
+    public NumberChecker()
     {}
 
     public boolean isNumber(String token)
