@@ -45,7 +45,7 @@ public class PostfixExpressionCalculator extends ExpressionFilter
     {
         for (String token : this.expressionTokenSplitter.getExpressionTokens(this.expression))
         {
-            if (NumberValidator.isNumber(token))
+            if (NumberChecker.isNumber(token))
             {
                 numbers = this.addNumberToNumbersStack(numbers, token);
             }

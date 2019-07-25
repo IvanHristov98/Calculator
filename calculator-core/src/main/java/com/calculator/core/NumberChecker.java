@@ -1,8 +1,8 @@
 package com.calculator.core;
 
-public class NumberValidator
+public class NumberChecker
 {
-    private NumberValidator()
+    private NumberChecker()
     {}
 
     protected static boolean isNumber(String token)

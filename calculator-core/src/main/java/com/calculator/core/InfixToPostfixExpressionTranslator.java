@@ -45,7 +45,7 @@ class InfixToPostfixExpressionTranslator extends ExpressionFilter
 
     private void distributeToken(Queue<String> output, Stack<String> operators, String token) throws OperatorException
     {
-        if (NumberValidator.isNumber(token))
+        if (NumberChecker.isNumber(token))
         {
             this.addItemToOutput(output, token);
         }
