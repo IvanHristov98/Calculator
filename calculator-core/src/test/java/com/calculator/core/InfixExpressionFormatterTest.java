@@ -16,7 +16,7 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 
-public class InfixExpressionFormatUnifierTest
+public class InfixExpressionFormatterTest
 {
 	public Expression expression;
 	@Mock
