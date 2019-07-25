@@ -10,11 +10,14 @@ import com.calculator.core.operator.*;
 class InfixToPostfixExpressionTranslator extends ExpressionFilter
 {
 	private ExpressionTokenSplitter expressionTokenSplitter;
+	private NumberChecker numberChecker;
 	
-    public InfixToPostfixExpressionTranslator(Expression expression, ExpressionTokenSplitter expressionTokenSplitter)
+    public InfixToPostfixExpressionTranslator(Expression expression, ExpressionTokenSplitter expressionTokenSplitter, NumberChecker numberChecker)
     {
         super(expression);
+        
         this.expressionTokenSplitter = expressionTokenSplitter;
+        this.numberChecker = numberChecker;
     }
 
     public Expression process() throws CalculatorException
@@ -45,7 +48,7 @@ class InfixToPostfixExpressionTranslator extends ExpressionFilter
 
     private void distributeToken(Queue<String> output, Stack<String> operators, String token) throws OperatorException
     {
-        if (NumberChecker.isNumber(token))
+        if (this.numberChecker.isNumber(token))
         {
             this.addItemToOutput(output, token);
         }

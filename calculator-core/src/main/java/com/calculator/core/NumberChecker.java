@@ -5,7 +5,7 @@ public class NumberChecker
     private NumberChecker()
     {}
 
-    protected static boolean isNumber(String token)
+    public boolean isNumber(String token)
     {
         try
         {

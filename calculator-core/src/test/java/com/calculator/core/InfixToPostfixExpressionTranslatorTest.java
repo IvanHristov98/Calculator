@@ -2,14 +2,18 @@ package com.calculator.core;
 
 import com.calculator.core.exception.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.stubbing.answers.ReturnsElementsOf;
 
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -20,6 +24,8 @@ public class InfixToPostfixExpressionTranslatorTest
 {
 	@Mock
 	public ExpressionTokenSplitter expressionTokenSplitter;
+	@Mock
+	public NumberChecker numberChecker;
 	public Expression resultExpression;
 	public InfixToPostfixExpressionTranslator postfixTranslator;
 	
@@ -28,13 +34,14 @@ public class InfixToPostfixExpressionTranslatorTest
 	{
 		MockitoAnnotations.initMocks(this);
 		
-		this.postfixTranslator = new InfixToPostfixExpressionTranslator(new Expression(""), this.expressionTokenSplitter);
+		this.postfixTranslator = new InfixToPostfixExpressionTranslator(new Expression(""), this.expressionTokenSplitter, this.numberChecker);
 	}
 	
 	@Test
 	public void verifyOrderOfExpressionMethodCalls() throws CalculatorException
 	{
-		when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1"});
+		this.mockTokensInExpression("1");
+		this.mockNumberCheckingByOrderOfTokens(true);
 		
 		this.postfixTranslator.process();
 		
@@ -42,13 +49,14 @@ public class InfixToPostfixExpressionTranslatorTest
 		
 		mockOrder.verify(this.expressionTokenSplitter).getExpressionTokens(any());
 		
-		verifyNoMoreInteractions(this.expressionTokenSplitter);
+		mockOrder.verifyNoMoreInteractions();
 	}
     
     @Test(expected = BracketsException.class)
     public void missingOpeningBracket_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "+", "1", ")"});
+    	this.mockTokensInExpression("1", "+", "1", ")");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false);
     	
     	this.postfixTranslator.process();
     }
@@ -56,33 +64,37 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test(expected = BracketsException.class)
     public void missingClosingBracket_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "1"});
+    	this.mockTokensInExpression("(", "1", "+", "1");
+    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true);
     	
     	this.postfixTranslator.process();
     }
     
     @Test
-    public void twoOperators_process() throws Exception
+    public void sumOfTwoNumbersInBrackets_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "1", ")"});
+    	this.mockTokensInExpression("(", "1", "+", "1", ")");
+    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 1 +", this.resultExpression.getContent());
     }
     
     @Test
-    public void expressionWithoutBrackets_process() throws Exception
+    public void sumOfTwoNumbers_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "+", "1"});
+    	this.mockTokensInExpression("1", "+", "1");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 1 +", this.resultExpression.getContent());
     }
    
     @Test
-    public void negativeNumbers_process() throws Exception
+    public void sumOfANegativeAndAPositiveNumber_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"-1", "+", "1"});
+    	this.mockTokensInExpression("-1", "+", "1");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("-1 1 +", this.resultExpression.getContent());
@@ -91,7 +103,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void priorityOfOperators_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "*", "2", "+", "3"});
+    	this.mockTokensInExpression("1", "*", "2", "+", "3");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 * 3 +", this.resultExpression.getContent());
@@ -100,7 +113,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void equalPriorityOfLeftAssociativeOperators_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "/", "2", "*", "3"});
+    	this.mockTokensInExpression("1", "/", "2", "*", "3");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 / 3 *", this.resultExpression.getContent());
@@ -109,7 +123,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void leftSideAssociativity_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "3"});
+    	this.mockTokensInExpression("(", "1", "+", "2", ")", "*", "3");
+    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 + 3 *", this.resultExpression.getContent());
@@ -118,7 +133,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void rightSideAssociativity_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"1", "*", "(", "2", "+", "3", ")"});
+    	this.mockTokensInExpression("1", "*", "(", "2", "+", "3", ")");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 3 + *", this.resultExpression.getContent());
@@ -127,7 +143,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void multipleBrackets_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "(", "(", "1", "+", "1", ")", ")", ")"});
+    	this.mockTokensInExpression("(", "(", "(", "1", "+", "1", ")", ")", ")");
+    	this.mockNumberCheckingByOrderOfTokens(false, false, false, true, false, true, false, false, false);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 1 +", this.resultExpression.getContent());
@@ -136,7 +153,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void productOfTwoBracketedExpression_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")"});
+    	this.mockTokensInExpression("(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")");
+    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, false, true, false, true, false);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 + 3 4 + *", this.resultExpression.getContent());
@@ -145,7 +163,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void singlePowOfABracketedExpression_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String[] {"(", "1", "+", "2", ")", "^", "3"});
+    	this.mockTokensInExpression("(", "1", "+", "2", ")", "^", "3");
+    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 + 3 ^", this.resultExpression.getContent());
@@ -154,7 +173,8 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void multiplePows_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "^", "2", "^", "3", "^", "4"});
+    	this.mockTokensInExpression("1", "^", "2", "^", "3", "^", "4");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 3 4 ^ ^ ^", this.resultExpression.getContent());
@@ -163,9 +183,21 @@ public class InfixToPostfixExpressionTranslatorTest
     @Test
     public void expressionWithinBracketsBetweenPows_process() throws Exception
     {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(new String [] {"1", "^", "(", "2", "+", "3", ")", "^", "4"});
+    	this.mockTokensInExpression("1", "^", "(", "2", "+", "3", ")", "^", "4");
+    	this.mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false, false, true);
     	
     	this.resultExpression = this.postfixTranslator.process();
         assertEquals("1 2 3 + 4 ^ ^", this.resultExpression.getContent());
+    }
+    
+    private void mockTokensInExpression(String... tokens)
+    {
+    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(tokens);
+    }
+    
+    private void mockNumberCheckingByOrderOfTokens(Boolean... isNumberValues)
+    {
+    	List<Boolean> isNumberValuesAsList = Arrays.asList(isNumberValues);
+    	when(this.numberChecker.isNumber(anyString())).then(new ReturnsElementsOf(isNumberValuesAsList));
     }
 }
