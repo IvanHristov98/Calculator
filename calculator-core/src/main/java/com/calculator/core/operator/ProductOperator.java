@@ -1,22 +1,19 @@
 package com.calculator.core.operator;
 
-public final class ProductOperator extends ArithmeticOperator 
-{
+public final class ProductOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 1;
 
 	{
 		this.symbolicRepresentation = Operators.PRODUCT;
 	}
-	
+
 	@Override
-	public int getPriority() 
-	{
+	public int getPriority() {
 		return ProductOperator.PRIORITY;
 	}
 
 	@Override
-	public boolean isLeftAssociative() 
-	{
+	public boolean isLeftAssociative() {
 		return true;
 	}
 

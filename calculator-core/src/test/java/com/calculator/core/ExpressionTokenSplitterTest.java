@@ -7,32 +7,27 @@ import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExpressionTokenSplitterTest 
-{
+public class ExpressionTokenSplitterTest {
 	private Expression expression;
 	private ExpressionTokenSplitter splitter;
-	
-	
+
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		this.splitter = new ExpressionTokenSplitter();
 	}
-	
-	
+
 	@Test
-	public void formattedExpression_getExpressionTokens()
-	{
+	public void formattedExpression_getExpressionTokens() {
 		this.expression = new Expression("( 1 + 2 ) * 3");
-		
-		assertArrayEquals(new String[] {"(", "1", "+", "2", ")", "*", "3"}, this.splitter.getExpressionTokens(this.expression));
+
+		assertArrayEquals(new String[] { "(", "1", "+", "2", ")", "*", "3" },
+				this.splitter.getExpressionTokens(this.expression));
 	}
-	
+
 	@Test(expected = UnformattedExpressionException.class)
-	public void unformattedExpression_getExpressionTokens()
-	{
+	public void unformattedExpression_getExpressionTokens() {
 		this.expression = new Expression("1+1");
-		
+
 		this.splitter.getExpressionTokens(this.expression);
 	}
 }

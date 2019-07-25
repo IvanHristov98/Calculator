@@ -10,81 +10,66 @@ import com.calculator.core.operator.OperatorFactory;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-public class PostfixExpressionCalculator extends ExpressionFilter
-{
+public class PostfixExpressionCalculator extends ExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;
 	private NumberChecker numberChecker;
-	
-    public PostfixExpressionCalculator(Expression expression, ExpressionTokenSplitter expressionTokenSplitter, NumberChecker numberChecker)
-    {
-        super(expression);
-        
-        this.expressionTokenSplitter = expressionTokenSplitter;
-        this.numberChecker = numberChecker;
-    }
 
-    public Expression process () throws CalculatorException
-    {
-        Stack<Double> numbers = new Stack<>();
+	public PostfixExpressionCalculator(Expression expression, ExpressionTokenSplitter expressionTokenSplitter,
+			NumberChecker numberChecker) {
+		super(expression);
 
-        try
-        {
-            numbers = this.getPostfixExpressionValue(numbers);
-        }
-        catch (EmptyStackException exception)
-        {
-            throw new NumberMisplacementException("Invalid number of numbers has been received.");
-        }
+		this.expressionTokenSplitter = expressionTokenSplitter;
+		this.numberChecker = numberChecker;
+	}
 
-        if (numbers.size() > 1)
-        {
-            throw new NumberMisplacementException("Invalid number of numbers has been received.");
-        }
+	public Expression process() throws CalculatorException {
+		Stack<Double> numbers = new Stack<>();
 
-        return new Expression(numbers.peek().toString());
-    }
+		try {
+			numbers = this.getPostfixExpressionValue(numbers);
+		} catch (EmptyStackException exception) {
+			throw new NumberMisplacementException("Invalid number of numbers has been received.");
+		}
 
-    private Stack<Double> getPostfixExpressionValue(Stack<Double> numbers) throws CalculatorException
-    {
-        for (String token : this.expressionTokenSplitter.getExpressionTokens(this.expression))
-        {
-            if (this.numberChecker.isNumber(token))
-            {
-                numbers = this.addNumberToNumbersStack(numbers, token);
-            }
-            else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token)))
-            {
-                numbers = this.operateWithNumbersFromStackTop(numbers, token);
-            }
-            else
-            {
-                throw new InvalidOperatorException("Unexpected operator has been received.");
-            }
-        }
+		if (numbers.size() > 1) {
+			throw new NumberMisplacementException("Invalid number of numbers has been received.");
+		}
 
-        return numbers;
-    }
+		return new Expression(numbers.peek().toString());
+	}
 
-    private Stack<Double> addNumberToNumbersStack(Stack<Double> numbers, String token)
-    {
-        numbers.add(this.toNumber(token));
-        return numbers;
-    }
-    
-    protected Double toNumber(String token) throws NumberFormatException
-    {
-        return Double.parseDouble(token);
-    }
+	private Stack<Double> getPostfixExpressionValue(Stack<Double> numbers) throws CalculatorException {
+		for (String token : this.expressionTokenSplitter.getExpressionTokens(this.expression)) {
+			if (this.numberChecker.isNumber(token)) {
+				numbers = this.addNumberToNumbersStack(numbers, token);
+			} else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token))) {
+				numbers = this.operateWithNumbersFromStackTop(numbers, token);
+			} else {
+				throw new InvalidOperatorException("Unexpected operator has been received.");
+			}
+		}
 
-    private Stack<Double> operateWithNumbersFromStackTop(Stack<Double> numbers, String token) throws CalculatorException
-    {
-        Double rightNumber = numbers.pop();
-        Double leftNumber = numbers.pop();
-        ArithmeticOperator operator = (ArithmeticOperator) OperatorFactory.makeOperator(token);
+		return numbers;
+	}
 
-        Double operationResult = operator.operate(leftNumber, rightNumber);
-        numbers.push(operationResult);
+	private Stack<Double> addNumberToNumbersStack(Stack<Double> numbers, String token) {
+		numbers.add(this.toNumber(token));
+		return numbers;
+	}
 
-        return numbers;
-    }
+	protected Double toNumber(String token) throws NumberFormatException {
+		return Double.parseDouble(token);
+	}
+
+	private Stack<Double> operateWithNumbersFromStackTop(Stack<Double> numbers, String token)
+			throws CalculatorException {
+		Double rightNumber = numbers.pop();
+		Double leftNumber = numbers.pop();
+		ArithmeticOperator operator = (ArithmeticOperator) OperatorFactory.makeOperator(token);
+
+		Double operationResult = operator.operate(leftNumber, rightNumber);
+		numbers.push(operationResult);
+
+		return numbers;
+	}
 }

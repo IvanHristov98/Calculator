@@ -1,22 +1,19 @@
 package com.calculator.core.operator;
 
-public final class MinusOperator extends ArithmeticOperator 
-{
+public final class MinusOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 0;
 
 	{
 		this.symbolicRepresentation = Operators.MINUS;
 	}
-	
+
 	@Override
-	public int getPriority() 
-	{
+	public int getPriority() {
 		return MinusOperator.PRIORITY;
 	}
 
 	@Override
-	public boolean isLeftAssociative()
-	{
+	public boolean isLeftAssociative() {
 		return true;
 	}
 

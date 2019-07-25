@@ -20,184 +20,166 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 
-public class InfixToPostfixExpressionTranslatorTest
-{
+public class InfixToPostfixExpressionTranslatorTest {
 	@Mock
 	public ExpressionTokenSplitter expressionTokenSplitter;
 	@Mock
 	public NumberChecker numberChecker;
 	public Expression resultExpression;
 	public InfixToPostfixExpressionTranslator postfixTranslator;
-	
+
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		
-		this.postfixTranslator = new InfixToPostfixExpressionTranslator(new Expression(""), this.expressionTokenSplitter, this.numberChecker);
+
+		this.postfixTranslator = new InfixToPostfixExpressionTranslator(new Expression(""),
+				this.expressionTokenSplitter, this.numberChecker);
 	}
-	
+
 	@Test
-	public void verifyOrderOfExpressionMethodCalls() throws CalculatorException
-	{
+	public void verifyOrderOfExpressionMethodCalls() throws CalculatorException {
 		this.mockTokensInExpression("1");
 		this.mockNumberCheckingByOrderOfTokens(true);
-		
+
 		this.postfixTranslator.process();
-		
+
 		InOrder mockOrder = inOrder(this.expressionTokenSplitter);
-		
+
 		mockOrder.verify(this.expressionTokenSplitter).getExpressionTokens(any());
-		
+
 		mockOrder.verifyNoMoreInteractions();
 	}
-    
-    @Test(expected = BracketsException.class)
-    public void missingOpeningBracket_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "+", "1", ")");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false);
-    	
-    	this.postfixTranslator.process();
-    }
-    
-    @Test(expected = BracketsException.class)
-    public void missingClosingBracket_process() throws Exception
-    {
-    	this.mockTokensInExpression("(", "1", "+", "1");
-    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true);
-    	
-    	this.postfixTranslator.process();
-    }
-    
-    @Test
-    public void sumOfTwoNumbersInBrackets_process() throws Exception
-    {
-    	this.mockTokensInExpression("(", "1", "+", "1", ")");
-    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 1 +", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void sumOfTwoNumbers_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "+", "1");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 1 +", this.resultExpression.getContent());
-    }
-   
-    @Test
-    public void sumOfANegativeAndAPositiveNumber_process() throws Exception
-    {
-    	this.mockTokensInExpression("-1", "+", "1");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("-1 1 +", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void priorityOfOperators_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "*", "2", "+", "3");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 * 3 +", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void equalPriorityOfLeftAssociativeOperators_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "/", "2", "*", "3");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 / 3 *", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void leftSideAssociativity_process() throws Exception
-    {
-    	this.mockTokensInExpression("(", "1", "+", "2", ")", "*", "3");
-    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 + 3 *", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void rightSideAssociativity_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "*", "(", "2", "+", "3", ")");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 3 + *", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void multipleBrackets_process() throws Exception
-    {
-    	this.mockTokensInExpression("(", "(", "(", "1", "+", "1", ")", ")", ")");
-    	this.mockNumberCheckingByOrderOfTokens(false, false, false, true, false, true, false, false, false);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 1 +", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void productOfTwoBracketedExpression_process() throws Exception
-    {
-    	this.mockTokensInExpression("(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")");
-    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, false, true, false, true, false);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 + 3 4 + *", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void singlePowOfABracketedExpression_process() throws Exception
-    {
-    	this.mockTokensInExpression("(", "1", "+", "2", ")", "^", "3");
-    	this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 + 3 ^", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void multiplePows_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "^", "2", "^", "3", "^", "4");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 3 4 ^ ^ ^", this.resultExpression.getContent());
-    }
-    
-    @Test
-    public void expressionWithinBracketsBetweenPows_process() throws Exception
-    {
-    	this.mockTokensInExpression("1", "^", "(", "2", "+", "3", ")", "^", "4");
-    	this.mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false, false, true);
-    	
-    	this.resultExpression = this.postfixTranslator.process();
-        assertEquals("1 2 3 + 4 ^ ^", this.resultExpression.getContent());
-    }
-    
-    private void mockTokensInExpression(String... tokens)
-    {
-    	when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(tokens);
-    }
-    
-    private void mockNumberCheckingByOrderOfTokens(Boolean... isNumberValues)
-    {
-    	List<Boolean> isNumberValuesAsList = Arrays.asList(isNumberValues);
-    	when(this.numberChecker.isNumber(anyString())).then(new ReturnsElementsOf(isNumberValuesAsList));
-    }
+
+	@Test(expected = BracketsException.class)
+	public void missingOpeningBracket_process() throws Exception {
+		this.mockTokensInExpression("1", "+", "1", ")");
+		this.mockNumberCheckingByOrderOfTokens(true, false, true, false);
+
+		this.postfixTranslator.process();
+	}
+
+	@Test(expected = BracketsException.class)
+	public void missingClosingBracket_process() throws Exception {
+		this.mockTokensInExpression("(", "1", "+", "1");
+		this.mockNumberCheckingByOrderOfTokens(false, true, false, true);
+
+		this.postfixTranslator.process();
+	}
+
+	@Test
+	public void sumOfTwoNumbersInBrackets_process() throws Exception {
+		this.mockTokensInExpression("(", "1", "+", "1", ")");
+		this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 1 +", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void sumOfTwoNumbers_process() throws Exception {
+		this.mockTokensInExpression("1", "+", "1");
+		this.mockNumberCheckingByOrderOfTokens(true, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 1 +", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void sumOfANegativeAndAPositiveNumber_process() throws Exception {
+		this.mockTokensInExpression("-1", "+", "1");
+		this.mockNumberCheckingByOrderOfTokens(true, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("-1 1 +", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void priorityOfOperators_process() throws Exception {
+		this.mockTokensInExpression("1", "*", "2", "+", "3");
+		this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 * 3 +", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void equalPriorityOfLeftAssociativeOperators_process() throws Exception {
+		this.mockTokensInExpression("1", "/", "2", "*", "3");
+		this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 / 3 *", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void leftSideAssociativity_process() throws Exception {
+		this.mockTokensInExpression("(", "1", "+", "2", ")", "*", "3");
+		this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 + 3 *", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void rightSideAssociativity_process() throws Exception {
+		this.mockTokensInExpression("1", "*", "(", "2", "+", "3", ")");
+		this.mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 3 + *", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void multipleBrackets_process() throws Exception {
+		this.mockTokensInExpression("(", "(", "(", "1", "+", "1", ")", ")", ")");
+		this.mockNumberCheckingByOrderOfTokens(false, false, false, true, false, true, false, false, false);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 1 +", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void productOfTwoBracketedExpression_process() throws Exception {
+		this.mockTokensInExpression("(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")");
+		this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, false, true, false, true, false);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 + 3 4 + *", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void singlePowOfABracketedExpression_process() throws Exception {
+		this.mockTokensInExpression("(", "1", "+", "2", ")", "^", "3");
+		this.mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 + 3 ^", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void multiplePows_process() throws Exception {
+		this.mockTokensInExpression("1", "^", "2", "^", "3", "^", "4");
+		this.mockNumberCheckingByOrderOfTokens(true, false, true, false, true, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 3 4 ^ ^ ^", this.resultExpression.getContent());
+	}
+
+	@Test
+	public void expressionWithinBracketsBetweenPows_process() throws Exception {
+		this.mockTokensInExpression("1", "^", "(", "2", "+", "3", ")", "^", "4");
+		this.mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false, false, true);
+
+		this.resultExpression = this.postfixTranslator.process();
+		assertEquals("1 2 3 + 4 ^ ^", this.resultExpression.getContent());
+	}
+
+	private void mockTokensInExpression(String... tokens) {
+		when(this.expressionTokenSplitter.getExpressionTokens(any())).thenReturn(tokens);
+	}
+
+	private void mockNumberCheckingByOrderOfTokens(Boolean... isNumberValues) {
+		List<Boolean> isNumberValuesAsList = Arrays.asList(isNumberValues);
+		when(this.numberChecker.isNumber(anyString())).then(new ReturnsElementsOf(isNumberValuesAsList));
+	}
 }
