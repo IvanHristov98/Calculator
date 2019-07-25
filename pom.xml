@@ -39,5 +39,6 @@
 	<modules>
 	    <module>calculator-core</module>
 	 	<module>calculator-core-tests</module>
-	</modules>
+		<module>calculator-cli</module>
+  	</modules>
 </project>
