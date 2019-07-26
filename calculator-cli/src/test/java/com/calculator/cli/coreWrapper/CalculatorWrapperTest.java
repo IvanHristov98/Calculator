@@ -39,9 +39,9 @@ public class CalculatorWrapperTest {
 		when(this.calculatorSupplier.supplyCalculator(expressionContent)).thenReturn(this.calculator);
 		when(this.calculator.calculate()).thenReturn(1.0d);
 		
-		this.calculatorWrapper = new CalculatorWrapper(expressionContent, this.calculatorSupplier);
+		this.calculatorWrapper = new CalculatorWrapper(this.calculatorSupplier);
 		
-		assertEquals(1.0d, this.calculatorWrapper.calculate(), 0.0001);
+		assertEquals(1.0d, this.calculatorWrapper.calculate(expressionContent), 0.0001);
 	}
 	
 	@Test
@@ -102,7 +102,7 @@ public class CalculatorWrapperTest {
 		when(this.calculatorSupplier.supplyCalculator(anyString())).thenReturn(this.calculator);
 		when(this.calculator.calculate()).thenThrow(exceptionToMockWith);
 		
-		this.calculatorWrapper = new CalculatorWrapper(expressionContent, this.calculatorSupplier);
-		this.calculatorWrapper.calculate();
+		this.calculatorWrapper = new CalculatorWrapper(this.calculatorSupplier);
+		this.calculatorWrapper.calculate(expressionContent);
 	}
 }

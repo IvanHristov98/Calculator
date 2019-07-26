@@ -4,17 +4,15 @@ import com.calculator.core.*;
 import com.calculator.core.exception.*;
 
 public class CalculatorWrapper {
-	private String expressionContent;
 	private CalculatorSupplier calculatorSupplier;
 	
-	public CalculatorWrapper(String expressionContent, CalculatorSupplier calculatorSupplier) {
-		this.expressionContent = expressionContent;
+	public CalculatorWrapper(CalculatorSupplier calculatorSupplier) {
 		this.calculatorSupplier = calculatorSupplier;
 	}
 	
-	public double calculate() throws Exception {
+	public double calculate(String expressionContent) throws Exception {
 		try {
-			return this.getCalculationResult();
+			return this.getCalculationResult(expressionContent);
 		}
 		catch (BracketsException exception) {
 			throw new Exception("Expression error. Brackets error encountered.");
@@ -36,8 +34,8 @@ public class CalculatorWrapper {
 		}
 	}
 	
-	public double getCalculationResult() throws CalculatorException {
-		Calculator calculator = this.calculatorSupplier.supplyCalculator(this.expressionContent);
+	public double getCalculationResult(String expressionContent) throws CalculatorException {
+		Calculator calculator = this.calculatorSupplier.supplyCalculator(expressionContent);
 		
 		return calculator.calculate();
 	}
