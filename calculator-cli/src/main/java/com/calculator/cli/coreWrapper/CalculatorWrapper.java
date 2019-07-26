@@ -1,20 +1,21 @@
 package com.calculator.cli.coreWrapper;
 
 import com.calculator.core.*;
+import com.calculator.core.exception.CalculatorException;
 
 public class CalculatorWrapper {
-	private Expression expression;
+	private String expressionContent;
 	private CalculatorSupplier calculatorSupplier;
 	
 	public CalculatorWrapper(String expressionContent, CalculatorSupplier calculatorSupplier) {
-		this.expression = new Expression(expressionContent);
+		this.expressionContent = expressionContent;
 		this.calculatorSupplier = calculatorSupplier;
 	}
 	
-	public double calculate() {
-		Calculator calculator;
+	public double calculate() throws CalculatorException {
+		Calculator calculator = this.calculatorSupplier.supplyCalculator(this.expressionContent);
 		
-		return 0.0d;
+		return calculator.calculate();
 	}
 }
 
