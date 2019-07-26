@@ -49,6 +49,11 @@ public class MainTest {
 		assertEquals(expectedMessage, this.errorByteStream.toString());
 	}
 	
+	@Test
+	public void whenExpressionValidThenPrintCalculationResult_calculateExpression() {
+		//Main.calculateExpression(expression)
+	}
+	
 	private void setUpOutputStream() {
 		this.outputByteStream = new ByteArrayOutputStream();
 		this.testingOutputPrintStream = new PrintStream(this.outputByteStream);

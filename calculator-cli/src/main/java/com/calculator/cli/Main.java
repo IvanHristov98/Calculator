@@ -9,7 +9,7 @@ public class Main {
 		try {
 			validateNumberOfArguments(args);
 		} catch (Exception exception) {
-			System.err.print(exception.getMessage());
+			System.err.println(exception.getMessage());
 		}
 	}
 	
@@ -17,5 +17,10 @@ public class Main {
 		if (args.length != VALID_NUMBER_OF_ARGUMENTS) {
 			throw new Exception("Invalid number of arguments. Only one argument is expected.");
 		}
+	}
+	
+	public static double calculateExpression(String expression)
+	{
+		return 0.0d;
 	}
 }
