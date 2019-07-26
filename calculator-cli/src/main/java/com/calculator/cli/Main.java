@@ -1,26 +1,17 @@
 package com.calculator.cli;
 
-import com.calculator.core.*;
+import com.calculator.cli.coreWrapper.*;
 
 public class Main {
-	public static int VALID_NUMBER_OF_ARGUMENTS = 1;
+	private static CalculatorSupplier calculatorSupplier = new CalculatorSupplier();
+	private static CalculatorWrapper calculatorWrapper = new CalculatorWrapper(calculatorSupplier);
+	private static Launcher launcher = new Launcher(calculatorWrapper);
 	
 	public static void main(String[] args) {
-		try {
-			validateNumberOfArguments(args);
-		} catch (Exception exception) {
-			System.err.println(exception.getMessage());
-		}
+		launcher.run(args);
 	}
 	
-	private static void validateNumberOfArguments(String[] args) throws Exception {
-		if (args.length != VALID_NUMBER_OF_ARGUMENTS) {
-			throw new Exception("Invalid number of arguments. Only one argument is expected.");
-		}
-	}
-	
-	public static double calculateExpression(String expression)
-	{
-		return 0.0d;
+	public static void setLauncher(Launcher launcher) throws Exception {
+		Main.launcher = launcher;
 	}
 }
