@@ -5,16 +5,17 @@ import com.calculator.core.exception.*;
 public class InfixExpressionFormatter extends ExpressionFilter {
 	ExpressionModifier expressionModifier;
 
-	public InfixExpressionFormatter(Expression expression, ExpressionModifier expressionModifier) {
-		super(expression);
+	public InfixExpressionFormatter(ExpressionModifier expressionModifier) {
+		super();
+		
 		this.expressionModifier = expressionModifier;
 	}
 
-	public Expression process() throws CalculatorException {
-		this.expression = this.expressionModifier.getExpressionWrappedWithBrackets(this.expression);
-		this.expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(this.expression);
+	public Expression process(Expression expression) throws CalculatorException {
+		expression = this.expressionModifier.getExpressionWrappedWithBrackets(expression);
+		expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 
-		return new Expression(this.unify(this.expression.getContent()));
+		return new Expression(this.unify(expression.getContent()));
 	}
 
 	private String unify(String expression) throws CalculatorException {

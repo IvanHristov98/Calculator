@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 
 import org.junit.Before;
 
@@ -42,24 +43,24 @@ public class CalculatorTest {
 	@Test
 	public void verifyOrderOfExpressionContainerProcessCalls_calculate() throws CalculatorException {
 		// prevents NullPointerException
-		when(this.postfixCalculator.process()).thenReturn(new Expression("1"));
+		when(this.postfixCalculator.process(any())).thenReturn(new Expression("1"));
 
 		this.calculator.calculate();
 
 		InOrder mockOrder = inOrder(this.infixValidator, this.infixFormatter, this.postfixTranslator,
 				this.postfixCalculator);
 
-		mockOrder.verify(this.infixValidator).process();
-		mockOrder.verify(this.infixFormatter).process();
-		mockOrder.verify(this.postfixTranslator).process();
-		mockOrder.verify(this.postfixCalculator).process();
+		mockOrder.verify(this.infixValidator).process(any());
+		mockOrder.verify(this.infixFormatter).process(any());
+		mockOrder.verify(this.postfixTranslator).process(any());
+		mockOrder.verify(this.postfixCalculator).process(any());
 		
 		mockOrder.verifyNoMoreInteractions();
 	}
 
 	@Test
 	public void verifyCorrectCalculation_calculate() throws CalculatorException {
-		when(this.postfixCalculator.process()).thenReturn(new Expression("1"));
+		when(this.postfixCalculator.process(any())).thenReturn(new Expression("1"));
 
 		assertThat(this.calculator.calculate(), equalTo(Double.valueOf(1.0d)));
 	}

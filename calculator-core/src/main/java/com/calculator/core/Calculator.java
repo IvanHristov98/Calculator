@@ -25,16 +25,9 @@ public class Calculator {
 	}
 
 	private Expression getCalculationResult(Expression expression) throws CalculatorException {
-		this.infixValidator.setExpression(expression);
-		expression = this.infixValidator.process();
-
-		this.infixFormatter.setExpression(expression);
-		expression = this.infixFormatter.process();
-
-		this.postfixTranslator.setExpression(expression);
-		expression = this.postfixTranslator.process();
-
-		this.postfixCalculator.setExpression(expression);
-		return this.postfixCalculator.process();
+		expression = this.infixValidator.process(expression);
+		expression = this.infixFormatter.process(expression);
+		expression = this.postfixTranslator.process(expression);
+		return this.postfixCalculator.process(expression);
 	}
 }

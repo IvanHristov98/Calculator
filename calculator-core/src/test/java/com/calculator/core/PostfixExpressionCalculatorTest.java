@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PostfixExpressionCalculatorTest {
-	Expression expression;
 	@Mock
 	ExpressionTokenSplitter expressionTokenSplitter;
 	@Mock
@@ -34,7 +33,7 @@ public class PostfixExpressionCalculatorTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		this.calculator = new PostfixExpressionCalculator(this.expression, this.expressionTokenSplitter,
+		this.calculator = new PostfixExpressionCalculator(this.expressionTokenSplitter,
 				this.numberChecker);
 	}
 
@@ -43,7 +42,8 @@ public class PostfixExpressionCalculatorTest {
 		this.mockTokensInExpression("1");
 		this.mockNumberCheckingByOrderOfTokens(true);
 
-		this.calculator.process();
+		Expression expression = new Expression("1");
+		this.calculator.process(expression);
 
 		InOrder mockOrder = inOrder(this.expressionTokenSplitter);
 
@@ -57,7 +57,8 @@ public class PostfixExpressionCalculatorTest {
 		this.mockTokensInExpression("1", "2", "+");
 		this.mockNumberCheckingByOrderOfTokens(true, true, false);
 
-		assertEquals(3.0, this.getExpressionCalculationResult(), 0.0001);
+		Expression expression = new Expression("1 2 +");
+		assertEquals(3.0, this.getExpressionCalculationResult(expression), 0.0001);
 	}
 
 	@Test
@@ -65,7 +66,8 @@ public class PostfixExpressionCalculatorTest {
 		this.mockTokensInExpression("1", "2", "3", "4", "5", "+", "*", "/", "^");
 		this.mockNumberCheckingByOrderOfTokens(true, true, true, true, true, false, false, false, false);
 
-		assertEquals(1 ^ (2 / (3 * (4 + 5))), this.getExpressionCalculationResult(), 0.0001);
+		Expression expression = new Expression("1 2 3 4 5 + * / ^");
+		assertEquals(1 ^ (2 / (3 * (4 + 5))), this.getExpressionCalculationResult(expression), 0.0001);
 	}
 
 	@Test(expected = InvalidOperatorException.class)
@@ -73,7 +75,8 @@ public class PostfixExpressionCalculatorTest {
 		this.mockTokensInExpression("1", "A", "5");
 		this.mockNumberCheckingByOrderOfTokens(true, false, true);
 
-		this.calculator.process();
+		Expression expression = new Expression("1 A 5");
+		this.calculator.process(expression);
 	}
 
 	@Test(expected = NumberMisplacementException.class)
@@ -81,7 +84,8 @@ public class PostfixExpressionCalculatorTest {
 		this.mockTokensInExpression("1", "2", "3", "+");
 		this.mockNumberCheckingByOrderOfTokens(true, true, true, false);
 
-		this.calculator.process();
+		Expression expression = new Expression("1 2 3 +");
+		this.calculator.process(expression);
 	}
 
 	@Test(expected = NumberMisplacementException.class)
@@ -89,7 +93,8 @@ public class PostfixExpressionCalculatorTest {
 		this.mockTokensInExpression("1", "+");
 		this.mockNumberCheckingByOrderOfTokens(true, false);
 
-		this.calculator.process();
+		Expression expression = new Expression("1 +");
+		this.calculator.process(expression);
 	}
 
 	private void mockTokensInExpression(String... tokens) {
@@ -101,8 +106,8 @@ public class PostfixExpressionCalculatorTest {
 		when(this.numberChecker.isNumber(anyString())).then(new ReturnsElementsOf(isNumberValuesAsList));
 	}
 
-	private double getExpressionCalculationResult() throws CalculatorException {
-		this.resultExpression = this.calculator.process();
+	private double getExpressionCalculationResult(Expression expression) throws CalculatorException {
+		this.resultExpression = this.calculator.process(expression);
 		this.calculationResult = Double.valueOf(this.resultExpression.getContent());
 
 		return this.calculationResult;

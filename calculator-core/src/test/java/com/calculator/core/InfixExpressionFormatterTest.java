@@ -16,7 +16,6 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 public class InfixExpressionFormatterTest {
-	public Expression expression;
 	@Mock
 	public ExpressionModifier expressionModifier;
 	InfixExpressionFormatter formatUnifier;
@@ -24,10 +23,8 @@ public class InfixExpressionFormatterTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-
-		// initializing with a correct stub value
-		this.expression = new Expression("1");
-		this.formatUnifier = new InfixExpressionFormatter(this.expression, this.expressionModifier);
+		
+		this.formatUnifier = new InfixExpressionFormatter(this.expressionModifier);
 	}
 
 	@Test
@@ -36,8 +33,9 @@ public class InfixExpressionFormatterTest {
 				.thenReturn(new Expression("(1)"));
 		when(this.expressionModifier.getExpressionWithStrippedWhiteSpaces(any(Expression.class)))
 				.thenReturn(new Expression("(1)"));
-
-		this.formatUnifier.process();
+		
+		Expression expression = new Expression("1");
+		this.formatUnifier.process(expression);
 
 		InOrder mockOrder = inOrder(this.expressionModifier);
 
@@ -50,54 +48,60 @@ public class InfixExpressionFormatterTest {
 	@Test
 	public void condensed_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("3+4+5", "(3+4+5)", "(3+4+5)");
-
-		Expression resultExpression = this.formatUnifier.process();
-		assertEquals("( 3 + 4 + 5 )", resultExpression.getContent());
+		
+		Expression expression = new Expression("3+4+5");
+		expression = this.formatUnifier.process(expression);
+		
+		assertEquals("( 3 + 4 + 5 )", expression.getContent());
 	}
 
 	@Test
 	public void condensedBrackets_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("3*(4+5)", "(3*(4+5))", "(3*(4+5))");
 
-		Expression resultExpression = this.formatUnifier.process();
-		assertEquals("( 3 * ( 4 + 5 ) )", resultExpression.getContent());
+		Expression expression = new Expression("3*(4+5)");
+		expression = this.formatUnifier.process(expression);
+		assertEquals("( 3 * ( 4 + 5 ) )", expression.getContent());
 	}
 
 	@Test
 	public void floatingPointNumbers_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("3.5+123.4567", "(3.5+123.4567)", "(3.5+123.4567)");
 
-		Expression resultExpression = this.formatUnifier.process();
-		assertEquals("( 3.5 + 123.4567 )", resultExpression.getContent());
+		Expression expression = new Expression("3.5+123.4567");
+		expression = this.formatUnifier.process(expression);
+		assertEquals("( 3.5 + 123.4567 )", expression.getContent());
 	}
 
 	@Test
 	public void redundantOperatorAtStart_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("+1/2", "(+1/2)", "(+1/2)");
 
-		Expression resultExpression = this.formatUnifier.process();
-		assertEquals("( 1 / 2 )", resultExpression.getContent());
+		Expression expression = new Expression("+1/2");
+		expression = this.formatUnifier.process(expression);
+		assertEquals("( 1 / 2 )", expression.getContent());
 	}
 
 	@Test
 	public void minusStraightAfterBracket_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("(-1+1)", "((-1+1))", "((-1+1))");
 
-		Expression resultExpression = this.formatUnifier.process();
-		assertEquals("( ( -1 + 1 ) )", resultExpression.getContent());
+		Expression expression = new Expression("(-1+1)");
+		expression = this.formatUnifier.process(expression);
+		assertEquals("( ( -1 + 1 ) )", expression.getContent());
 	}
 
 	@Test
 	public void minusAtBeginning_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("-1+2", "(-1+2)", "(-1+2)");
 
-		Expression resultExpression = this.formatUnifier.process();
-		assertEquals("( -1 + 2 )", resultExpression.getContent());
+		Expression expression = new Expression("-1+2");
+		expression = this.formatUnifier.process(expression);
+		assertEquals("( -1 + 2 )", expression.getContent());
 	}
 
 	private void stubDependenciesOfProcess(String initialExpression, String wrappedExpression,
 			String wrappedExpressionWithStrippedWhiteSpaces) {
-		this.expression.setContent(initialExpression);
 		when(this.expressionModifier.getExpressionWrappedWithBrackets(any()))
 				.thenReturn(new Expression(wrappedExpression));
 		when(this.expressionModifier.getExpressionWithStrippedWhiteSpaces(any()))

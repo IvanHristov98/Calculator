@@ -7,21 +7,21 @@ import java.util.regex.Pattern;
 public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 	ExpressionModifier expressionModifier;
 
-	public UnformattedInfixExpressionValidator(Expression expression, ExpressionModifier expressionModifier) {
-		super(expression);
+	public UnformattedInfixExpressionValidator(ExpressionModifier expressionModifier) {
+		super();
 		this.expressionModifier = expressionModifier;
 	}
 
-	public Expression process() throws CalculatorException {
+	public Expression process(Expression expression) throws CalculatorException {
 
-		this.expression = this.expressionModifier.getExpressionWrappedWithBrackets(this.expression);
-		String expressionContent = this.expression.getContent();
+		expression = this.expressionModifier.getExpressionWrappedWithBrackets(expression);
+		String expressionContent = expression.getContent();
 
 		this.validateIfAnyConsecutiveNumbers(expressionContent);
 		this.validateNumbersFormat(expressionContent);
 
-		this.expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(this.expression);
-		expressionContent = this.expression.getContent();
+		expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
+		expressionContent = expression.getContent();
 
 		this.validateIfExpressionHasEmptySubexpressions(expressionContent);
 		this.validateOperatorSequence(expressionContent);
@@ -29,7 +29,7 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
 		this.validateSubexpressionEnds(expressionContent);
 
-		return this.expression;
+		return expression;
 	}
 
 	private void validateIfAnyConsecutiveNumbers(String expressionContent) throws NumberMisplacementException {

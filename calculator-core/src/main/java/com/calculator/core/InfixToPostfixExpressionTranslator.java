@@ -11,17 +11,16 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;
 	private NumberChecker numberChecker;
 
-	public InfixToPostfixExpressionTranslator(Expression expression, ExpressionTokenSplitter expressionTokenSplitter,
-			NumberChecker numberChecker) {
-		super(expression);
+	public InfixToPostfixExpressionTranslator(ExpressionTokenSplitter expressionTokenSplitter, NumberChecker numberChecker) {
+		super();
 
 		this.expressionTokenSplitter = expressionTokenSplitter;
 		this.numberChecker = numberChecker;
 	}
 
-	public Expression process() throws CalculatorException {
+	public Expression process(Expression expression) throws CalculatorException {
 		return new Expression(
-				this.toPostfixExpression(this.expressionTokenSplitter.getExpressionTokens(this.expression)));
+				this.toPostfixExpression(this.expressionTokenSplitter.getExpressionTokens(expression)));
 	}
 
 	private String toPostfixExpression(String[] tokens) throws OperatorException {
