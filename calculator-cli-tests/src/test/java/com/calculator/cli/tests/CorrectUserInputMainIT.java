@@ -35,6 +35,6 @@ public class CorrectUserInputMainIT {
 	public void calculateCorrectExpression() {
 		Main.main(new String[] {"(1+2)*3"});
 		
-		assertEquals("The expression result is 9,00.", this.outputByteStream.toString());
+		assertEquals("The expression result is 9.00.", this.outputByteStream.toString());
 	}
 }

@@ -4,6 +4,7 @@ import com.calculator.cli.coreWrapper.CalculatorWrapper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Locale;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -47,6 +48,13 @@ public class LauncherTest {
 	}
 	
 	@Test
+	public void setUpLocale_run() {
+		this.launcher.run(new String[] {"1"});
+		
+		assertEquals(Locale.US, Locale.getDefault());
+	}
+	
+	@Test
 	public void invalidNumberOfArguments_run() {
 		this.launcher.run(new String[] {"1", "2"});
 		
@@ -60,7 +68,7 @@ public class LauncherTest {
 		
 		this.launcher.run(new String [] {"1"});
 		
-		String expectedMessage = "The expression result is 1,00.";
+		String expectedMessage = "The expression result is 1.00.";
 		assertEquals(expectedMessage, this.outputByteStream.toString());
 	}
 	

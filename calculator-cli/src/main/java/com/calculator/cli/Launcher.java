@@ -1,5 +1,7 @@
 package com.calculator.cli;
 
+import java.util.Locale;
+
 import com.calculator.cli.coreWrapper.CalculatorWrapper;
 
 public class Launcher {
@@ -8,8 +10,14 @@ public class Launcher {
 	
 	private CalculatorWrapper calculatorWrapper;
 	
+	public Launcher(CalculatorWrapper calculatorWrapper) {
+		this.calculatorWrapper = calculatorWrapper;
+	}
+	
 	public void run(String[] args) {
 		try {
+			this.setUpLocale();
+			
 			this.validateNumberOfArguments(args);
 			String expressionContent = args[EXPRESSION_CONTENT_POSITION_IN_ARGUMENTS];
 			
@@ -20,8 +28,8 @@ public class Launcher {
 		}
 	}
 	
-	public Launcher(CalculatorWrapper calculatorWrapper) {
-		this.calculatorWrapper = calculatorWrapper;
+	private void setUpLocale() {
+		Locale.setDefault(Locale.US);
 	}
 	
 	private void validateNumberOfArguments(String[] args) throws Exception {
