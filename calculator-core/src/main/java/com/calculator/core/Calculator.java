@@ -3,24 +3,22 @@ package com.calculator.core;
 import com.calculator.core.exception.CalculatorException;
 
 public class Calculator {
-	private Expression expression;
 	private UnformattedInfixExpressionValidator infixValidator;
 	private InfixExpressionFormatter infixFormatter;
 	private InfixToPostfixExpressionTranslator postfixTranslator;
 	private PostfixExpressionCalculator postfixCalculator;
 
-	public Calculator(Expression expression, UnformattedInfixExpressionValidator infixValidator,
+	public Calculator(UnformattedInfixExpressionValidator infixValidator,
 			InfixExpressionFormatter infixFormatter, InfixToPostfixExpressionTranslator postfixTranslator,
 			PostfixExpressionCalculator postfixCalculator) {
-		this.expression = expression;
 		this.infixValidator = infixValidator;
 		this.infixFormatter = infixFormatter;
 		this.postfixTranslator = postfixTranslator;
 		this.postfixCalculator = postfixCalculator;
 	}
 
-	public Double calculate() throws CalculatorException {
-		Expression resultExpression = this.getCalculationResult(this.expression.clone());
+	public Double calculate(Expression expression) throws CalculatorException {
+		Expression resultExpression = this.getCalculationResult(expression);
 		return Double.valueOf(resultExpression.getContent());
 	}
 
