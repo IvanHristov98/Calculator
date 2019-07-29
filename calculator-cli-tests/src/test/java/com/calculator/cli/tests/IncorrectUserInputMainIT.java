@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.calculator.cli.Main;
 
-public class UserErrorMainIT {
+public class IncorrectUserInputMainIT {
 	ByteArrayOutputStream errorByteStream;
 	PrintStream testingErrorPrintStream;
 	PrintStream originalErrorPrintStream;
