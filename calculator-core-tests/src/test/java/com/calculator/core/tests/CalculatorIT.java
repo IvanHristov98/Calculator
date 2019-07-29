@@ -1,5 +1,6 @@
 package com.calculator.core.tests;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.calculator.core.*;
@@ -7,56 +8,56 @@ import com.calculator.core.exception.*;
 
 public class CalculatorIT {
 	public Calculator calculator;
+	
+	@Before
+	public void setUp() {
+		this.calculator = this.getCalculator();
+	}
 
 	@Test(expected = OperatorMisplacementException.class)
 	public void operatorMisplacement() throws CalculatorException {
-		this.calculator = this.getCalculator("1+-2");
-		this.calculator.calculate();
+		this.calculator.calculate(this.getExpression("1+-2"));
 	}
 	
 	@Test(expected = BracketsException.class)
 	public void bracketsExcepion_calculate() throws CalculatorException {
-		this.calculator = this.getCalculator("(1+2");
-		this.calculator.calculate();
+		this.calculator.calculate(this.getExpression("(1+2"));
 	}
 	
 	@Test(expected = DivisionByZeroException.class)
 	public void divisionByZero_calculate() throws CalculatorException {
-		this.calculator = this.getCalculator("1/0");
-		this.calculator.calculate();
+		this.calculator.calculate(this.getExpression("1/0"));
 	}
 	
 	@Test(expected = EmptyExpressionException.class)
 	public void emptyExpression_calculate() throws CalculatorException {
-		this.calculator = this.getCalculator("");
-		this.calculator.calculate();
+		this.calculator.calculate(this.getExpression(""));
 	}
 	
 	@Test(expected = InvalidOperatorException.class)
 	public void invalidOperator_calculate() throws CalculatorException {
-		this.calculator = this.getCalculator("1A2");
-		this.calculator.calculate();
+		this.calculator.calculate(this.getExpression("1A2"));
 	}
 	
 	@Test(expected = NumberMisplacementException.class)
 	public void numberMisplacement_calculate() throws CalculatorException {
-		this.calculator = this.getCalculator("1 2");
-		this.calculator.calculate();
+		this.calculator.calculate(this.getExpression("1 2"));
 	}
 
-	private Calculator getCalculator(String expressionContent) {
-		Expression expression = this.getExpression(expressionContent);
+	private Calculator getCalculator() {
 		ExpressionModifier modifier = this.getExpressionModifier();
 		ExpressionTokenSplitter tokenSplitter= this.getTokenSplitter();
 		NumberChecker numberChecker = this.getNumberChecker();
 		
-		UnformattedInfixExpressionValidator validator = this.getValidator(expression, modifier);
-		InfixExpressionFormatter formatter = this.getFormatter(expression, modifier);
-		InfixToPostfixExpressionTranslator translator = this.getTranslator(expression, tokenSplitter, numberChecker);
-		PostfixExpressionCalculator postfixCalculator = this.getPostfixCalculator(expression, tokenSplitter, numberChecker);
+		UnformattedInfixExpressionValidator validator = this.getValidator(modifier);
+		InfixExpressionFormatter formatter = this.getFormatter(modifier);
+		InfixExpressionFilter infixFilter = this.getInfixFilter(validator, formatter);
+		
+		InfixToPostfixExpressionTranslator translator = this.getTranslator(tokenSplitter, numberChecker);
+		PostfixExpressionCalculator postfixCalculator = this.getPostfixCalculator(tokenSplitter, numberChecker);
 		
 		
-		return new Calculator(expression, validator, formatter, translator, postfixCalculator);
+		return new Calculator(infixFilter, translator, postfixCalculator);
 	}
 	
 	private Expression getExpression(String expressionContent) {
@@ -75,27 +76,32 @@ public class CalculatorIT {
 		return new NumberChecker();
 	}
 	
-	private UnformattedInfixExpressionValidator getValidator(Expression expression, ExpressionModifier modifier) {	
-		return new UnformattedInfixExpressionValidator(expression, modifier);
+	private UnformattedInfixExpressionValidator getValidator(ExpressionModifier modifier) {	
+		return new UnformattedInfixExpressionValidator(modifier);
 	}
 	
-	private InfixExpressionFormatter getFormatter(Expression expression, ExpressionModifier modifier) {
-		return new InfixExpressionFormatter(expression, modifier);
+	private InfixExpressionFormatter getFormatter(ExpressionModifier modifier) {
+		return new InfixExpressionFormatter(modifier);
+	}
+	
+	private InfixExpressionFilter getInfixFilter(
+			UnformattedInfixExpressionValidator validator,
+			InfixExpressionFormatter formatter
+			) {
+		return new InfixExpressionFilter(validator, formatter);
 	}
 	
 	private InfixToPostfixExpressionTranslator getTranslator(
-			Expression expression,
 			ExpressionTokenSplitter tokenSplitter,
 			NumberChecker numberChecker
 			) {
-		return new InfixToPostfixExpressionTranslator(expression, tokenSplitter, numberChecker);
+		return new InfixToPostfixExpressionTranslator(tokenSplitter, numberChecker);
 	}
 	
 	private PostfixExpressionCalculator getPostfixCalculator(
-			Expression expression, 
 			ExpressionTokenSplitter tokenSplitter, 
 			NumberChecker numberChecker
 			) {
-		return new PostfixExpressionCalculator(expression, tokenSplitter, numberChecker);
+		return new PostfixExpressionCalculator(tokenSplitter, numberChecker);
 	}
 }
