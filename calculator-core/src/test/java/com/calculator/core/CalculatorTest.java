@@ -53,19 +53,8 @@ public class CalculatorTest {
 		mockOrder.verify(this.infixFormatter).process();
 		mockOrder.verify(this.postfixTranslator).process();
 		mockOrder.verify(this.postfixCalculator).process();
-	}
-
-	@Test
-	public void verifyNumberOfExpressionContainerProcessCalss_calculae() throws CalculatorException {
-		// prevents NullPointerException
-		when(this.postfixCalculator.process()).thenReturn(new Expression("1"));
-
-		this.calculator.calculate();
-
-		verify(this.infixValidator, times(1)).process();
-		verify(this.infixFormatter, times(1)).process();
-		verify(this.postfixTranslator, times(1)).process();
-		verify(this.postfixCalculator, times(1)).process();
+		
+		mockOrder.verifyNoMoreInteractions();
 	}
 
 	@Test
