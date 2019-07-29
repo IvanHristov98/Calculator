@@ -3,16 +3,13 @@ package com.calculator.core;
 import com.calculator.core.exception.CalculatorException;
 
 public class Calculator {
-	private UnformattedInfixExpressionValidator infixValidator;
-	private InfixExpressionFormatter infixFormatter;
+	private InfixExpressionFilter infixExpressionFilter;
 	private InfixToPostfixExpressionTranslator postfixTranslator;
 	private PostfixExpressionCalculator postfixCalculator;
 
-	public Calculator(UnformattedInfixExpressionValidator infixValidator,
-			InfixExpressionFormatter infixFormatter, InfixToPostfixExpressionTranslator postfixTranslator,
+	public Calculator(InfixExpressionFilter infixExpressionFilter, InfixToPostfixExpressionTranslator postfixTranslator,
 			PostfixExpressionCalculator postfixCalculator) {
-		this.infixValidator = infixValidator;
-		this.infixFormatter = infixFormatter;
+		this.infixExpressionFilter = infixExpressionFilter;
 		this.postfixTranslator = postfixTranslator;
 		this.postfixCalculator = postfixCalculator;
 	}
@@ -23,8 +20,8 @@ public class Calculator {
 	}
 
 	private Expression getCalculationResult(Expression expression) throws CalculatorException {
-		expression = this.infixValidator.process(expression);
-		expression = this.infixFormatter.process(expression);
+		expression = this.infixExpressionFilter.validateExpression(expression);
+		expression = this.infixExpressionFilter.formatExpression(expression);
 		expression = this.postfixTranslator.process(expression);
 		return this.postfixCalculator.process(expression);
 	}
