@@ -1,4 +1,4 @@
-package com.calculator.cli.tests;
+	package com.calculator.cli.tests;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

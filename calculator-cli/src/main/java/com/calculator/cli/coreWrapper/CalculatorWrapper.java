@@ -4,10 +4,10 @@ import com.calculator.core.*;
 import com.calculator.core.exception.*;
 
 public class CalculatorWrapper {
-	private CalculatorSupplier calculatorSupplier;
+	private CalculatorFactory calculatorFactory;
 	
-	public CalculatorWrapper(CalculatorSupplier calculatorSupplier) {
-		this.calculatorSupplier = calculatorSupplier;
+	public CalculatorWrapper(CalculatorFactory calculatorFactory) {
+		this.calculatorFactory = calculatorFactory;
 	}
 	
 	public double calculate(String expressionContent) throws Exception {
@@ -35,9 +35,13 @@ public class CalculatorWrapper {
 	}
 	
 	public double getCalculationResult(String expressionContent) throws CalculatorException {
-		Calculator calculator = this.calculatorSupplier.supplyCalculator(expressionContent);
+		Calculator calculator = this.calculatorFactory.makeCalculator();
 		
-		return calculator.calculate();
+		return calculator.calculate(this.getExpression(expressionContent));
+	}
+	
+	public Expression getExpression(String expressionContent) {
+		return new Expression(expressionContent);
 	}
 }
 
