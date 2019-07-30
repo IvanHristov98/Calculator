@@ -4,13 +4,10 @@ import com.calculator.core.exception.CalculatorException;
 
 public class Calculator {
 	private InfixExpressionFilter infixExpressionFilter;
-	private InfixToPostfixExpressionTranslator postfixTranslator;
 	private PostfixExpressionCalculator postfixCalculator;
 
-	public Calculator(InfixExpressionFilter infixExpressionFilter, InfixToPostfixExpressionTranslator postfixTranslator,
-			PostfixExpressionCalculator postfixCalculator) {
+	public Calculator(InfixExpressionFilter infixExpressionFilter, PostfixExpressionCalculator postfixCalculator) {
 		this.infixExpressionFilter = infixExpressionFilter;
-		this.postfixTranslator = postfixTranslator;
 		this.postfixCalculator = postfixCalculator;
 	}
 
@@ -22,7 +19,7 @@ public class Calculator {
 	private Expression getCalculationResult(Expression expression) throws CalculatorException {
 		expression = this.infixExpressionFilter.validateExpression(expression);
 		expression = this.infixExpressionFilter.formatExpression(expression);
-		expression = this.postfixTranslator.process(expression);
+		expression = this.infixExpressionFilter.translateToPostfix(expression);
 		return this.postfixCalculator.process(expression);
 	}
 }
