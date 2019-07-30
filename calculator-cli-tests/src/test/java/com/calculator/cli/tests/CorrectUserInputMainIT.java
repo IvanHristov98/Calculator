@@ -13,14 +13,13 @@ public class CorrectUserInputMainIT {
 	
 	@Test
 	public void calculateCorrectExpression() throws IOException {
-		ProcessBuilder pb = new ProcessBuilder("java", "-jar", PATH_TO_JAR, "(1+2)*3");
-		Process p = pb.start();
-		InputStreamReader is = new InputStreamReader(p.getInputStream());
+		ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", PATH_TO_JAR, "(1+2)*3");
+		Process process = processBuilder.start();
+		InputStreamReader streamReader = new InputStreamReader(process.getInputStream());
+		BufferedReader bufferedReader = new BufferedReader(streamReader);
 		
-		BufferedReader br = new BufferedReader(is);
+		assertEquals("The expression result is 9.00.", bufferedReader.readLine());
 		
-		assertEquals("The expression result is 9.00.", br.readLine());
-		
-		p.destroy();
+		process.destroy();
 	}
 }
