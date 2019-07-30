@@ -5,7 +5,7 @@ import com.calculator.core.CalculatorFactory;
 
 public class Main {
 	private static CalculatorFactory calculatorFactory = new CalculatorFactory();
-	private static CalculatorWrapper calculatorWrapper = new CalculatorWrapper(calculatorFactory);
+	private static ExceptionWrappingCalculator calculatorWrapper = new ExceptionWrappingCalculator(calculatorFactory);
 	private static Launcher launcher = new Launcher(calculatorWrapper);
 	
 	public static void main(String[] args) {

@@ -1,6 +1,6 @@
 package com.calculator.cli;
 
-import com.calculator.cli.coreWrapper.CalculatorWrapper;
+import com.calculator.cli.coreWrapper.ExceptionWrappingCalculator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class LauncherTest {
 	@Mock
-	CalculatorWrapper calculatorWrapper;
+	ExceptionWrappingCalculator calculatorWrapper;
 	Launcher launcher;
 	
 	ByteArrayOutputStream outputByteStream;

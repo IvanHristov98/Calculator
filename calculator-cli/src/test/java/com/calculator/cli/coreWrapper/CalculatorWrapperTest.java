@@ -23,7 +23,7 @@ public class CalculatorWrapperTest {
 	CalculatorFactory calculatorFactory;
 	@Mock
 	Calculator calculator;
-	CalculatorWrapper calculatorWrapper;
+	ExceptionWrappingCalculator calculatorWrapper;
 	
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
@@ -40,7 +40,7 @@ public class CalculatorWrapperTest {
 		when(this.calculatorFactory.makeCalculator()).thenReturn(this.calculator);
 		when(this.calculator.calculate(this.getExpression(expressionContent))).thenReturn(1.0d);
 		
-		this.calculatorWrapper = new CalculatorWrapper(this.calculatorFactory);
+		this.calculatorWrapper = new ExceptionWrappingCalculator(this.calculatorFactory);
 		
 		assertEquals(1.0d, this.calculatorWrapper.calculate(expressionContent), 0.0001);
 	}
@@ -103,7 +103,7 @@ public class CalculatorWrapperTest {
 		when(this.calculatorFactory.makeCalculator()).thenReturn(this.calculator);
 		when(this.calculator.calculate(any())).thenThrow(exceptionToMockWith);
 		
-		this.calculatorWrapper = new CalculatorWrapper(this.calculatorFactory);
+		this.calculatorWrapper = new ExceptionWrappingCalculator(this.calculatorFactory);
 		this.calculatorWrapper.calculate(expressionContent);
 	}
 	

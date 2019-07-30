@@ -3,10 +3,10 @@ package com.calculator.cli.coreWrapper;
 import com.calculator.core.*;
 import com.calculator.core.exception.*;
 
-public class CalculatorWrapper {
+public class ExceptionWrappingCalculator {
 	private CalculatorFactory calculatorFactory;
 	
-	public CalculatorWrapper(CalculatorFactory calculatorFactory) {
+	public ExceptionWrappingCalculator(CalculatorFactory calculatorFactory) {
 		this.calculatorFactory = calculatorFactory;
 	}
 	
