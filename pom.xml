@@ -51,7 +51,6 @@
 	
 	<modules>
 	    <module>calculator-core</module>
-	 	<module>calculator-core-tests</module>
 		<module>calculator-cli</module>
   		<module>calculator-cli-tests</module>
   </modules>
