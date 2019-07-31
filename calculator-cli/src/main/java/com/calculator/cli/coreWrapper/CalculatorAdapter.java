@@ -20,18 +20,18 @@ public class CalculatorAdapter implements ICalculator{
 		try {
 			return calculator.calculate(expression);
 		} catch (BracketsException exception) {
-			throw new BracketsException("Expression error. Brackets error encountered.", exception);
+			throw new Exception("Expression error. Brackets error encountered.", exception);
 		} catch (OperatorMisplacementException exception) {
-			throw new OperatorMisplacementException("Expression error. Operator misplacement error encountered.", exception);
+			throw new Exception("Expression error. Operator misplacement error encountered.", exception);
 		} catch (InvalidOperatorException exception) {
-			throw new InvalidOperatorException(
+			throw new Exception(
 					"Expression error. Invalid operators encountered. Valid operator symbols are +, -, *, / and ^.", exception);
 		} catch (DivisionByZeroException exception) {
-			throw new DivisionByZeroException("Expression error. Division by zero encountered.", exception);
+			throw new Exception("Expression error. Division by zero encountered.", exception);
 		} catch (EmptyExpressionException exception) {
-			throw new EmptyExpressionException("Expression error. Empty expression encountered.", exception);
+			throw new Exception("Expression error. Empty expression encountered.", exception);
 		} catch (NumberMisplacementException exception) {
-			throw new NumberMisplacementException(
+			throw new Exception(
 					"Expression error. Number misplacement encountered. Numbers should be separated by arithmetic operators.", exception);
 		}
 	}
