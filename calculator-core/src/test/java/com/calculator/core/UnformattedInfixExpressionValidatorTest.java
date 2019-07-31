@@ -48,7 +48,7 @@ public class UnformattedInfixExpressionValidatorTest {
 	@Test(expected = NumberMisplacementException.class)
 	public void spacedConsecutiveNumbers_process() throws Exception {
 		this.stubDependenciesOfProcess("(1 2)", "(12)");
-		
+
 		this.validator.process(this.getExpression("1 2"));
 	}
 
@@ -62,7 +62,7 @@ public class UnformattedInfixExpressionValidatorTest {
 	@Test(expected = EmptyExpressionException.class)
 	public void emptyExpression_process() throws Exception {
 		this.stubDependenciesOfProcess("()", "()");
-		
+
 		this.validator.process(this.getExpression(""));
 	}
 
@@ -167,7 +167,7 @@ public class UnformattedInfixExpressionValidatorTest {
 	private Expression getExpression(String expressionContent) {
 		return new Expression(expressionContent);
 	}
-	
+
 	private void stubDependenciesOfProcess(String wrappedExpression, String wrappedExpressionWithStrippedWhiteSpaces) {
 		when(this.expressionModifier.getExpressionWrappedWithBrackets(any()))
 				.thenReturn(new Expression(wrappedExpression));

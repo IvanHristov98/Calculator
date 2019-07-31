@@ -14,8 +14,7 @@ public class PostfixExpressionCalculator extends ExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;
 	private NumberChecker numberChecker;
 
-	public PostfixExpressionCalculator(ExpressionTokenSplitter expressionTokenSplitter,
-			NumberChecker numberChecker) {
+	public PostfixExpressionCalculator(ExpressionTokenSplitter expressionTokenSplitter, NumberChecker numberChecker) {
 		super();
 
 		this.expressionTokenSplitter = expressionTokenSplitter;
@@ -38,7 +37,8 @@ public class PostfixExpressionCalculator extends ExpressionFilter {
 		return new Expression(numbers.peek().toString());
 	}
 
-	private Stack<Double> getPostfixExpressionValue(Expression expression, Stack<Double> numbers) throws CalculatorException {
+	private Stack<Double> getPostfixExpressionValue(Expression expression, Stack<Double> numbers)
+			throws CalculatorException {
 		for (String token : this.expressionTokenSplitter.getExpressionTokens(expression)) {
 			if (this.numberChecker.isNumber(token)) {
 				numbers = this.addNumberToNumbersStack(numbers, token);

@@ -13,20 +13,20 @@ import org.junit.Test;
 public class MainTest {
 	@Mock
 	Launcher launcher;
-	
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 	}
-	
+
 	@Test
 	public void verifyLauncherRunExecution_main() throws Exception {
 		Main.setLauncher(this.launcher);
-		
-		Main.main(new String[] {"1"});
-		
+
+		Main.main(new String[] { "1" });
+
 		InOrder mockOrder = inOrder(this.launcher);
-		
+
 		mockOrder.verify(this.launcher).run(any());
 		mockOrder.verifyNoMoreInteractions();
 	}

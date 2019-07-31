@@ -11,7 +11,8 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;
 	private NumberChecker numberChecker;
 
-	public InfixToPostfixExpressionTranslator(ExpressionTokenSplitter expressionTokenSplitter, NumberChecker numberChecker) {
+	public InfixToPostfixExpressionTranslator(ExpressionTokenSplitter expressionTokenSplitter,
+			NumberChecker numberChecker) {
 		super();
 
 		this.expressionTokenSplitter = expressionTokenSplitter;
@@ -19,8 +20,7 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	}
 
 	public Expression process(Expression expression) throws CalculatorException {
-		return new Expression(
-				this.toPostfixExpression(this.expressionTokenSplitter.getExpressionTokens(expression)));
+		return new Expression(this.toPostfixExpression(this.expressionTokenSplitter.getExpressionTokens(expression)));
 	}
 
 	private String toPostfixExpression(String[] tokens) throws OperatorException {

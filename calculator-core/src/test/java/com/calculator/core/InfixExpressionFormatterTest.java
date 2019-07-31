@@ -23,7 +23,7 @@ public class InfixExpressionFormatterTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		
+
 		this.formatUnifier = new InfixExpressionFormatter(this.expressionModifier);
 	}
 
@@ -33,7 +33,7 @@ public class InfixExpressionFormatterTest {
 				.thenReturn(new Expression("(1)"));
 		when(this.expressionModifier.getExpressionWithStrippedWhiteSpaces(any(Expression.class)))
 				.thenReturn(new Expression("(1)"));
-		
+
 		Expression expression = new Expression("1");
 		this.formatUnifier.process(expression);
 
@@ -48,10 +48,10 @@ public class InfixExpressionFormatterTest {
 	@Test
 	public void condensed_process() throws CalculatorException {
 		this.stubDependenciesOfProcess("3+4+5", "(3+4+5)", "(3+4+5)");
-		
+
 		Expression expression = new Expression("3+4+5");
 		expression = this.formatUnifier.process(expression);
-		
+
 		assertEquals("( 3 + 4 + 5 )", expression.getContent());
 	}
 

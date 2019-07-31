@@ -31,7 +31,8 @@ public class InfixToPostfixExpressionTranslatorTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		this.postfixTranslator = new InfixToPostfixExpressionTranslator(this.expressionTokenSplitter, this.numberChecker);
+		this.postfixTranslator = new InfixToPostfixExpressionTranslator(this.expressionTokenSplitter,
+				this.numberChecker);
 	}
 
 	@Test
@@ -53,7 +54,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 	public void missingOpeningBracket_process() throws Exception {
 		this.mockTokensInExpression("1", "+", "1", ")");
 		this.mockNumberCheckingByOrderOfTokens(true, false, true, false);
-		
+
 		Expression expression = new Expression("1+1)");
 		this.postfixTranslator.process(expression);
 	}

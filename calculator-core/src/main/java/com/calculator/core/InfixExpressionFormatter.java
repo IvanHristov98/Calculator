@@ -7,7 +7,7 @@ public class InfixExpressionFormatter extends ExpressionFilter {
 
 	public InfixExpressionFormatter(ExpressionModifier expressionModifier) {
 		super();
-		
+
 		this.expressionModifier = expressionModifier;
 	}
 

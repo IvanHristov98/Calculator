@@ -33,8 +33,7 @@ public class PostfixExpressionCalculatorTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		this.calculator = new PostfixExpressionCalculator(this.expressionTokenSplitter,
-				this.numberChecker);
+		this.calculator = new PostfixExpressionCalculator(this.expressionTokenSplitter, this.numberChecker);
 	}
 
 	@Test
