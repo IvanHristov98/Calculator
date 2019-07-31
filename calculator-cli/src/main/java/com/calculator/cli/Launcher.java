@@ -2,16 +2,16 @@ package com.calculator.cli;
 
 import java.util.Locale;
 
-import com.calculator.cli.coreWrapper.ExceptionWrappingCalculator;
+import com.calculator.cli.coreWrapper.CalculatorAdapter;
 import com.calculator.core.Expression;
 
 public class Launcher {
 	public static final int VALID_NUMBER_OF_ARGUMENTS = 1;
 	public static final int EXPRESSION_CONTENT_POSITION_IN_ARGUMENTS = 0;
 
-	private ExceptionWrappingCalculator calculator;
+	private CalculatorAdapter calculator;
 
-	public Launcher(ExceptionWrappingCalculator calculator) {
+	public Launcher(CalculatorAdapter calculator) {
 		this.calculator = calculator;
 	}
 

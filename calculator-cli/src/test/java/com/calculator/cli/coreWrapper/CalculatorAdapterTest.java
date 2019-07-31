@@ -12,11 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.calculator.core.Expression;
-import com.calculator.core.ICalculator;
 
 public class CalculatorAdapterTest {
 	@Mock
-	private ICalculator calculator;
+	private com.calculator.core.ICalculator calculator;
 	@Mock
 	private Expression expression;
 	private CalculatorAdapter calculatorAdapter;

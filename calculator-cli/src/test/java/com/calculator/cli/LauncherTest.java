@@ -1,6 +1,6 @@
 package com.calculator.cli;
 
-import com.calculator.cli.coreWrapper.ExceptionWrappingCalculator;
+import com.calculator.cli.coreWrapper.CalculatorAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class LauncherTest {
 	@Mock
-	ExceptionWrappingCalculator calculatorWrapper;
+	CalculatorAdapter calculatorAdapter;
 	Launcher launcher;
 
 	ByteArrayOutputStream outputByteStream;
@@ -38,7 +38,7 @@ public class LauncherTest {
 		setUpOutputStream();
 		setUpErrorStream();
 
-		launcher = new Launcher(calculatorWrapper);
+		launcher = new Launcher(calculatorAdapter);
 	}
 
 	@After
@@ -64,7 +64,7 @@ public class LauncherTest {
 
 	@Test
 	public void verifyCalculation_run() throws Exception {
-		when(calculatorWrapper.calculate(any())).thenReturn(Double.valueOf(1.0d));
+		when(calculatorAdapter.calculate(any())).thenReturn(Double.valueOf(1.0d));
 
 		launcher.run(new String[] { "1" });
 
