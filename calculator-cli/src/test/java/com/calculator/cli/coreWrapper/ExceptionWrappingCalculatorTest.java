@@ -18,7 +18,7 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 
-public class CalculatorWrapperTest {
+public class ExceptionWrappingCalculatorTest {
 	@Mock
 	CalculatorFactory calculatorFactory;
 	@Mock
