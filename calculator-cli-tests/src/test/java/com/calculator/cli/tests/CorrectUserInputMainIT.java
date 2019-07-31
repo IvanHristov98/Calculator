@@ -1,25 +1,30 @@
 package com.calculator.cli.tests;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import com.calculator.cli.tests.pageObjects.CliPage;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 public class CorrectUserInputMainIT {
-	public static String PATH_TO_JAR = "./target/lib/calculator-cli-1.0-SNAPSHOT.jar";
+	private CliPage cliPage;
+	
+	@Before
+	public void setUp() {
+		cliPage = new CliPage();
+	}
 
 	@Test
-	public void calculateCorrectExpression() throws IOException {
-		ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", PATH_TO_JAR, "(1+2)*3");
-		Process process = processBuilder.start();
-		InputStreamReader streamReader = new InputStreamReader(process.getInputStream());
-		BufferedReader bufferedReader = new BufferedReader(streamReader);
-
-		assertEquals("The expression result is 9.00.", bufferedReader.readLine());
-
-		process.destroy();
+	public void calculateCorrectExpression() throws IOException {		
+		verifyCliOutput("The expression result is 9.00.", "(1+2)*3");
+	}
+	
+	private void verifyCliOutput(String expected, String... commandArguments) throws IOException {
+		String cliOutput = cliPage.getCliOutput(commandArguments);
+		assertThat(expected, equalTo(cliOutput));
 	}
 }
