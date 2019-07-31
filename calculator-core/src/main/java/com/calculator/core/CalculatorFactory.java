@@ -4,7 +4,7 @@ public class CalculatorFactory {
 	public CalculatorFactory() {
 	}
 
-	public Calculator makeCalculator() {
+	public ICalculator makeCalculator() {
 		ExpressionModifier expressionModifier = makeExpressionModifier();
 		UnformattedInfixExpressionValidator infixValidator = makeUnformattedInfixExpressionValidator(
 				expressionModifier);
