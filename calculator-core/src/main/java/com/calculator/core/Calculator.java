@@ -2,7 +2,7 @@ package com.calculator.core;
 
 import com.calculator.core.exception.CalculatorException;
 
-public class Calculator implements iCalculator {
+public class Calculator implements ICalculator {
 	private InfixExpressionFilter infixExpressionFilter;
 	private PostfixExpressionCalculator postfixCalculator;
 

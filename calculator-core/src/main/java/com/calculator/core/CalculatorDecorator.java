@@ -1,9 +1,9 @@
 package com.calculator.core;
 
-public abstract class CalculatorDecorator implements iCalculator {
-	protected iCalculator calculator;
+public abstract class CalculatorDecorator implements ICalculator {
+	protected ICalculator calculator;
 
-	public CalculatorDecorator(iCalculator calculator) {
+	public CalculatorDecorator(ICalculator calculator) {
 		this.calculator = calculator;
 	}
 }

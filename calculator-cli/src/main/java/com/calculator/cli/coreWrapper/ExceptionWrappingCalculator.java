@@ -4,7 +4,7 @@ import com.calculator.core.*;
 import com.calculator.core.exception.*;
 
 public class ExceptionWrappingCalculator extends CalculatorDecorator {
-	public ExceptionWrappingCalculator(iCalculator calculator) {
+	public ExceptionWrappingCalculator(ICalculator calculator) {
 		super(calculator);
 	}
 

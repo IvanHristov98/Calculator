@@ -39,7 +39,7 @@ public class ExceptionWrappingCalculatorTest {
 
 		when(calculatorFactory.makeCalculator()).thenReturn(calculator);
 		when(calculator.calculate(expression)).thenReturn(1.0d);
-		iCalculator calculator = calculatorFactory.makeCalculator();
+		ICalculator calculator = calculatorFactory.makeCalculator();
 		calculatorWrapper = new ExceptionWrappingCalculator(calculator);
 
 		assertEquals(1.0d, calculatorWrapper.calculate(expression), 0.0001);
