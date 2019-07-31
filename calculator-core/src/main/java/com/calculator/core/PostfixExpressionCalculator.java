@@ -25,7 +25,7 @@ public class PostfixExpressionCalculator extends ExpressionFilter {
 		Stack<Double> numbers = new Stack<>();
 
 		try {
-			numbers = this.getPostfixExpressionValue(expression, numbers);
+			numbers = getPostfixExpressionValue(expression, numbers);
 		} catch (EmptyStackException exception) {
 			throw new NumberMisplacementException("Invalid number of numbers has been received.");
 		}
@@ -39,11 +39,11 @@ public class PostfixExpressionCalculator extends ExpressionFilter {
 
 	private Stack<Double> getPostfixExpressionValue(Expression expression, Stack<Double> numbers)
 			throws CalculatorException {
-		for (String token : this.expressionTokenSplitter.getExpressionTokens(expression)) {
-			if (this.numberChecker.isNumber(token)) {
-				numbers = this.addNumberToNumbersStack(numbers, token);
+		for (String token : expressionTokenSplitter.getExpressionTokens(expression)) {
+			if (numberChecker.isNumber(token)) {
+				numbers = addNumberToNumbersStack(numbers, token);
 			} else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token))) {
-				numbers = this.operateWithNumbersFromStackTop(numbers, token);
+				numbers = operateWithNumbersFromStackTop(numbers, token);
 			} else {
 				throw new InvalidOperatorException("Unexpected operator has been received.");
 			}
@@ -53,7 +53,7 @@ public class PostfixExpressionCalculator extends ExpressionFilter {
 	}
 
 	private Stack<Double> addNumberToNumbersStack(Stack<Double> numbers, String token) {
-		numbers.add(this.toNumber(token));
+		numbers.add(toNumber(token));
 		return numbers;
 	}
 

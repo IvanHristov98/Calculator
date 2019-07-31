@@ -11,21 +11,21 @@ public class ExpressionModifierTest {
 
 	@Before
 	public void setUp() {
-		this.expressionModifier = new ExpressionModifier();
+		expressionModifier = new ExpressionModifier();
 	}
 
 	@Test
 	public void testWrapWithBrackets() {
-		this.expression = new Expression("1+2");
-		this.expression = this.expressionModifier.getExpressionWrappedWithBrackets(expression);
+		expression = new Expression("1+2");
+		expression = expressionModifier.getExpressionWrappedWithBrackets(expression);
 
 		assertEquals("(1+2)", expression.getContent());
 	}
 
 	@Test
 	public void testStripWhiteSpaces() {
-		this.expression = new Expression("1 + 2");
-		this.expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
+		expression = new Expression("1 + 2");
+		expression = expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 
 		assertEquals("1+2", expression.getContent());
 	}

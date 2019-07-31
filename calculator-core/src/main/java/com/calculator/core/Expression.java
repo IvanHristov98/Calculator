@@ -18,7 +18,7 @@ public class Expression {
 			return false;
 		}
 
-		return this.content.equals(((Expression) obj).getContent());
+		return content.equals(((Expression) obj).getContent());
 	}
 
 	private Expression(Expression other) {
@@ -31,6 +31,6 @@ public class Expression {
 	}
 
 	public String getContent() {
-		return this.content;
+		return content;
 	}
 }

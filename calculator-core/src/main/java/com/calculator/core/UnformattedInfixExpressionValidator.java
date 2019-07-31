@@ -9,31 +9,32 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 
 	public UnformattedInfixExpressionValidator(ExpressionModifier expressionModifier) {
 		super();
+		
 		this.expressionModifier = expressionModifier;
 	}
 
 	public Expression process(Expression expression) throws CalculatorException {
 
-		expression = this.expressionModifier.getExpressionWrappedWithBrackets(expression);
+		expression = expressionModifier.getExpressionWrappedWithBrackets(expression);
 		String expressionContent = expression.getContent();
 
-		this.validateIfAnyConsecutiveNumbers(expressionContent);
-		this.validateNumbersFormat(expressionContent);
+		validateIfAnyConsecutiveNumbers(expressionContent);
+		validateNumbersFormat(expressionContent);
 
-		expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
+		expression = expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 		expressionContent = expression.getContent();
 
-		this.validateIfExpressionHasEmptySubexpressions(expressionContent);
-		this.validateOperatorSequence(expressionContent);
-		this.validateTokens(expressionContent);
-		this.validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
-		this.validateSubexpressionEnds(expressionContent);
+		validateIfExpressionHasEmptySubexpressions(expressionContent);
+		validateOperatorSequence(expressionContent);
+		validateTokens(expressionContent);
+		validateIfAnyNumbersAreGluedAroundBracketedExpression(expressionContent);
+		validateSubexpressionEnds(expressionContent);
 
 		return expression;
 	}
 
 	private void validateIfAnyConsecutiveNumbers(String expressionContent) throws NumberMisplacementException {
-		if (this.hasConsecutiveNumbers(expressionContent)) {
+		if (hasConsecutiveNumbers(expressionContent)) {
 			throw new NumberMisplacementException(
 					"Invalid expression. Numbers should be separated by a valid operator.");
 		}
@@ -44,7 +45,7 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 	}
 
 	private void validateNumbersFormat(String expressionContent) throws NumberMisplacementException {
-		if (this.hasAnInvalidNumber(expressionContent)) {
+		if (hasAnInvalidNumber(expressionContent)) {
 			throw new NumberMisplacementException("The given expression contains invalid numbers.");
 		}
 	}
@@ -62,7 +63,7 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 	}
 
 	private void validateOperatorSequence(String expressionContent) throws OperatorMisplacementException {
-		if (this.hasConsecutiveOperators(expressionContent)) {
+		if (hasConsecutiveOperators(expressionContent)) {
 			throw new OperatorMisplacementException("The given expression contains consecutive operators.");
 		}
 	}
@@ -73,7 +74,7 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 	}
 
 	private void validateTokens(String expressionContent) throws InvalidOperatorException {
-		if (this.hasInvalidTokens(expressionContent)) {
+		if (hasInvalidTokens(expressionContent)) {
 			throw new InvalidOperatorException("The given expression contains invalid tokens.");
 		}
 	}
@@ -85,7 +86,7 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 
 	private void validateIfAnyNumbersAreGluedAroundBracketedExpression(String expressionContent)
 			throws BracketsException {
-		if (this.hasNumbersGluedAroundBracketExpression(expressionContent)) {
+		if (hasNumbersGluedAroundBracketExpression(expressionContent)) {
 			throw new BracketsException(
 					"It is not allowed to have a number right before a '(' symbol or right after a ')' symbol.");
 		}
@@ -97,19 +98,19 @@ public class UnformattedInfixExpressionValidator extends ExpressionFilter {
 	}
 
 	private void validateSubexpressionEnds(String expressionContent) throws CalculatorException {
-		this.validateExpressionAfterOpeningBrackets(expressionContent);
-		this.validateExpressionBeforeClosingBrackets(expressionContent);
+		validateExpressionAfterOpeningBrackets(expressionContent);
+		validateExpressionBeforeClosingBrackets(expressionContent);
 	}
 
 	private void validateExpressionAfterOpeningBrackets(String expressionContent) throws OperatorMisplacementException {
 		// there shouldn't be an *, / or ^ symbol right after an opening bracket
-		this.validateStringByPattern(expressionContent, ".*\\([*\\/^].*");
+		validateStringByPattern(expressionContent, ".*\\([*\\/^].*");
 	}
 
 	private void validateExpressionBeforeClosingBrackets(String expressionContent)
 			throws OperatorMisplacementException {
 		// A there should be no arithmetic operators right before a closing bracket
-		this.validateStringByPattern(expressionContent, ".*[-+*\\/^]\\).*");
+		validateStringByPattern(expressionContent, ".*[-+*\\/^]\\).*");
 	}
 
 	private void validateStringByPattern(String string, String invalidPattern) throws OperatorMisplacementException {

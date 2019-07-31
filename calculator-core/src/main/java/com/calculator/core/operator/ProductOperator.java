@@ -4,7 +4,7 @@ public final class ProductOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 1;
 
 	{
-		this.symbolicRepresentation = Operators.PRODUCT;
+		symbolicRepresentation = Operators.PRODUCT;
 	}
 
 	@Override

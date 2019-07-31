@@ -35,67 +35,67 @@ public class LauncherTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		this.setUpOutputStream();
-		this.setUpErrorStream();
+		setUpOutputStream();
+		setUpErrorStream();
 
-		this.launcher = new Launcher(this.calculatorWrapper);
+		launcher = new Launcher(calculatorWrapper);
 	}
 
 	@After
 	public void tearDown() {
-		this.tearDownOutputStream();
-		this.tearDownErrorStream();
+		tearDownOutputStream();
+		tearDownErrorStream();
 	}
 
 	@Test
 	public void setUpLocale_run() {
-		this.launcher.run(new String[] { "1" });
+		launcher.run(new String[] { "1" });
 
 		assertEquals(Locale.US, Locale.getDefault());
 	}
 
 	@Test
 	public void invalidNumberOfArguments_run() {
-		this.launcher.run(new String[] { "1", "2" });
+		launcher.run(new String[] { "1", "2" });
 
 		String expectedMessage = "Invalid number of arguments. Only one argument is expected.";
-		assertEquals(expectedMessage, this.errorByteStream.toString());
+		assertEquals(expectedMessage, errorByteStream.toString());
 	}
 
 	@Test
 	public void verifyCalculation_run() throws Exception {
-		when(this.calculatorWrapper.calculate(any())).thenReturn(Double.valueOf(1.0d));
+		when(calculatorWrapper.calculate(any())).thenReturn(Double.valueOf(1.0d));
 
-		this.launcher.run(new String[] { "1" });
+		launcher.run(new String[] { "1" });
 
 		String expectedMessage = "The expression result is 1.00.";
-		assertEquals(expectedMessage, this.outputByteStream.toString());
+		assertEquals(expectedMessage, outputByteStream.toString());
 	}
 
 	private void setUpOutputStream() {
-		this.outputByteStream = new ByteArrayOutputStream();
-		this.testingOutputPrintStream = new PrintStream(this.outputByteStream);
-		this.originaOutputlPrintStream = System.out;
+		outputByteStream = new ByteArrayOutputStream();
+		testingOutputPrintStream = new PrintStream(outputByteStream);
+		originaOutputlPrintStream = System.out;
 
-		System.setOut(this.testingOutputPrintStream);
+		System.setOut(testingOutputPrintStream);
 		;
 	}
 
 	private void tearDownOutputStream() {
 		System.out.flush();
-		System.setOut(this.originaOutputlPrintStream);
+		System.setOut(originaOutputlPrintStream);
 	}
 
 	private void setUpErrorStream() {
-		this.errorByteStream = new ByteArrayOutputStream();
-		this.testingErrorPrintStream = new PrintStream(this.errorByteStream);
-		this.originalErrorPrintStream = System.err;
+		errorByteStream = new ByteArrayOutputStream();
+		testingErrorPrintStream = new PrintStream(errorByteStream);
+		originalErrorPrintStream = System.err;
 
-		System.setErr(this.testingErrorPrintStream);
+		System.setErr(testingErrorPrintStream);
 	}
 
 	private void tearDownErrorStream() {
 		System.err.flush();
-		System.setErr(this.originalErrorPrintStream);
+		System.setErr(originalErrorPrintStream);
 	}
 }

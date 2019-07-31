@@ -21,13 +21,13 @@ public class MainTest {
 
 	@Test
 	public void verifyLauncherRunExecution_main() throws Exception {
-		Main.setLauncher(this.launcher);
+		Main.setLauncher(launcher);
 
 		Main.main(new String[] { "1" });
 
-		InOrder mockOrder = inOrder(this.launcher);
+		InOrder mockOrder = inOrder(launcher);
 
-		mockOrder.verify(this.launcher).run(any());
+		mockOrder.verify(launcher).run(any());
 		mockOrder.verifyNoMoreInteractions();
 	}
 }

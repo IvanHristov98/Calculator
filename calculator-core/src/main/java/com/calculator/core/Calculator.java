@@ -12,14 +12,14 @@ public class Calculator implements iCalculator {
 	}
 
 	public Double calculate(Expression expression) throws CalculatorException {
-		Expression resultExpression = this.getCalculationResult(expression);
+		Expression resultExpression = getCalculationResult(expression);
 		return Double.valueOf(resultExpression.getContent());
 	}
 
 	private Expression getCalculationResult(Expression expression) throws CalculatorException {
-		expression = this.infixExpressionFilter.validateExpression(expression);
-		expression = this.infixExpressionFilter.formatExpression(expression);
-		expression = this.infixExpressionFilter.translateToPostfix(expression);
-		return this.postfixCalculator.process(expression);
+		expression = infixExpressionFilter.validateExpression(expression);
+		expression = infixExpressionFilter.formatExpression(expression);
+		expression = infixExpressionFilter.translateToPostfix(expression);
+		return postfixCalculator.process(expression);
 	}
 }

@@ -7,7 +7,7 @@ public abstract class Operator implements Comparable<Operator> {
 
 	@Override
 	public int compareTo(Operator other) {
-		return Integer.compare(this.getPriority(), other.getPriority());
+		return Integer.compare(getPriority(), other.getPriority());
 	}
 
 	public String getSymbolicRepresentation() {

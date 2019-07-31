@@ -10,26 +10,26 @@ public class NumberCheckerTest {
 
 	@Before
 	public void setUp() {
-		this.numberChecker = new NumberChecker();
+		numberChecker = new NumberChecker();
 	}
 
 	@Test
 	public void nonNumber_isNumber() {
-		assertEquals(false, this.numberChecker.isNumber("+"));
+		assertEquals(false, numberChecker.isNumber("+"));
 	}
 
 	@Test
 	public void integer_isNumber() {
-		assertEquals(true, this.numberChecker.isNumber("1"));
+		assertEquals(true, numberChecker.isNumber("1"));
 	}
 
 	@Test
 	public void floatingPointNumber_isNumber() {
-		assertEquals(true, this.numberChecker.isNumber("1.2"));
+		assertEquals(true, numberChecker.isNumber("1.2"));
 	}
 
 	@Test
 	public void invalidFloatingPointNumber_isNumber() {
-		assertEquals(false, this.numberChecker.isNumber("1.2.3"));
+		assertEquals(false, numberChecker.isNumber("1.2.3"));
 	}
 }

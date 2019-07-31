@@ -20,34 +20,34 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	}
 
 	public Expression process(Expression expression) throws CalculatorException {
-		return new Expression(this.toPostfixExpression(this.expressionTokenSplitter.getExpressionTokens(expression)));
+		return new Expression(toPostfixExpression(expressionTokenSplitter.getExpressionTokens(expression)));
 	}
 
 	private String toPostfixExpression(String[] tokens) throws OperatorException {
 		Queue<String> output = new LinkedList<>();
 		Stack<String> operators = new Stack<>();
 
-		this.readTokens(output, operators, tokens);
-		this.moveTokensFromOperatorsStackToOutputQueue(output, operators);
+		readTokens(output, operators, tokens);
+		moveTokensFromOperatorsStackToOutputQueue(output, operators);
 
-		return this.popQueueToString(output);
+		return popQueueToString(output);
 	}
 
 	private void readTokens(Queue<String> output, Stack<String> operators, String[] tokens) throws OperatorException {
 		for (String token : tokens) {
-			this.distributeToken(output, operators, token);
+			distributeToken(output, operators, token);
 		}
 	}
 
 	private void distributeToken(Queue<String> output, Stack<String> operators, String token) throws OperatorException {
-		if (this.numberChecker.isNumber(token)) {
-			this.addItemToOutput(output, token);
-		} else if (OperatorChecker.isArithmeticOperator(this.convertToOperator(token))) {
-			this.addArithmeticOperatorToOperatorStack(output, operators, token);
-		} else if (OperatorChecker.isLeftBracket(this.convertToOperator(token))) {
-			this.addItemToOperatorStack(operators, token);
-		} else if (OperatorChecker.isRightBracket(this.convertToOperator(token))) {
-			this.moveTokensFromOperatorStackToOutputUntilLeftBracket(operators, output);
+		if (numberChecker.isNumber(token)) {
+			addItemToOutput(output, token);
+		} else if (OperatorChecker.isArithmeticOperator(convertToOperator(token))) {
+			addArithmeticOperatorToOperatorStack(output, operators, token);
+		} else if (OperatorChecker.isLeftBracket(convertToOperator(token))) {
+			addItemToOperatorStack(operators, token);
+		} else if (OperatorChecker.isRightBracket(convertToOperator(token))) {
+			moveTokensFromOperatorStackToOutputUntilLeftBracket(operators, output);
 		}
 	}
 
@@ -61,17 +61,17 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 
 	private void addArithmeticOperatorToOperatorStack(Queue<String> output, Stack<String> operators, String token)
 			throws OperatorException {
-		while (!operators.empty() && this.shouldPopFromTheOperatorStack(operators, token)) {
-			this.moveTokenFromOperatorStackToOutput(operators, output);
+		while (!operators.empty() && shouldPopFromTheOperatorStack(operators, token)) {
+			moveTokenFromOperatorStackToOutput(operators, output);
 		}
 
-		this.addItemToOperatorStack(operators, token);
+		addItemToOperatorStack(operators, token);
 	}
 
 	private boolean shouldPopFromTheOperatorStack(Stack<String> operators, String token)
 			throws InvalidOperatorException {
-		Operator nextOperator = this.convertToOperator(operators.peek());
-		Operator current = this.convertToOperator(token);
+		Operator nextOperator = convertToOperator(operators.peek());
+		Operator current = convertToOperator(token);
 
 		if (OperatorChecker.isLeftBracket(nextOperator)) {
 			return false;
@@ -84,7 +84,7 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	}
 
 	private void moveTokenFromOperatorStackToOutput(Stack<String> operators, Queue<String> output) {
-		this.addItemToOutput(output, operators.pop());
+		addItemToOutput(output, operators.pop());
 	}
 
 	private void addItemToOperatorStack(Stack<String> operators, String token) {
@@ -93,7 +93,7 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 
 	private void moveTokensFromOperatorStackToOutputUntilLeftBracket(Stack<String> operators, Queue<String> output)
 			throws OperatorException {
-		while (!operators.empty() && !OperatorChecker.isLeftBracket(this.convertToOperator(operators.peek()))) {
+		while (!operators.empty() && !OperatorChecker.isLeftBracket(convertToOperator(operators.peek()))) {
 			moveTokenFromOperatorStackToOutput(operators, output);
 		}
 
@@ -108,13 +108,13 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	private void moveTokensFromOperatorsStackToOutputQueue(Queue<String> output, Stack<String> operators)
 			throws OperatorException {
 		while (!operators.empty()) {
-			Operator topOperator = this.convertToOperator(operators.peek());
+			Operator topOperator = convertToOperator(operators.peek());
 
 			if (OperatorChecker.isBracket(topOperator)) {
 				throw new BracketsException("Brackets error encountered - missing closing bracket.");
 			}
 
-			this.moveTokenFromOperatorStackToOutput(operators, output);
+			moveTokenFromOperatorStackToOutput(operators, output);
 		}
 	}
 

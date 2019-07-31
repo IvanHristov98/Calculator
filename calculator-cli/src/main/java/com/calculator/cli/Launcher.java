@@ -24,7 +24,7 @@ public class Launcher {
 			String expressionContent = args[EXPRESSION_CONTENT_POSITION_IN_ARGUMENTS];
 			Expression expression = new Expression(expressionContent);
 
-			double calculationResult = this.calculator.calculate(expression);
+			double calculationResult = calculator.calculate(expression);
 
 			System.out.printf("The expression result is %.2f.", calculationResult);
 		} catch (Exception exception) {

@@ -12,15 +12,15 @@ public class InfixExpressionFormatter extends ExpressionFilter {
 	}
 
 	public Expression process(Expression expression) throws CalculatorException {
-		expression = this.expressionModifier.getExpressionWrappedWithBrackets(expression);
-		expression = this.expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
+		expression = expressionModifier.getExpressionWrappedWithBrackets(expression);
+		expression = expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 
-		return new Expression(this.unify(expression.getContent()));
+		return new Expression(unify(expression.getContent()));
 	}
 
 	private String unify(String expression) throws CalculatorException {
-		expression = this.stripRedundantSymbolsAtBeginning(expression);
-		expression = this.splitTokensWithIntervals(expression).trim();
+		expression = stripRedundantSymbolsAtBeginning(expression);
+		expression = splitTokensWithIntervals(expression).trim();
 
 		return expression;
 	}
@@ -31,9 +31,9 @@ public class InfixExpressionFormatter extends ExpressionFilter {
 	}
 
 	private String splitTokensWithIntervals(String expression) {
-		expression = this.splitNumbersWithIntervals(expression);
-		expression = this.splitOperatorsWithIntervals(expression);
-		expression = this.mergeNegativeNumbersAtBeginning(expression);
+		expression = splitNumbersWithIntervals(expression);
+		expression = splitOperatorsWithIntervals(expression);
+		expression = mergeNegativeNumbersAtBeginning(expression);
 
 		return expression;
 	}

@@ -7,7 +7,7 @@ public final class DivisionOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 1;
 
 	{
-		this.symbolicRepresentation = Operators.DIVISION;
+		symbolicRepresentation = Operators.DIVISION;
 	}
 
 	@Override

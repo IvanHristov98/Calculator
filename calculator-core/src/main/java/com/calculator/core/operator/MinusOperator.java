@@ -4,7 +4,7 @@ public final class MinusOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 0;
 
 	{
-		this.symbolicRepresentation = Operators.MINUS;
+		symbolicRepresentation = Operators.MINUS;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ public final class PowOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 2;
 
 	{
-		this.symbolicRepresentation = Operators.POW;
+		symbolicRepresentation = Operators.POW;
 	}
 
 	@Override

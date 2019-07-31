@@ -4,7 +4,7 @@ public final class RightBracketOperator extends Operator {
 	protected static final int PRIORITY = 3;
 
 	{
-		this.symbolicRepresentation = Operators.RIGHT_BRACKET;
+		symbolicRepresentation = Operators.RIGHT_BRACKET;
 	}
 
 	@Override
