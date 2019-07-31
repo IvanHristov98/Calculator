@@ -10,7 +10,7 @@ import java.lang.reflect.Array;
 import org.junit.Test;
 
 public class IncorrectUserInputMainIT {
-	public static String PATH_TO_JAR = "../calculator-cli/target/calculator-cli-1.0-SNAPSHOT-jar-with-dependencies.jar";
+	public static String PATH_TO_JAR = "./target/lib/calculator-cli-1.0-SNAPSHOT.jar";
 	
 	@Test
 	public void invalidNumberOfArguments_main() throws IOException {
