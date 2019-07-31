@@ -3,45 +3,33 @@ package com.calculator.cli.coreWrapper;
 import com.calculator.core.*;
 import com.calculator.core.exception.*;
 
-public class ExceptionWrappingCalculator {
-	private CalculatorFactory calculatorFactory;
-	
-	public ExceptionWrappingCalculator(CalculatorFactory calculatorFactory) {
-		this.calculatorFactory = calculatorFactory;
+public class ExceptionWrappingCalculator extends CalculatorDecorator{
+	public ExceptionWrappingCalculator(iCalculator calculator) {
+		super(calculator);
 	}
 	
-	public double calculate(String expressionContent) throws Exception {
+	public Double calculate(Expression expression) throws CalculatorException {
 		try {
-			return this.getCalculationResult(expressionContent);
+			return calculator.calculate(expression);
 		}
 		catch (BracketsException exception) {
-			throw new Exception("Expression error. Brackets error encountered.");
+			throw new BracketsException("Expression error. Brackets error encountered.");
 		}
 		catch (OperatorMisplacementException exception) {
-			throw new Exception("Expression error. Operator misplacement error encountered.");
+			throw new OperatorMisplacementException("Expression error. Operator misplacement error encountered.");
 		}
 		catch (InvalidOperatorException exception) {
-			throw new Exception("Expression error. Invalid operators encountered. Valid operator symbols are +, -, *, / and ^.");
+			throw new InvalidOperatorException("Expression error. Invalid operators encountered. Valid operator symbols are +, -, *, / and ^.");
 		}
 		catch (DivisionByZeroException exception) {
-			throw new Exception("Expression error. Division by zero encountered.");
+			throw new DivisionByZeroException("Expression error. Division by zero encountered.");
 		}
 		catch (EmptyExpressionException exception) {
-			throw new Exception("Expression error. Empty expression encountered.");
+			throw new EmptyExpressionException("Expression error. Empty expression encountered.");
 		}
 		catch (NumberMisplacementException exception) {
-			throw new Exception("Expression error. Number misplacement encountered. Numbers should be separated by arithmetic operators.");
+			throw new NumberMisplacementException("Expression error. Number misplacement encountered. Numbers should be separated by arithmetic operators.");
 		}
-	}
-	
-	public double getCalculationResult(String expressionContent) throws CalculatorException {
-		Calculator calculator = this.calculatorFactory.makeCalculator();
-		
-		return calculator.calculate(this.getExpression(expressionContent));
-	}
-	
-	public Expression getExpression(String expressionContent) {
-		return new Expression(expressionContent);
 	}
 }
 

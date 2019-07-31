@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 
 import org.junit.After;
 import org.junit.Before;
@@ -64,7 +64,7 @@ public class LauncherTest {
 	
 	@Test
 	public void verifyCalculation_run() throws Exception {
-		when(this.calculatorWrapper.calculate(anyString())).thenReturn(Double.valueOf(1.0d));
+		when(this.calculatorWrapper.calculate(any())).thenReturn(Double.valueOf(1.0d));
 		
 		this.launcher.run(new String [] {"1"});
 		

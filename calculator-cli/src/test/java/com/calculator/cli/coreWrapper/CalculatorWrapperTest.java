@@ -35,14 +35,14 @@ public class CalculatorWrapperTest {
 	
 	@Test
 	public void returnOfCorrectCalculationResult_calculate() throws Exception {
-		String expressionContent = "1";
+		Expression expression = getExpression("1");
 		
 		when(this.calculatorFactory.makeCalculator()).thenReturn(this.calculator);
-		when(this.calculator.calculate(this.getExpression(expressionContent))).thenReturn(1.0d);
+		when(this.calculator.calculate(expression)).thenReturn(1.0d);
+		iCalculator calculator = this.calculatorFactory.makeCalculator();
+		this.calculatorWrapper = new ExceptionWrappingCalculator(calculator);
 		
-		this.calculatorWrapper = new ExceptionWrappingCalculator(this.calculatorFactory);
-		
-		assertEquals(1.0d, this.calculatorWrapper.calculate(expressionContent), 0.0001);
+		assertEquals(1.0d, this.calculatorWrapper.calculate(expression), 0.0001);
 	}
 	
 	@Test
@@ -98,13 +98,13 @@ public class CalculatorWrapperTest {
 		this.expectedException.expect(Exception.class);
 		this.expectedException.expectMessage(message);
 		
-		String expressionContent = "1";
+		Expression expression = getExpression("1");
 		
 		when(this.calculatorFactory.makeCalculator()).thenReturn(this.calculator);
 		when(this.calculator.calculate(any())).thenThrow(exceptionToMockWith);
 		
-		this.calculatorWrapper = new ExceptionWrappingCalculator(this.calculatorFactory);
-		this.calculatorWrapper.calculate(expressionContent);
+		this.calculatorWrapper = new ExceptionWrappingCalculator(this.calculatorFactory.makeCalculator());
+		this.calculatorWrapper.calculate(expression);
 	}
 	
 	private Expression getExpression(String content) {
