@@ -15,10 +15,10 @@ public class InfixExpressionFormatter extends ExpressionFilter {
 		expression = expressionModifier.getExpressionWrappedWithBrackets(expression);
 		expression = expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 
-		return new FormattedExpression(unify(expression.getContent()));
+		return new FormattedExpression(format(expression.getContent()));
 	}
 
-	private String unify(String expression) throws CalculatorException {
+	private String format(String expression) throws CalculatorException {
 		expression = stripRedundantSymbolsAtBeginning(expression);
 		expression = splitTokensWithIntervals(expression).trim();
 
