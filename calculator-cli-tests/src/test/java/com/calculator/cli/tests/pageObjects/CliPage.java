@@ -1,13 +1,14 @@
 package com.calculator.cli.tests.pageObjects;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 
 public class CliPage {
-	public static String PATH_TO_JAR = "./target/lib/calculator-cli-1.0-SNAPSHOT.jar";
+	public static String PATH_TO_JAR = "." + File.separator + "target" + File.separator + "lib" + File.separator + "calculator-cli-1.0-SNAPSHOT.jar";
 	
 	public CliPage () {
 	}
