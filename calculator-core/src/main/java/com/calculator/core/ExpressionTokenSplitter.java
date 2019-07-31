@@ -6,7 +6,7 @@ public class ExpressionTokenSplitter {
 	public ExpressionTokenSplitter() {
 	}
 
-	public String[] getExpressionTokens(Expression expression) {
+	public String[] getExpressionTokens(FormattedExpression expression) {
 		validateIfExpressionIsFormatted(expression.getContent());
 
 		return expression.getContent().split(" ");

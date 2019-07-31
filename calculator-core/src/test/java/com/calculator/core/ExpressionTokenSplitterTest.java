@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ExpressionTokenSplitterTest {
-	private Expression expression;
+	private FormattedExpression expression;
 	private ExpressionTokenSplitter splitter;
 
 	@Before
@@ -18,7 +18,7 @@ public class ExpressionTokenSplitterTest {
 
 	@Test
 	public void formattedExpression_getExpressionTokens() {
-		expression = new Expression("( 1 + 2 ) * 3");
+		expression = new FormattedExpression("( 1 + 2 ) * 3");
 
 		assertArrayEquals(new String[] { "(", "1", "+", "2", ")", "*", "3" },
 				splitter.getExpressionTokens(expression));
@@ -26,7 +26,7 @@ public class ExpressionTokenSplitterTest {
 
 	@Test(expected = UnformattedExpressionException.class)
 	public void unformattedExpression_getExpressionTokens() {
-		expression = new Expression("1+1");
+		expression = new FormattedExpression("1+1");
 
 		splitter.getExpressionTokens(expression);
 	}

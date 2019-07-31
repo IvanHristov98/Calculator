@@ -41,7 +41,7 @@ public class PostfixExpressionCalculatorTest {
 		mockTokensInExpression("1");
 		mockNumberCheckingByOrderOfTokens(true);
 
-		Expression expression = new Expression("1");
+		Expression expression = this.getFormattedExpression("1");
 		calculator.process(expression);
 
 		InOrder mockOrder = inOrder(expressionTokenSplitter);
@@ -56,7 +56,7 @@ public class PostfixExpressionCalculatorTest {
 		mockTokensInExpression("1", "2", "+");
 		mockNumberCheckingByOrderOfTokens(true, true, false);
 
-		Expression expression = new Expression("1 2 +");
+		Expression expression = this.getFormattedExpression("1 2 +");
 		assertEquals(3.0, getExpressionCalculationResult(expression), 0.0001);
 	}
 
@@ -65,7 +65,7 @@ public class PostfixExpressionCalculatorTest {
 		mockTokensInExpression("1", "2", "3", "4", "5", "+", "*", "/", "^");
 		mockNumberCheckingByOrderOfTokens(true, true, true, true, true, false, false, false, false);
 
-		Expression expression = new Expression("1 2 3 4 5 + * / ^");
+		Expression expression = this.getFormattedExpression("1 2 3 4 5 + * / ^");
 		assertEquals(1 ^ (2 / (3 * (4 + 5))), getExpressionCalculationResult(expression), 0.0001);
 	}
 
@@ -74,7 +74,7 @@ public class PostfixExpressionCalculatorTest {
 		mockTokensInExpression("1", "A", "5");
 		mockNumberCheckingByOrderOfTokens(true, false, true);
 
-		Expression expression = new Expression("1 A 5");
+		Expression expression = this.getFormattedExpression("1 A 5");
 		calculator.process(expression);
 	}
 
@@ -83,7 +83,7 @@ public class PostfixExpressionCalculatorTest {
 		mockTokensInExpression("1", "2", "3", "+");
 		mockNumberCheckingByOrderOfTokens(true, true, true, false);
 
-		Expression expression = new Expression("1 2 3 +");
+		Expression expression = this.getFormattedExpression("1 2 3 +");
 		calculator.process(expression);
 	}
 
@@ -92,7 +92,7 @@ public class PostfixExpressionCalculatorTest {
 		mockTokensInExpression("1", "+");
 		mockNumberCheckingByOrderOfTokens(true, false);
 
-		Expression expression = new Expression("1 +");
+		Expression expression = this.getFormattedExpression("1 +");
 		calculator.process(expression);
 	}
 
@@ -110,5 +110,9 @@ public class PostfixExpressionCalculatorTest {
 		calculationResult = Double.valueOf(resultExpression.getContent());
 
 		return calculationResult;
+	}
+	
+	private FormattedExpression getFormattedExpression(String content) {
+		return new FormattedExpression(content);
 	}
 }

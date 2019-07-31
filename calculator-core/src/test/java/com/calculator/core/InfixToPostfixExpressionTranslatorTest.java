@@ -40,7 +40,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1");
 		mockNumberCheckingByOrderOfTokens(true);
 
-		Expression expression = new Expression("1");
+		Expression expression = this.getFormattedExpression("1");
 		postfixTranslator.process(expression);
 
 		InOrder mockOrder = inOrder(expressionTokenSplitter);
@@ -55,7 +55,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "+", "1", ")");
 		mockNumberCheckingByOrderOfTokens(true, false, true, false);
 
-		Expression expression = new Expression("1+1)");
+		Expression expression = this.getFormattedExpression("1+1)");
 		postfixTranslator.process(expression);
 	}
 
@@ -64,7 +64,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("(", "1", "+", "1");
 		mockNumberCheckingByOrderOfTokens(false, true, false, true);
 
-		Expression expression = new Expression("(1+1");
+		Expression expression = this.getFormattedExpression("(1+1");
 		postfixTranslator.process(expression);
 	}
 
@@ -73,7 +73,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("(", "1", "+", "1", ")");
 		mockNumberCheckingByOrderOfTokens(false, true, false, true, false);
 
-		Expression expression = new Expression("(1+1)");
+		Expression expression = this.getFormattedExpression("(1+1)");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 1 +", expression.getContent());
 	}
@@ -83,7 +83,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "+", "1");
 		mockNumberCheckingByOrderOfTokens(true, false, true);
 
-		Expression expression = new Expression("1+1");
+		Expression expression = this.getFormattedExpression("1+1");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 1 +", expression.getContent());
 	}
@@ -93,7 +93,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("-1", "+", "1");
 		mockNumberCheckingByOrderOfTokens(true, false, true);
 
-		Expression expression = new Expression("-1+1");
+		Expression expression = this.getFormattedExpression("-1+1");
 		expression = postfixTranslator.process(expression);
 		assertEquals("-1 1 +", expression.getContent());
 	}
@@ -103,7 +103,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "*", "2", "+", "3");
 		mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
 
-		Expression expression = new Expression("1*2+3");
+		Expression expression = this.getFormattedExpression("1*2+3");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 * 3 +", expression.getContent());
 	}
@@ -113,7 +113,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "/", "2", "*", "3");
 		mockNumberCheckingByOrderOfTokens(true, false, true, false, true);
 
-		Expression expression = new Expression("1/2*3");
+		Expression expression = this.getFormattedExpression("1/2*3");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 / 3 *", expression.getContent());
 	}
@@ -123,7 +123,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("(", "1", "+", "2", ")", "*", "3");
 		mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
 
-		Expression expression = new Expression("(1+2)*3");
+		Expression expression = this.getFormattedExpression("(1+2)*3");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 + 3 *", expression.getContent());
 	}
@@ -133,7 +133,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "*", "(", "2", "+", "3", ")");
 		mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false);
 
-		Expression expression = new Expression("1*(2+3)");
+		Expression expression = this.getFormattedExpression("1*(2+3)");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 3 + *", expression.getContent());
 	}
@@ -143,7 +143,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("(", "(", "(", "1", "+", "1", ")", ")", ")");
 		mockNumberCheckingByOrderOfTokens(false, false, false, true, false, true, false, false, false);
 
-		Expression expression = new Expression("(((1+1)))");
+		Expression expression = this.getFormattedExpression("(((1+1)))");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 1 +", expression.getContent());
 	}
@@ -153,7 +153,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("(", "1", "+", "2", ")", "*", "(", "3", "+", "4", ")");
 		mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, false, true, false, true, false);
 
-		Expression expression = new Expression("(1+2)*(3+4)");
+		Expression expression = this.getFormattedExpression("(1+2)*(3+4)");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 + 3 4 + *", expression.getContent());
 	}
@@ -163,7 +163,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("(", "1", "+", "2", ")", "^", "3");
 		mockNumberCheckingByOrderOfTokens(false, true, false, true, false, false, true);
 
-		Expression expression = new Expression("(1+2)^3");
+		Expression expression = this.getFormattedExpression("(1+2)^3");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 + 3 ^", expression.getContent());
 	}
@@ -173,7 +173,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "^", "2", "^", "3", "^", "4");
 		mockNumberCheckingByOrderOfTokens(true, false, true, false, true, false, true);
 
-		Expression expression = new Expression("1^2^3^4");
+		Expression expression = this.getFormattedExpression("1^2^3^4");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 3 4 ^ ^ ^", expression.getContent());
 	}
@@ -183,7 +183,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 		mockTokensInExpression("1", "^", "(", "2", "+", "3", ")", "^", "4");
 		mockNumberCheckingByOrderOfTokens(true, false, false, true, false, true, false, false, true);
 
-		Expression expression = new Expression("1^(2+3)^4");
+		Expression expression = this.getFormattedExpression("1^(2+3)^4");
 		expression = postfixTranslator.process(expression);
 		assertEquals("1 2 3 + 4 ^ ^", expression.getContent());
 	}
@@ -195,5 +195,9 @@ public class InfixToPostfixExpressionTranslatorTest {
 	private void mockNumberCheckingByOrderOfTokens(Boolean... isNumberValues) {
 		List<Boolean> isNumberValuesAsList = Arrays.asList(isNumberValues);
 		when(numberChecker.isNumber(anyString())).then(new ReturnsElementsOf(isNumberValuesAsList));
+	}
+	
+	private FormattedExpression getFormattedExpression(String content) {
+		return new FormattedExpression(content);
 	}
 }

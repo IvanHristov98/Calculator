@@ -39,7 +39,7 @@ public class PostfixExpressionCalculator extends ExpressionFilter {
 
 	private Stack<Double> getPostfixExpressionValue(Expression expression, Stack<Double> numbers)
 			throws CalculatorException {
-		for (String token : expressionTokenSplitter.getExpressionTokens(expression)) {
+		for (String token : expressionTokenSplitter.getExpressionTokens((FormattedExpression)expression)) {
 			if (numberChecker.isNumber(token)) {
 				numbers = addNumberToNumbersStack(numbers, token);
 			} else if (OperatorChecker.isArithmeticOperator(OperatorFactory.makeOperator(token))) {

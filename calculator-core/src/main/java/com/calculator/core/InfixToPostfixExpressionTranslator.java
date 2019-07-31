@@ -20,7 +20,7 @@ public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
 	}
 
 	public Expression process(Expression expression) throws CalculatorException {
-		return new Expression(toPostfixExpression(expressionTokenSplitter.getExpressionTokens(expression)));
+		return new FormattedExpression(toPostfixExpression(expressionTokenSplitter.getExpressionTokens((FormattedExpression)expression)));
 	}
 
 	private String toPostfixExpression(String[] tokens) throws OperatorException {

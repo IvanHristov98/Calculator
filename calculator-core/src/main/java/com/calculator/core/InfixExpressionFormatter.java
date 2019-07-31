@@ -15,7 +15,7 @@ public class InfixExpressionFormatter extends ExpressionFilter {
 		expression = expressionModifier.getExpressionWrappedWithBrackets(expression);
 		expression = expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 
-		return new Expression(unify(expression.getContent()));
+		return new FormattedExpression(unify(expression.getContent()));
 	}
 
 	private String unify(String expression) throws CalculatorException {
