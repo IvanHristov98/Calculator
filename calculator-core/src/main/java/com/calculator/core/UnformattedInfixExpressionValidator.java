@@ -4,12 +4,10 @@ import com.calculator.core.exception.*;
 
 import java.util.regex.Pattern;
 
-public class UnformattedInfixExpressionValidator extends ExpressionFilter {
+public class UnformattedInfixExpressionValidator implements ExpressionFilter {
 	ExpressionModifier expressionModifier;
 
 	public UnformattedInfixExpressionValidator(ExpressionModifier expressionModifier) {
-		super();
-		
 		this.expressionModifier = expressionModifier;
 	}
 

@@ -10,13 +10,11 @@ import com.calculator.core.operator.OperatorFactory;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-public class PostfixExpressionCalculator extends ExpressionFilter {
+public class PostfixExpressionCalculator implements ExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;
 	private NumberChecker numberChecker;
 
 	public PostfixExpressionCalculator(ExpressionTokenSplitter expressionTokenSplitter, NumberChecker numberChecker) {
-		super();
-
 		this.expressionTokenSplitter = expressionTokenSplitter;
 		this.numberChecker = numberChecker;
 	}

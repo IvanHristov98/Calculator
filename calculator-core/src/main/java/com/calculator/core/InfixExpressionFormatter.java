@@ -2,12 +2,10 @@ package com.calculator.core;
 
 import com.calculator.core.exception.*;
 
-public class InfixExpressionFormatter extends ExpressionFilter {
+public class InfixExpressionFormatter implements ExpressionFilter {
 	ExpressionModifier expressionModifier;
 
 	public InfixExpressionFormatter(ExpressionModifier expressionModifier) {
-		super();
-
 		this.expressionModifier = expressionModifier;
 	}
 

@@ -7,14 +7,12 @@ import java.util.Stack;
 import com.calculator.core.exception.*;
 import com.calculator.core.operator.*;
 
-public class InfixToPostfixExpressionTranslator extends ExpressionFilter {
+public class InfixToPostfixExpressionTranslator implements ExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;
 	private NumberChecker numberChecker;
 
 	public InfixToPostfixExpressionTranslator(ExpressionTokenSplitter expressionTokenSplitter,
 			NumberChecker numberChecker) {
-		super();
-
 		this.expressionTokenSplitter = expressionTokenSplitter;
 		this.numberChecker = numberChecker;
 	}
