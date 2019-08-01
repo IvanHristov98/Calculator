@@ -39,6 +39,13 @@
 		<profile>
 			<id>skip-unit-tests</id>
 			
+			<activation>
+				<property>
+					<name>skipUnitTests</name>
+					<value>true</value>
+				</property>
+			</activation>
+			
 			<build>
 			    <plugins>
 			      <plugin>
@@ -54,6 +61,13 @@
 		</profile>
 		<profile>
 			<id>skip-integration-tests</id>
+			
+			<activation>
+				<property>
+					<name>skipIntegrationTests</name>
+					<value>true</value>
+				</property>
+			</activation>
 			
 			<build>
 		        <plugins>
