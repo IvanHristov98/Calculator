@@ -16,6 +16,24 @@
   <name>calculator-cli</name>
   <url>http://maven.apache.org</url>
   
+  <build>
+	  <plugins>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-jar-plugin</artifactId>
+	           <version>3.1.2</version>
+	        <configuration>
+	          <archive>
+	            <manifest>
+	              <addClasspath>true</addClasspath>
+	              <mainClass>com.calculator.cli.Main</mainClass>
+	            </manifest>
+	          </archive>
+	        </configuration>
+	      </plugin>
+	  </plugins>
+	</build>
+  
   <dependencies>
   	<dependency>
 		<groupId>com.calculator.core</groupId>
@@ -44,21 +62,5 @@
 	</dependency>
   </dependencies>
   
-  <build>
-  <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-           <version>3.1.2</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>com.calculator.cli.Main</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-  </plugins>
-</build>
+
 </project>
