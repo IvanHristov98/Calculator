@@ -1,6 +1,8 @@
 package com.calculator.cli.coreWrapper;
 
-import static org.junit.Assert.assertEquals;
+import com.calculator.core.CalculatorFactory;
+import com.calculator.core.Expression;
+import com.calculator.core.exception.*;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,9 +15,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.calculator.core.CalculatorFactory;
-import com.calculator.core.Expression;
-import com.calculator.core.exception.*;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 
 public class CalculatorAdapterTest {
 	@Mock
@@ -40,7 +41,7 @@ public class CalculatorAdapterTest {
 	public void verifyCalculation() throws Exception {
 		when(calculator.calculate(any())).thenReturn(1.0);
 		
-		assertEquals(1.0, calculatorAdapter.calculate(expression), 0.001);
+		assertThat(calculatorAdapter.calculate(expression), closeTo(1.0, 0.001));
 	}
 	
 	@Test

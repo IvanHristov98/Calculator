@@ -18,7 +18,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.junit.Before;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class InfixToPostfixExpressionTranslatorTest {
 	@Mock
@@ -75,7 +76,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("(1+1)");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 1 +", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 1 +"));
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("1+1");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 1 +", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 1 +"));
 	}
 
 	@Test
@@ -95,7 +96,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("-1+1");
 		expression = postfixTranslator.process(expression);
-		assertEquals("-1 1 +", expression.getContent());
+		assertThat(expression.getContent(), equalTo("-1 1 +"));
 	}
 
 	@Test
@@ -105,7 +106,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("1*2+3");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 * 3 +", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 * 3 +"));
 	}
 
 	@Test
@@ -115,7 +116,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("1/2*3");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 / 3 *", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 / 3 *"));
 	}
 
 	@Test
@@ -125,7 +126,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("(1+2)*3");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 + 3 *", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 + 3 *"));
 	}
 
 	@Test
@@ -135,7 +136,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("1*(2+3)");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 3 + *", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 3 + *"));
 	}
 
 	@Test
@@ -145,7 +146,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("(((1+1)))");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 1 +", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 1 +"));
 	}
 
 	@Test
@@ -155,7 +156,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("(1+2)*(3+4)");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 + 3 4 + *", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 + 3 4 + *"));
 	}
 
 	@Test
@@ -165,7 +166,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("(1+2)^3");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 + 3 ^", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 + 3 ^"));
 	}
 
 	@Test
@@ -175,7 +176,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("1^2^3^4");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 3 4 ^ ^ ^", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 3 4 ^ ^ ^"));
 	}
 
 	@Test
@@ -185,7 +186,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 		Expression expression = this.getFormattedExpression("1^(2+3)^4");
 		expression = postfixTranslator.process(expression);
-		assertEquals("1 2 3 + 4 ^ ^", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1 2 3 + 4 ^ ^"));
 	}
 
 	private void mockTokensInExpression(String... tokens) {

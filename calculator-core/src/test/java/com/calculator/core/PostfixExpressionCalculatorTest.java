@@ -7,12 +7,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.stubbing.answers.ReturnsElementsOf;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -57,7 +58,7 @@ public class PostfixExpressionCalculatorTest {
 		mockNumberCheckingByOrderOfTokens(true, true, false);
 
 		Expression expression = this.getFormattedExpression("1 2 +");
-		assertEquals(3.0, getExpressionCalculationResult(expression), 0.0001);
+		assertThat(getExpressionCalculationResult(expression), closeTo(3.0, 0.0001));
 	}
 
 	@Test
@@ -66,7 +67,7 @@ public class PostfixExpressionCalculatorTest {
 		mockNumberCheckingByOrderOfTokens(true, true, true, true, true, false, false, false, false);
 
 		Expression expression = this.getFormattedExpression("1 2 3 4 5 + * / ^");
-		assertEquals(1 ^ (2 / (3 * (4 + 5))), getExpressionCalculationResult(expression), 0.0001);
+		assertThat(getExpressionCalculationResult(expression), closeTo(1 ^ (2 / (3 * (4 + 5))), 0.0001));
 	}
 
 	@Test(expected = InvalidOperatorException.class)

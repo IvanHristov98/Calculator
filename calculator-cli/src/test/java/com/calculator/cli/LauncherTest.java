@@ -16,7 +16,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class LauncherTest {
 	@Mock
@@ -51,7 +52,7 @@ public class LauncherTest {
 	public void setUpLocale_run() {
 		launcher.run(new String[] { "1" });
 
-		assertEquals(Locale.US, Locale.getDefault());
+		assertThat(Locale.getDefault(), equalTo(Locale.US));
 	}
 
 	@Test
@@ -59,7 +60,7 @@ public class LauncherTest {
 		launcher.run(new String[] { "1", "2" });
 
 		String expectedMessage = "Invalid number of arguments. Only one argument is expected.";
-		assertEquals(expectedMessage, errorByteStream.toString());
+		assertThat(errorByteStream.toString(), equalTo(expectedMessage));
 	}
 
 	@Test
@@ -69,7 +70,7 @@ public class LauncherTest {
 		launcher.run(new String[] { "1" });
 
 		String expectedMessage = "The expression result is 1.00.";
-		assertEquals(expectedMessage, outputByteStream.toString());
+		assertThat(outputByteStream.toString(), equalTo(expectedMessage));
 	}
 
 	private void setUpOutputStream() {
@@ -78,7 +79,6 @@ public class LauncherTest {
 		originaOutputlPrintStream = System.out;
 
 		System.setOut(testingOutputPrintStream);
-		;
 	}
 
 	private void tearDownOutputStream() {

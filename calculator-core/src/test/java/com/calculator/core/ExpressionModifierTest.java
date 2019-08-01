@@ -3,7 +3,8 @@ package com.calculator.core;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class ExpressionModifierTest {
 	Expression expression;
@@ -19,7 +20,7 @@ public class ExpressionModifierTest {
 		expression = new Expression("1+2");
 		expression = expressionModifier.getExpressionWrappedWithBrackets(expression);
 
-		assertEquals("(1+2)", expression.getContent());
+		assertThat(expression.getContent(), equalTo("(1+2)"));
 	}
 
 	@Test
@@ -27,6 +28,6 @@ public class ExpressionModifierTest {
 		expression = new Expression("1 + 2");
 		expression = expressionModifier.getExpressionWithStrippedWhiteSpaces(expression);
 
-		assertEquals("1+2", expression.getContent());
+		assertThat(expression.getContent(), equalTo("1+2"));
 	}
 }

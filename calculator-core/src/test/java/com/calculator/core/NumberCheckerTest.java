@@ -1,6 +1,7 @@
 package com.calculator.core;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,21 +16,21 @@ public class NumberCheckerTest {
 
 	@Test
 	public void nonNumber_isNumber() {
-		assertEquals(false, numberChecker.isNumber("+"));
+		assertThat(numberChecker.isNumber("+"), equalTo(false));
 	}
 
 	@Test
 	public void integer_isNumber() {
-		assertEquals(true, numberChecker.isNumber("1"));
+		assertThat(numberChecker.isNumber("1"), equalTo(true));
 	}
 
 	@Test
 	public void floatingPointNumber_isNumber() {
-		assertEquals(true, numberChecker.isNumber("1.2"));
+		assertThat(numberChecker.isNumber("1.2"), equalTo(true));
 	}
 
 	@Test
 	public void invalidFloatingPointNumber_isNumber() {
-		assertEquals(false, numberChecker.isNumber("1.2.3"));
+		assertThat(numberChecker.isNumber("1.2.3"), equalTo(false));
 	}
 }

@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import com.calculator.cli.tests.pageObjects.CliPage;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class CorrectUserInputMainIT {
 	private CliPage cliPage;

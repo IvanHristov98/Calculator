@@ -13,7 +13,8 @@ import static org.mockito.Mockito.inOrder;
 import org.junit.Test;
 import org.junit.Before;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class InfixExpressionFormatterTest {
 	@Mock
@@ -52,7 +53,7 @@ public class InfixExpressionFormatterTest {
 		Expression expression = new Expression("3+4+5");
 		expression = formatUnifier.process(expression);
 
-		assertEquals("( 3 + 4 + 5 )", expression.getContent());
+		assertThat(expression.getContent(), equalTo("( 3 + 4 + 5 )"));
 	}
 
 	@Test
@@ -61,7 +62,7 @@ public class InfixExpressionFormatterTest {
 
 		Expression expression = new Expression("3*(4+5)");
 		expression = formatUnifier.process(expression);
-		assertEquals("( 3 * ( 4 + 5 ) )", expression.getContent());
+		assertThat(expression.getContent(), equalTo("( 3 * ( 4 + 5 ) )"));
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class InfixExpressionFormatterTest {
 
 		Expression expression = new Expression("3.5+123.4567");
 		expression = formatUnifier.process(expression);
-		assertEquals("( 3.5 + 123.4567 )", expression.getContent());
+		assertThat(expression.getContent(), equalTo("( 3.5 + 123.4567 )"));
 	}
 
 	@Test
@@ -79,7 +80,7 @@ public class InfixExpressionFormatterTest {
 
 		Expression expression = new Expression("+1/2");
 		expression = formatUnifier.process(expression);
-		assertEquals("( 1 / 2 )", expression.getContent());
+		assertThat(expression.getContent(), equalTo("( 1 / 2 )"));
 	}
 
 	@Test
@@ -88,7 +89,7 @@ public class InfixExpressionFormatterTest {
 
 		Expression expression = new Expression("(-1+1)");
 		expression = formatUnifier.process(expression);
-		assertEquals("( ( -1 + 1 ) )", expression.getContent());
+		assertThat(expression.getContent(), equalTo("( ( -1 + 1 ) )"));
 	}
 
 	@Test
@@ -97,7 +98,7 @@ public class InfixExpressionFormatterTest {
 
 		Expression expression = new Expression("-1+2");
 		expression = formatUnifier.process(expression);
-		assertEquals("( -1 + 2 )", expression.getContent());
+		assertThat(expression.getContent(), equalTo("( -1 + 2 )"));
 	}
 
 	private void stubDependenciesOfProcess(String initialExpression, String wrappedExpression,
