@@ -2,7 +2,7 @@ package com.calculator.core;
 
 import com.calculator.core.exception.*;
 
-public class InfixExpressionFormatter implements ExpressionFilter {
+public class InfixExpressionFormatter implements IExpressionFilter {
 	ExpressionModifier expressionModifier;
 
 	public InfixExpressionFormatter(ExpressionModifier expressionModifier) {
