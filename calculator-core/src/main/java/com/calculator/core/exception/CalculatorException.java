@@ -1,7 +1,7 @@
 package com.calculator.core.exception;
 
+@SuppressWarnings("serial")
 public abstract class CalculatorException extends Exception {
-	private static final long serialVersionUID = 4383426569797774387L;
 
 	public CalculatorException(String message) {
 		super(message);
