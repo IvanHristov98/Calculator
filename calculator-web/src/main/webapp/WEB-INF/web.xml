@@ -4,4 +4,18 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+  	<servlet-name>MainController</servlet-name>
+  	<servlet-class>com.calculator.MainController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>MainController</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MainController</servlet-name>
+  	<url-pattern>/main</url-pattern>
+  </servlet-mapping>
 </web-app>
