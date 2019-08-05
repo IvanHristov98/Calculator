@@ -1,6 +1,7 @@
 package com.calculator.web.wrapper;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,6 +15,7 @@ import static org.hamcrest.Matchers.closeTo;
 
 import com.calculator.core.Expression;
 import com.calculator.core.exception.*;
+import com.calculator.web.wrapper.exception.WebCalculatorException;
 
 public class CalculatorAdapterTest {
 	@Rule
@@ -40,37 +42,44 @@ public class CalculatorAdapterTest {
 	@Test
 	public void verifyOperatorMisplacement() throws Exception {
 		mockCalculatorToReturnException(OperatorMisplacementException.class);
-		verifyExpectedException(Exception.class, "Expression error. Operator misplacement has been encountered.");
+		verifyExpectedException(WebCalculatorException.class, "Expression error. Operator misplacement has been encountered.");
 	}
 	
 	@Test
 	public void verifyBracketsException() throws Exception {
 		mockCalculatorToReturnException(BracketsException.class);
-		verifyExpectedException(Exception.class, "Expression error. Brackets misplacement has been encountered.");
+		verifyExpectedException(WebCalculatorException.class, "Expression error. Brackets misplacement has been encountered.");
 	}
 	
 	@Test
 	public void verifyDivisionByZeroException() throws Exception {
 		mockCalculatorToReturnException(DivisionByZeroException.class);
-		verifyExpectedException(Exception.class, "Expression error. Division by zero encountered.");
+		verifyExpectedException(WebCalculatorException.class, "Expression error. Division by zero encountered.");
 	}
 	
 	@Test
 	public void verifyEmptyExpressionException() throws Exception {
 		mockCalculatorToReturnException(EmptyExpressionException.class);
-		verifyExpectedException(Exception.class, "Expression error. Empty expressions are not permitted.");
+		verifyExpectedException(WebCalculatorException.class, "Expression error. Empty expressions are not permitted.");
 	}
 	
 	@Test
 	public void verifyInvalidOperatorException() throws Exception {
 		mockCalculatorToReturnException(InvalidOperatorException.class);
-		verifyExpectedException(Exception.class, "Expression error. An invalid operator has been encountered.");
+		verifyExpectedException(WebCalculatorException.class, "Expression error. An invalid operator has been encountered.");
 	}
 	
 	@Test
 	public void verifyNumberMisplacementException() throws Exception {
 		mockCalculatorToReturnException(NumberMisplacementException.class);
-		verifyExpectedException(Exception.class, "Expression error. An invalid number ordering has been encountered.");
+		verifyExpectedException(WebCalculatorException.class, "Expression error. An invalid number ordering has been encountered.");
+	}
+	
+	@Test
+	@Ignore
+	public void verifyCalculatorException() throws Exception {
+		mockCalculatorToReturnException(CalculatorException.class);
+		verifyExpectedException(WebCalculatorException.class, "Expression error. Invalid expression given.");
 	}
 	
 	private void mockCalculatorToReturnException(Class<? extends Throwable> typeToThrow) throws CalculatorException {
@@ -78,7 +87,7 @@ public class CalculatorAdapterTest {
 	}
 	
 	private void verifyExpectedException(Class<? extends Throwable> expectedType, String message) throws Exception {
-		expectedException.expect(Exception.class);
+		expectedException.expect(expectedType);
 		expectedException.expectMessage(message);
 		
 		calculatorAdapter.calculate(expression);
