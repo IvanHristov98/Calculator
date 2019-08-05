@@ -1,6 +1,5 @@
 package com.calculator.cli.coreWrapper;
 
-import com.calculator.core.CalculatorFactory;
 import com.calculator.core.Expression;
 import com.calculator.core.exception.*;
 
@@ -19,8 +18,6 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 
 public class CalculatorAdapterTest {
-	@Mock
-	CalculatorFactory calculatorFactory;
 	@Mock
 	private com.calculator.core.ICalculator calculator;
 	@Mock
@@ -87,11 +84,9 @@ public class CalculatorAdapterTest {
 		expectedException.expectMessage(message);
 
 		Expression expression = getExpression("1");
-
-		when(calculatorFactory.makeCalculator()).thenReturn(calculator);
 		when(calculator.calculate(any())).thenThrow(exceptionToMockWith);
 
-		calculatorAdapter = new CalculatorAdapter(calculatorFactory.makeCalculator());
+		calculatorAdapter = new CalculatorAdapter(calculator);
 		calculatorAdapter.calculate(expression);
 	}
 
