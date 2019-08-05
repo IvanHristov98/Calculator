@@ -1,7 +1,9 @@
 package com.calculator.cli.coreWrapper;
 
+import com.calculator.cli.coreWrapper.exception.CliCalculatorException;
 import com.calculator.core.Expression;
 import com.calculator.core.exception.BracketsException;
+import com.calculator.core.exception.CalculatorException;
 import com.calculator.core.exception.DivisionByZeroException;
 import com.calculator.core.exception.EmptyExpressionException;
 import com.calculator.core.exception.InvalidOperatorException;
@@ -16,23 +18,25 @@ public class CalculatorAdapter implements ICalculator{
 	}
 	
 	@Override
-	public Double calculate(Expression expression) throws Exception {
+	public Double calculate(Expression expression) throws CliCalculatorException {
 		try {
 			return calculator.calculate(expression);
 		} catch (BracketsException exception) {
-			throw new Exception("Expression error. Brackets error encountered.", exception);
+			throw new CliCalculatorException("Expression error. Brackets error encountered.", exception);
 		} catch (OperatorMisplacementException exception) {
-			throw new Exception("Expression error. Operator misplacement error encountered.", exception);
+			throw new CliCalculatorException("Expression error. Operator misplacement error encountered.", exception);
 		} catch (InvalidOperatorException exception) {
-			throw new Exception(
+			throw new CliCalculatorException(
 					"Expression error. Invalid operators encountered. Valid operator symbols are +, -, *, / and ^.", exception);
 		} catch (DivisionByZeroException exception) {
-			throw new Exception("Expression error. Division by zero encountered.", exception);
+			throw new CliCalculatorException("Expression error. Division by zero encountered.", exception);
 		} catch (EmptyExpressionException exception) {
-			throw new Exception("Expression error. Empty expression encountered.", exception);
+			throw new CliCalculatorException("Expression error. Empty expression encountered.", exception);
 		} catch (NumberMisplacementException exception) {
-			throw new Exception(
+			throw new CliCalculatorException(
 					"Expression error. Number misplacement encountered. Numbers should be separated by arithmetic operators.", exception);
+		} catch (CalculatorException exception) {
+			throw new CliCalculatorException("Expression error. Invalid expression encountered.");
 		}
 	}
 }
