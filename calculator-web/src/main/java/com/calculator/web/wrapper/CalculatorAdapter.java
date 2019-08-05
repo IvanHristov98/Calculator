@@ -17,19 +17,19 @@ public class CalculatorAdapter implements ICalculator {
 		try {
 			return calculator.calculate(expression);
 		} catch (BracketsException exception) {
-			throw new WebCalculatorException("Expression error. Brackets misplacement has been encountered.");
+			throw new WebCalculatorException("Expression error. Brackets misplacement has been encountered.", exception);
 		} catch (OperatorMisplacementException exception) {
-			throw new WebCalculatorException("Expression error. Operator misplacement has been encountered.");
+			throw new WebCalculatorException("Expression error. Operator misplacement has been encountered.", exception);
 		} catch (DivisionByZeroException exception) {
-			throw new WebCalculatorException("Expression error. Division by zero encountered.");
+			throw new WebCalculatorException("Expression error. Division by zero encountered.",  exception);
 		} catch (EmptyExpressionException exception) {
-			throw new WebCalculatorException("Expression error. Empty expressions are not permitted.");
+			throw new WebCalculatorException("Expression error. Empty expressions are not permitted.",  exception);
 		} catch (InvalidOperatorException exception) {
-			throw new WebCalculatorException("Expression error. An invalid operator has been encountered.");
+			throw new WebCalculatorException("Expression error. An invalid operator has been encountered.",  exception);
 		} catch (NumberMisplacementException exception) {
-			throw new WebCalculatorException("Expression error. An invalid number ordering has been encountered.");
+			throw new WebCalculatorException("Expression error. An invalid number ordering has been encountered.",  exception);
 		} catch (CalculatorException exception) {
-			throw new WebCalculatorException("Expression error. Invalid expression given.");
+			throw new WebCalculatorException("Expression error. Invalid expression given.",  exception);
 		}
 	}
 }
