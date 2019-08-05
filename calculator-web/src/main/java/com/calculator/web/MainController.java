@@ -20,17 +20,19 @@ public class MainController extends HttpServlet {
 		PrintWriter printWriter = response.getWriter();
 		
 		try {
-			printWriter.print(getCalculationResult(request.getParameter("calculate")));
+			printWriter.print(getCaclulationResult(request));
 		} catch (Exception e) {
 			printWriter.print(e.getMessage());
 		}
 	}
 	
-	private String getCalculationResult(String expressionContent) throws Exception {
+	private String getCaclulationResult(HttpServletRequest request) throws Exception {
+		String expressionContent = request.getParameter("calculate");
+		
 		if (expressionContent == null) {
 			return "";
 		}
-		
+	
 		return calculate(expressionContent).toString();
 	}
 	
