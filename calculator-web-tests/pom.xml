@@ -13,6 +13,25 @@
 	<name>calculator-web-tests</name>
 	<url>http://maven.apache.org</url>
 	
+	 <build>
+		<plugins>
+	       <plugin>
+	          <artifactId>maven-dependency-plugin</artifactId>
+	          <executions>
+	            <execution>
+	              <phase>validate</phase>
+	              <goals>
+	                <goal>copy-dependencies</goal>
+	              </goals>
+	              <configuration>
+	                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+	              </configuration>
+	            </execution>
+	          </executions>
+	        </plugin>
+	  	</plugins>
+	  </build>
+	
 	<dependencyManagement>
         <dependencies>
             <dependency>
@@ -99,11 +118,11 @@
 		        </dependency>
 		 
 		        <!-- https://mvnrepository.com/artifact/org.jboss.shrinkwrap.resolver/shrinkwrap-resolver-impl-maven -->
-<dependency>
-    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-    <scope>test</scope>
-</dependency>
+				<dependency>
+				    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+				    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+				    <scope>test</scope>
+				</dependency>
 
 		    </dependencies>
 		</profile>
