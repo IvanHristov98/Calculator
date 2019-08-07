@@ -25,6 +25,12 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+    	<dependency>
+    			<groupId>com.calculator.web</groupId>
+			  <artifactId>calculator-web</artifactId>
+			  <version>1.0-SNAPSHOT</version>
+			  <classifier>classes</classifier>
+    	</dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
