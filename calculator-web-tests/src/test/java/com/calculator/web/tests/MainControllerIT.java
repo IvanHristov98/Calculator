@@ -1,6 +1,6 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.MainController;
+//import com.calculator.web.MainController;
 import com.calculator.web.tests.pageObjects.MainPage;
 
 import java.io.BufferedReader;
@@ -15,7 +15,6 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,25 +28,26 @@ import static org.hamcrest.Matchers.closeTo;
 public class MainControllerIT {
 	public static int END_OF_BUFFER = -1;
 	
-	@ArquillianResource(MainController.class)
+	@ArquillianResource
 	private URL baseUrl;
 	private MainPage mainPage;
 	
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-    	JavaArchive calculatorWeb = ShrinkWrap.create(ZipImporter.class)
-    			.importFrom(new File("target"+File.separator+"lib"+File.separator+"calculator-web-1.0-SNAPSHOT-classes.jar"))
-    			.as(JavaArchive.class);
+    	WebArchive calculatorWeb = ShrinkWrap.create(ZipImporter.class)
+    			.importFrom(new File("target"+File.separator+"wars"+File.separator+"calculator-web.war"))
+    			.as(WebArchive.class);
         WebArchive war =  ShrinkWrap.create(WebArchive.class, "calculator-web.war")
-        	.addClass(MainPage.class)
             .addAsLibraries(calculatorWeb)
             .addAsManifestResource("arquillian.xml")
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
             .setWebXML("web.xml");
+        
+        WebArchive mergedArchive = war.merge(calculatorWeb);
  
-        System.out.println(war.toString(true));
+        System.out.println(mergedArchive.toString(true));
  
-        return war;
+        return mergedArchive;
     }
     
     @Before
