@@ -34,20 +34,12 @@ public class MainControllerIT {
 	
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-    	WebArchive calculatorWeb = ShrinkWrap.create(ZipImporter.class)
+    	WebArchive calculatorWeb = ShrinkWrap.create(ZipImporter.class, "calculator-web.war")
     			.importFrom(new File("target"+File.separator+"wars"+File.separator+"calculator-web.war"))
-    			.as(WebArchive.class);
-        WebArchive war =  ShrinkWrap.create(WebArchive.class, "calculator-web.war")
-            .addAsLibraries(calculatorWeb)
-            .addAsManifestResource("arquillian.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-            .setWebXML("web.xml");
-        
-        WebArchive mergedArchive = war.merge(calculatorWeb);
+    			.as(WebArchive.class)
+    			.addAsManifestResource("arquillian.xml");
  
-        System.out.println(mergedArchive.toString(true));
- 
-        return mergedArchive;
+        return calculatorWeb;
     }
     
     @Before
