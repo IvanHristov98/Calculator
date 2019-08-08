@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.http.client.ClientProtocolException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -57,16 +58,42 @@ public class MainControllerIT {
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2");
-    	
     	assertThat(Double.parseDouble(calculationResponse.readLine()), closeTo(13.0d, 0.0d));
-    	assertThat(calculationResponse.read(), equalTo(END_OF_BUFFER));
     }
     
     @Test
-    public void divisionByZeroExpression() throws IOException, InterruptedException {
+    public void verifyDivisionByZeroException() throws IOException, InterruptedException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1/0");
-    	
     	assertThat(calculationResponse.readLine(), equalTo("Expression error. Division by zero encountered."));
-    	assertThat(calculationResponse.read(), equalTo(END_OF_BUFFER));
+    }
+    
+    @Test
+    public void verifyBracketsException() throws ClientProtocolException, IOException {
+    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2");
+    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Brackets misplacement has been encountered."));
+    }
+    
+    @Test
+    public void verifyOperatorMisplacementException() throws ClientProtocolException, IOException {
+    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1+2+");
+    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Operator misplacement has been encountered."));
+    }
+    
+    @Test
+    public void verifyEmptyExpressionException() throws ClientProtocolException, IOException {
+    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("");
+    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Empty expressions are not permitted."));
+    }
+    
+    @Test
+    public void verifyInvalidOperatorException() throws ClientProtocolException, IOException {
+    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1A2");
+    	assertThat(calculationResponse.readLine(), equalTo("Expression error. An invalid operator has been encountered."));
+    }
+    
+    @Test
+    public void verifyNumberMisplacementException() throws ClientProtocolException, IOException {
+    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1 2");
+    	assertThat(calculationResponse.readLine(), equalTo("Expression error. An invalid number ordering has been encountered."));
     }
 }

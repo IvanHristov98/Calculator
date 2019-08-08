@@ -17,7 +17,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public class MainPage {
-	public static String MAIN_CONTROLLER_URL = "calculator-web/main";
+	public static String MAIN_CONTROLLER_URL = "/calculator-web/main";
 	public static String CALCULATION_GET_REQUEST = "calculate";
 	
 	private URL baseUrl;
