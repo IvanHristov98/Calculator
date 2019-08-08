@@ -22,7 +22,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
- 
+import static org.hamcrest.Matchers.closeTo;
+
 @RunWith(Arquillian.class)
 public class MainControllerIT {
 	public static int END_OF_BUFFER = -1;
@@ -55,9 +56,9 @@ public class MainControllerIT {
  
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("5+5");
+    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2");
     	
-    	assertThat(Double.parseDouble(calculationResponse.readLine()), equalTo(10.0));
+    	assertThat(Double.parseDouble(calculationResponse.readLine()), closeTo(13.0d, 0.0d));
     	assertThat(calculationResponse.read(), equalTo(END_OF_BUFFER));
     }
     
