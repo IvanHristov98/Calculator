@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -24,12 +27,17 @@ public class MainPage {
 	}
 	
 	public BufferedReader getPageResponseOnCalculationRequest(String expressionContent) throws ClientProtocolException, IOException {
-		URL test = new URL(baseUrl, MAIN_CONTROLLER_URL + "?" + CALCULATION_GET_REQUEST + "=" + expressionContent);
+		String urlEncodedExpression = getUrlEncodedExpression(expressionContent);
+		URL test = new URL(baseUrl, MAIN_CONTROLLER_URL + "?" + CALCULATION_GET_REQUEST + "=" + urlEncodedExpression);
     	
     	HttpClient client  = HttpClientBuilder.create().build();
     	HttpResponse response = client.execute(new HttpGet(URI.create(test.toExternalForm())));
     	
     	return getBufferedReaderFromInputStream(response.getEntity().getContent());
+	}
+	
+	private String getUrlEncodedExpression(String expressionContent) throws UnsupportedEncodingException {
+		return URLEncoder.encode(expressionContent, StandardCharsets.UTF_8.toString());
 	}
 	
 	private BufferedReader getBufferedReaderFromInputStream(InputStream inputStream) {
