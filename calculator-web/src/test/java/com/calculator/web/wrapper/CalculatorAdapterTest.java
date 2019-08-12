@@ -72,13 +72,6 @@ public class CalculatorAdapterTest {
 		verifyExpectedException(WebCalculatorException.class, "Expression error. An invalid number ordering has been encountered.");
 	}
 	
-	@Test
-	@Ignore
-	public void verifyCalculatorException() throws Exception {
-		mockCalculatorToReturnException(CalculatorException.class);
-		verifyExpectedException(WebCalculatorException.class, "Expression error. Invalid expression given.");
-	}
-	
 	private void mockCalculatorToReturnException(Class<? extends Throwable> typeToThrow) throws CalculatorException {
 		when(calculator.calculate(any())).thenThrow(typeToThrow);
 	}
