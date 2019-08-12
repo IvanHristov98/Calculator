@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -26,21 +27,27 @@ public class CalculationServlet extends HttpServlet {
 		
 		PrintWriter printWriter = response.getWriter();
 		
+		String expressionContent = getExpressionContentFromHttpRequest(request);
+		String urlDecodedExpressionContent = decodeURL(expressionContent);
+		
+		printWriter.print(urlDecodedExpressionContent);
+		
 		try {
 			CalculationResult result = new CalculationResult(getCaclulationResult(request));
-			
 			printWriter.print(gson.toJson(result));
 		} catch (Exception e) {
-			printWriter.print(e.getMessage());
+			HttpError httpError = new HttpError("400", e.getMessage());
+			printWriter.print(gson.toJson(httpError));
 		}
 		finally {
 			printWriter.flush();
 		}
 	}
 	
-	private String getCaclulationResult(HttpServletRequest request) throws MalformedURLException, WebCalculatorException {
+	private String getCaclulationResult(HttpServletRequest request) throws MalformedURLException, WebCalculatorException, UnsupportedEncodingException {
 		String expressionContent = getExpressionContentFromHttpRequest(request);
-		return calculate(expressionContent).toString();
+		String urlDecodedExpressionContent = decodeURL(expressionContent);
+		return calculate(urlDecodedExpressionContent).toString();
 	}
 	
 	private String getExpressionContentFromHttpRequest(HttpServletRequest request) throws MalformedURLException {
@@ -55,6 +62,10 @@ public class CalculationServlet extends HttpServlet {
 	
 	private int getExpressionIndexInUrlPathArray() {
 		return NUMBER_OF_URL_PATH_ITEMS-1;
+	}
+	
+	private String decodeURL(String url) throws UnsupportedEncodingException {
+		return URLDecoder.decode(url, "UTF-8");
 	}
 	
 	private Double calculate(String expessionContent) throws WebCalculatorException  {
