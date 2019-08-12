@@ -6,16 +6,12 @@
   <display-name>Archetype Created Web Application</display-name>
   
   <servlet>
-  	<servlet-name>MainController</servlet-name>
-  	<servlet-class>com.calculator.web.MainController</servlet-class>
+  	<servlet-name>CalculationServlet</servlet-name>
+  	<servlet-class>com.calculator.web.CalculationServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-  	<servlet-name>MainController</servlet-name>
-  	<url-pattern>/main</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>MainController</servlet-name>
-  	<url-pattern>/</url-pattern>
+  	<servlet-name>CalculationServlet</servlet-name>
+  	<url-pattern>/v1/calculate/*</url-pattern>
   </servlet-mapping>
 </web-app>
