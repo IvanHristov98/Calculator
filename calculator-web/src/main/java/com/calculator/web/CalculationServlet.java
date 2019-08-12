@@ -27,11 +27,6 @@ public class CalculationServlet extends HttpServlet {
 		
 		PrintWriter printWriter = response.getWriter();
 		
-		String expressionContent = getExpressionContentFromHttpRequest(request);
-		String urlDecodedExpressionContent = decodeURL(expressionContent);
-		
-		printWriter.print(urlDecodedExpressionContent);
-		
 		try {
 			CalculationResult result = new CalculationResult(getCaclulationResult(request));
 			printWriter.print(gson.toJson(result));
