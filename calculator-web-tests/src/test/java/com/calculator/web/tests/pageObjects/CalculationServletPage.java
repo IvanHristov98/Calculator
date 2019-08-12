@@ -9,13 +9,13 @@ import org.apache.http.client.*;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.client.methods.HttpGet;
 
-public class MainPage {
+public class CalculationServletPage {
 	public static String MAIN_CONTROLLER_URL = "/calculator-web/main";
 	public static String CALCULATION_GET_REQUEST = "calculate";
 	
 	private URL baseUrl;
 	
-	public MainPage(URL baseUrl) {
+	public CalculationServletPage(URL baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 	

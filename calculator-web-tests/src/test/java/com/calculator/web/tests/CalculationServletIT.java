@@ -1,7 +1,7 @@
 package com.calculator.web.tests;
 
 //import com.calculator.web.MainController;
-import com.calculator.web.tests.pageObjects.MainPage;
+import com.calculator.web.tests.pageObjects.CalculationServletPage;
 
 import java.io.*;
 import java.net.URL;
@@ -21,12 +21,12 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(Arquillian.class)
-public class MainControllerIT {
+public class CalculationServletIT {
 	public static int END_OF_BUFFER = -1;
 	
 	@ArquillianResource
 	private URL baseUrl;
-	private MainPage mainPage;
+	private CalculationServletPage mainPage;
 	
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
@@ -40,7 +40,7 @@ public class MainControllerIT {
     
     @Before
     public void setUp() {
-    	mainPage = new MainPage(baseUrl);
+    	mainPage = new CalculationServletPage(baseUrl);
     }
  
     @Test
