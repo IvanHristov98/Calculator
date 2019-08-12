@@ -1,7 +1,6 @@
 package com.calculator.core.operator;
 
-import com.calculator.core.exception.CalculatorException;
-import com.calculator.core.exception.DivisionByZeroException;
+import com.calculator.core.exception.*;
 
 public final class DivisionOperator extends ArithmeticOperator {
 	protected static final int PRIORITY = 1;

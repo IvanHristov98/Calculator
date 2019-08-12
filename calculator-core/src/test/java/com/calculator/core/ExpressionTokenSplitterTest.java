@@ -4,8 +4,7 @@ import com.calculator.core.exception.UnformattedExpressionException;
 
 import static org.junit.Assert.assertArrayEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class ExpressionTokenSplitterTest {
 	private FormattedExpression expression;

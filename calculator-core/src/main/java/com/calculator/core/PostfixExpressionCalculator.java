@@ -1,14 +1,9 @@
 package com.calculator.core;
 
-import com.calculator.core.exception.CalculatorException;
-import com.calculator.core.exception.InvalidOperatorException;
-import com.calculator.core.exception.NumberMisplacementException;
-import com.calculator.core.operator.ArithmeticOperator;
-import com.calculator.core.operator.OperatorChecker;
-import com.calculator.core.operator.OperatorFactory;
+import com.calculator.core.exception.*;
+import com.calculator.core.operator.*;
 
-import java.util.EmptyStackException;
-import java.util.Stack;
+import java.util.*;
 
 public class PostfixExpressionCalculator implements IExpressionFilter {
 	private ExpressionTokenSplitter expressionTokenSplitter;

@@ -1,8 +1,6 @@
 package com.calculator.core;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 import com.calculator.core.exception.*;
 import com.calculator.core.operator.*;

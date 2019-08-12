@@ -1,21 +1,18 @@
 package com.calculator.web.wrapper;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
+import com.calculator.core.Expression;
+import com.calculator.core.exception.*;
+import com.calculator.web.wrapper.exception.WebCalculatorException;
+
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.closeTo;
-
-import com.calculator.core.Expression;
-import com.calculator.core.exception.*;
-import com.calculator.web.wrapper.exception.WebCalculatorException;
 
 public class CalculatorAdapterTest {
 	@Rule
@@ -28,7 +25,7 @@ public class CalculatorAdapterTest {
 	
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 		
 		calculatorAdapter = new CalculatorAdapter(calculator);
 	}

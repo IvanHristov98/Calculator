@@ -1,20 +1,13 @@
 package com.calculator.web.tests.pageObjects;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.*;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.client.methods.HttpGet;
 
 public class MainPage {
 	public static String MAIN_CONTROLLER_URL = "/calculator-web/main";

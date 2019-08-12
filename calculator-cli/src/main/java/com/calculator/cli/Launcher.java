@@ -1,9 +1,9 @@
 package com.calculator.cli;
 
-import java.util.Locale;
-
 import com.calculator.cli.coreWrapper.CalculatorAdapter;
 import com.calculator.core.Expression;
+
+import java.util.Locale;
 
 public class Launcher {
 	public static final int VALID_NUMBER_OF_ARGUMENTS = 1;

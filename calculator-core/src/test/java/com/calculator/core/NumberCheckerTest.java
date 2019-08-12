@@ -3,8 +3,7 @@ package com.calculator.core;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class NumberCheckerTest {
 	private NumberChecker numberChecker;

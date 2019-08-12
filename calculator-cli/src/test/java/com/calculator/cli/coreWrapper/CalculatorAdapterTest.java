@@ -4,14 +4,12 @@ import com.calculator.core.Expression;
 import com.calculator.core.exception.*;
 
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertThat;
@@ -29,7 +27,7 @@ public class CalculatorAdapterTest {
 	
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 		
 		calculatorAdapter = new CalculatorAdapter(calculator);
 	}

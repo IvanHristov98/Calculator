@@ -2,13 +2,7 @@ package com.calculator.cli.coreWrapper;
 
 import com.calculator.cli.coreWrapper.exception.CliCalculatorException;
 import com.calculator.core.Expression;
-import com.calculator.core.exception.BracketsException;
-import com.calculator.core.exception.CalculatorException;
-import com.calculator.core.exception.DivisionByZeroException;
-import com.calculator.core.exception.EmptyExpressionException;
-import com.calculator.core.exception.InvalidOperatorException;
-import com.calculator.core.exception.NumberMisplacementException;
-import com.calculator.core.exception.OperatorMisplacementException;
+import com.calculator.core.exception.*;
 
 public class CalculatorAdapter implements ICalculator{
 	private com.calculator.core.ICalculator calculator;

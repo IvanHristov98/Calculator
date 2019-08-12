@@ -4,13 +4,10 @@ import com.calculator.core.CalculatorFactory;
 import com.calculator.core.Expression;
 import com.calculator.web.wrapper.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 @SuppressWarnings("serial")
 public class MainController extends HttpServlet {

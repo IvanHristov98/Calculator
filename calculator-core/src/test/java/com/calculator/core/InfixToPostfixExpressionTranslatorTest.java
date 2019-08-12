@@ -2,21 +2,16 @@ package com.calculator.core;
 
 import com.calculator.core.exception.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.internal.stubbing.answers.ReturnsElementsOf;
 
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.*;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -30,7 +25,7 @@ public class InfixToPostfixExpressionTranslatorTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 
 		postfixTranslator = new InfixToPostfixExpressionTranslator(expressionTokenSplitter,
 				numberChecker);

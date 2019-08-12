@@ -1,17 +1,14 @@
 package com.calculator.core;
 
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import com.calculator.core.exception.CalculatorException;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.*;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -23,7 +20,7 @@ public class InfixExpressionFormatterTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 
 		formatUnifier = new InfixExpressionFormatter(expressionModifier);
 	}

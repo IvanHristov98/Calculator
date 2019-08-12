@@ -1,17 +1,14 @@
 package com.calculator.core;
 
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.ArgumentMatchers.any;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.calculator.core.exception.*;
+
+import org.mockito.*;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+import org.junit.*;
 
 public class UnformattedInfixExpressionValidatorTest {
 	public Expression expression;
@@ -21,7 +18,7 @@ public class UnformattedInfixExpressionValidatorTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 
 		// initializing with a correct stub value
 		validator = new UnformattedInfixExpressionValidator(expressionModifier);

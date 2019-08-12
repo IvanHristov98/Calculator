@@ -3,9 +3,7 @@ package com.calculator.web.tests;
 //import com.calculator.web.MainController;
 import com.calculator.web.tests.pageObjects.MainPage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 import org.apache.http.client.ClientProtocolException;
@@ -13,16 +11,14 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(Arquillian.class)
 public class MainControllerIT {

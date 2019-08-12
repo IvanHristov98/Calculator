@@ -2,19 +2,16 @@ package com.calculator.cli;
 
 import com.calculator.cli.coreWrapper.CalculatorAdapter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Locale;
 
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -34,7 +31,7 @@ public class LauncherTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 
 		setUpOutputStream();
 		setUpErrorStream();

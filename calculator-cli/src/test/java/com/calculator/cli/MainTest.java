@@ -1,14 +1,12 @@
 package com.calculator.cli;
 
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.ArgumentMatchers.any;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class MainTest {
 	@Mock
@@ -16,7 +14,7 @@ public class MainTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 	}
 
 	@Test
