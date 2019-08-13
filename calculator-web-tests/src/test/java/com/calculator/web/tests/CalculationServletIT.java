@@ -1,6 +1,5 @@
 package com.calculator.web.tests;
 
-//import com.calculator.web.MainController;
 import com.calculator.web.tests.pageObjects.CalculationServletPage;
 
 import java.io.*;
@@ -46,42 +45,74 @@ public class CalculationServletIT {
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2");
-    	assertThat(Double.parseDouble(calculationResponse.readLine()), closeTo(13.0d, 0.0d));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertCorrectCalculation(calculatorResponse, "13.0");
     }
     
     @Test
     public void verifyDivisionByZeroException() throws IOException, InterruptedException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1/0");
-    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Division by zero encountered."));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertErrorCode(calculatorResponse, "400");
+    	assertErrorMessage(calculatorResponse, "Expression error. Division by zero encountered.");
     }
     
     @Test
     public void verifyBracketsException() throws ClientProtocolException, IOException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2");
-    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Brackets misplacement has been encountered."));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertErrorCode(calculatorResponse, "400");
+    	assertErrorMessage(calculatorResponse, "Expression error. Brackets misplacement has been encountered.");
     }
     
     @Test
     public void verifyOperatorMisplacementException() throws ClientProtocolException, IOException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1+2+");
-    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Operator misplacement has been encountered."));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertErrorCode(calculatorResponse, "400");
+    	assertErrorMessage(calculatorResponse, "Expression error. Operator misplacement has been encountered.");
     }
     
     @Test
     public void verifyEmptyExpressionException() throws ClientProtocolException, IOException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("");
-    	assertThat(calculationResponse.readLine(), equalTo("Expression error. Empty expressions are not permitted."));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertErrorCode(calculatorResponse, "400");
+    	assertErrorMessage(calculatorResponse, "Expression error. Empty expressions are not permitted.");
     }
     
     @Test
     public void verifyInvalidOperatorException() throws ClientProtocolException, IOException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1A2");
-    	assertThat(calculationResponse.readLine(), equalTo("Expression error. An invalid operator has been encountered."));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertErrorCode(calculatorResponse, "400");
+    	assertErrorMessage(calculatorResponse, "Expression error. An invalid operator has been encountered.");
     }
     
     @Test
     public void verifyNumberMisplacementException() throws ClientProtocolException, IOException {
     	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1 2");
-    	assertThat(calculationResponse.readLine(), equalTo("Expression error. An invalid number ordering has been encountered."));
+    	String calculatorResponse = calculationResponse.readLine();
+    	
+    	assertErrorCode(calculatorResponse, "400");
+    	assertErrorMessage(calculatorResponse, "Expression error. An invalid number ordering has been encountered.");
+    }
+   
+    private void assertCorrectCalculation(String pageResponce, String value) {
+    	assertThat(pageResponce, containsString(value));
+    }
+    
+    private void assertErrorCode(String pageResponse, String code) {
+    	assertThat(pageResponse, containsString("\"code\":\"" + code + "\""));
+    }
+    
+    private void assertErrorMessage(String pageResponse, String message) {
+    	assertThat(pageResponse, containsString("\"message\":\"" + message + "\""));
     }
 }
