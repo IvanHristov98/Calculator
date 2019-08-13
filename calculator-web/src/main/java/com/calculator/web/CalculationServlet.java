@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLDecoder;
 
 import javax.servlet.ServletException;
@@ -46,17 +45,7 @@ public class CalculationServlet extends HttpServlet {
 	}
 	
 	private String getExpressionContentFromHttpRequest(HttpServletRequest request) throws MalformedURLException {
-		URL requestUrl = new URL(request.getRequestURL().toString());
-		return getExpressionContentFromRequestURL(requestUrl);
-	}
-	
-	private String getExpressionContentFromRequestURL(URL requestUrl) {
-		String[] requestUrlPathElements = requestUrl.getPath().split("/", NUMBER_OF_URL_PATH_ITEMS);
-		return requestUrlPathElements[getExpressionIndexInUrlPathArray()];
-	}
-	
-	private int getExpressionIndexInUrlPathArray() {
-		return NUMBER_OF_URL_PATH_ITEMS-1;
+		return request.getParameter("expression");
 	}
 	
 	private String decodeURL(String url) throws UnsupportedEncodingException {

@@ -12,6 +12,6 @@
   
   <servlet-mapping>
   	<servlet-name>CalculationServlet</servlet-name>
-  	<url-pattern>/v1/calculate/*</url-pattern>
+  	<url-pattern>/v1/calculations</url-pattern>
   </servlet-mapping>
 </web-app>
