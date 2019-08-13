@@ -40,16 +40,11 @@ public class CalculationServlet extends HttpServlet {
 	
 	private String getCaclulationResult(HttpServletRequest request) throws MalformedURLException, WebCalculatorException, UnsupportedEncodingException {
 		String expressionContent = getExpressionContentFromHttpRequest(request);
-		String urlDecodedExpressionContent = decodeURL(expressionContent);
-		return calculate(urlDecodedExpressionContent).toString();
+		return calculate(expressionContent).toString();
 	}
 	
 	private String getExpressionContentFromHttpRequest(HttpServletRequest request) throws MalformedURLException {
 		return request.getParameter("expression");
-	}
-	
-	private String decodeURL(String url) throws UnsupportedEncodingException {
-		return URLDecoder.decode(url, "UTF-8");
 	}
 	
 	private Double calculate(String expessionContent) throws WebCalculatorException  {
