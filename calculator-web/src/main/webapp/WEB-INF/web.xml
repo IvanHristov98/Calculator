@@ -3,15 +3,24 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Calculator</display-name>
   
   <servlet>
-  	<servlet-name>CalculationServlet</servlet-name>
-  	<servlet-class>com.calculator.web.CalculationServlet</servlet-class>
+  	<servlet-name>jerseyServlet</servlet-name>
+  	<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+  	<init-param>
+  		<param-name>com.sun.jersey.config.property.packages</param-name>
+        <param-value>com.calculator.web.resources</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
   </servlet>
   
   <servlet-mapping>
-  	<servlet-name>CalculationServlet</servlet-name>
-  	<url-pattern>/v1/calculations</url-pattern>
+  	<servlet-name>jerseyServlet</servlet-name>
+  	<url-pattern>/v1/*</url-pattern>
   </servlet-mapping>
 </web-app>
