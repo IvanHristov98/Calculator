@@ -106,6 +106,12 @@
 		    <version>4.5.9</version>
 		</dependency>
 		
+			<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-servlet -->
+	<dependency>
+	    <groupId>com.sun.jersey</groupId>
+	    <artifactId>jersey-servlet</artifactId>
+	    <version>1.19.4</version>
+	</dependency>
 		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
 		<dependency>
 		    <groupId>com.sun.jersey</groupId>

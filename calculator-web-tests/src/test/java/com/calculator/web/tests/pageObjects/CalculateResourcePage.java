@@ -1,38 +1,46 @@
 package com.calculator.web.tests.pageObjects;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.*;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.client.methods.HttpGet;
+import javax.ws.rs.core.MediaType;
 
-public class CalculationServletPage {
-	public static String CALCULATIONS_URL = "/calculator-web/v1/calculations";
+import org.apache.http.client.ClientProtocolException;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
+public class CalculateResourcePage {
+	public static String CALCULATIONS_URL = "/calculator-web/v1/calculate";
 	public static String URL_QUERY_SEPARATOR = "?";
 	public static String CALCULATIONS_URL_EXPRESSION_PARAMETER = "expression";
 	
 	private URL baseUrl;
 	
-	public CalculationServletPage(URL baseUrl) {
+	public CalculateResourcePage(URL baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 	
-	public BufferedReader getPageResponseOnCalculationRequest(String expressionContent) throws ClientProtocolException, IOException {
+	public String getPageResponseOnCalculationRequest(String expressionContent) throws ClientProtocolException, IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
     	
-    	HttpClient client  = HttpClientBuilder.create().build();
-    	HttpResponse response = client.execute(new HttpGet(URI.create(calculationServiceUrl.toExternalForm())));
+    	Client client= Client.create();
+    	WebResource webResource = client.resource(URI.create(calculationServiceUrl.toExternalForm()));
+    	ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     	
-    	return getBufferedReaderFromInputStream(response.getEntity().getContent());
+    	return response.getEntity(String.class);
 	}
 	
 	private URL getCalculationRequestURL(String expressionContent) throws UnsupportedEncodingException, MalformedURLException {
 		String urlEncodedExpression = getUrlEncodedExpression(expressionContent);
 		String expressionQuery = buildUrlQueryFrom(CALCULATIONS_URL_EXPRESSION_PARAMETER, urlEncodedExpression);
 		String urlAfterBase = CALCULATIONS_URL + URL_QUERY_SEPARATOR + expressionQuery;
+		
 		return new URL(baseUrl, urlAfterBase);
 	}
 	
@@ -42,13 +50,5 @@ public class CalculationServletPage {
 	
 	private String getUrlEncodedExpression(String expressionContent) throws UnsupportedEncodingException {
 		return URLEncoder.encode(expressionContent, StandardCharsets.UTF_8.toString());
-	}
-	
-	private BufferedReader getBufferedReaderFromInputStream(InputStream inputStream) {
-    	return getBufferedReaderFromInputStreamReader(new InputStreamReader(inputStream));
-	}
-	
-	private BufferedReader getBufferedReaderFromInputStreamReader(InputStreamReader inputStreamReader) {
-		return new BufferedReader(inputStreamReader);
 	}
 }

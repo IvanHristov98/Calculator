@@ -1,6 +1,6 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.tests.pageObjects.CalculationServletPage;
+import com.calculator.web.tests.pageObjects.CalculateResourcePage;
 
 import java.io.*;
 import java.net.URL;
@@ -20,12 +20,12 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(Arquillian.class)
-public class CalculationServletIT {
+public class CalculateResourceIT {
 	public static int END_OF_BUFFER = -1;
 	
 	@ArquillianResource
 	private URL baseUrl;
-	private CalculationServletPage mainPage;
+	private CalculateResourcePage resourcePage;
 	
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
@@ -39,69 +39,61 @@ public class CalculationServletIT {
     
     @Before
     public void setUp() {
-    	mainPage = new CalculationServletPage(baseUrl);
+    	resourcePage = new CalculateResourcePage(baseUrl);
     }
  
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2");
-    	String calculatorResponse = calculationResponse.readLine();
-    	
-    	assertCorrectCalculation(calculatorResponse, "13.0");
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2");
+    	assertCorrectCalculation(calculationResponse, "13.0");
     }
     
     @Test
     public void verifyDivisionByZeroException() throws IOException, InterruptedException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1/0");
-    	String calculatorResponse = calculationResponse.readLine();
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1/0");
     	
-    	assertErrorCode(calculatorResponse, "400");
-    	assertErrorMessage(calculatorResponse, "Expression error. Division by zero encountered.");
+    	assertErrorCode(calculationResponse, "400");
+    	assertErrorMessage(calculationResponse, "Expression error. Division by zero encountered.");
     }
     
     @Test
     public void verifyBracketsException() throws ClientProtocolException, IOException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("(1+2");
-    	String calculatorResponse = calculationResponse.readLine();
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2");
     	
-    	assertErrorCode(calculatorResponse, "400");
-    	assertErrorMessage(calculatorResponse, "Expression error. Brackets misplacement has been encountered.");
+    	assertErrorCode(calculationResponse, "400");
+    	assertErrorMessage(calculationResponse, "Expression error. Brackets misplacement has been encountered.");
     }
     
     @Test
     public void verifyOperatorMisplacementException() throws ClientProtocolException, IOException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1+2+");
-    	String calculatorResponse = calculationResponse.readLine();
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1+2+");
     	
-    	assertErrorCode(calculatorResponse, "400");
-    	assertErrorMessage(calculatorResponse, "Expression error. Operator misplacement has been encountered.");
+    	assertErrorCode(calculationResponse, "400");
+    	assertErrorMessage(calculationResponse, "Expression error. Operator misplacement has been encountered.");
     }
     
     @Test
     public void verifyEmptyExpressionException() throws ClientProtocolException, IOException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("");
-    	String calculatorResponse = calculationResponse.readLine();
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("");
     	
-    	assertErrorCode(calculatorResponse, "400");
-    	assertErrorMessage(calculatorResponse, "Expression error. Empty expressions are not permitted.");
+    	assertErrorCode(calculationResponse, "400");
+    	assertErrorMessage(calculationResponse, "Expression error. Empty expressions are not permitted.");
     }
     
     @Test
     public void verifyInvalidOperatorException() throws ClientProtocolException, IOException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1A2");
-    	String calculatorResponse = calculationResponse.readLine();
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1A2");
     	
-    	assertErrorCode(calculatorResponse, "400");
-    	assertErrorMessage(calculatorResponse, "Expression error. An invalid operator has been encountered.");
+    	assertErrorCode(calculationResponse, "400");
+    	assertErrorMessage(calculationResponse, "Expression error. An invalid operator has been encountered.");
     }
     
     @Test
     public void verifyNumberMisplacementException() throws ClientProtocolException, IOException {
-    	BufferedReader calculationResponse = mainPage.getPageResponseOnCalculationRequest("1 2");
-    	String calculatorResponse = calculationResponse.readLine();
+    	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1 2");
     	
-    	assertErrorCode(calculatorResponse, "400");
-    	assertErrorMessage(calculatorResponse, "Expression error. An invalid number ordering has been encountered.");
+    	assertErrorCode(calculationResponse, "400");
+    	assertErrorMessage(calculationResponse, "Expression error. An invalid number ordering has been encountered.");
     }
    
     private void assertCorrectCalculation(String pageResponce, String value) {
