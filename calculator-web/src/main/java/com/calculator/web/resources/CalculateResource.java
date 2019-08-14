@@ -23,8 +23,10 @@ public class CalculateResource {
 			
 			return Response.status(Response.Status.OK).entity(calculationResultAsPojo).build();
 		} catch (WebCalculatorException exception) {
-			HttpError httpError = new HttpError(Response.Status.BAD_REQUEST.toString(), exception.getMessage());
-			return Response.status(Response.Status.BAD_REQUEST).entity(httpError).build();
+			Integer statusCode = Response.Status.BAD_REQUEST.getStatusCode();
+			HttpError httpError = new HttpError(statusCode.toString(), exception.getMessage());
+			
+			return Response.status(statusCode).entity(httpError).build();
 		}
 	}
 	
