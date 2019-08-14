@@ -1,17 +1,12 @@
 package com.calculator.web.resources;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import com.calculator.core.CalculatorFactory;
 import com.calculator.core.Expression;
-import com.calculator.web.CalculationResult;
-import com.calculator.web.resourceRepresentations.HttpError;
-import com.calculator.web.wrapper.CalculatorAdapter;
-import com.calculator.web.wrapper.ICalculator;
+import com.calculator.web.resourceRepresentations.*;
+import com.calculator.web.wrapper.*;
 import com.calculator.web.wrapper.exception.WebCalculatorException;
 
 import javax.ws.rs.GET;
