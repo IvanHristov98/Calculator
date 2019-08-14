@@ -1,19 +1,13 @@
 package com.calculator.web.tests.pageObjects;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.core.MediaType;
 
 import org.apache.http.client.ClientProtocolException;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.*;
 
 public class CalculateResourcePage {
 	public static String CALCULATIONS_URL = "/calculator-web/v1/calculate";
