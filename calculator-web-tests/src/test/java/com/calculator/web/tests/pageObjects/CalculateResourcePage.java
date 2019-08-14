@@ -4,10 +4,11 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-
-import org.apache.http.client.ClientProtocolException;
-import com.sun.jersey.api.client.*;
+import javax.ws.rs.core.Response;
 
 public class CalculateResourcePage {
 	public static String CALCULATIONS_URL = "/calculator-web/v1/calculate";
@@ -20,14 +21,14 @@ public class CalculateResourcePage {
 		this.baseUrl = baseUrl;
 	}
 	
-	public String getPageResponseOnCalculationRequest(String expressionContent) throws ClientProtocolException, IOException {
+	public String getPageResponseOnCalculationRequest(String expressionContent) throws IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
     	
-    	Client client= Client.create();
-    	WebResource webResource = client.resource(URI.create(calculationServiceUrl.toExternalForm()));
-    	ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    	Client client= ClientBuilder.newClient();
+    	WebTarget webTarget = client.target(URI.create(calculationServiceUrl.toExternalForm()));
+    	Response response = webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
     	
-    	return response.getEntity(String.class);
+    	return response.readEntity(String.class);
 	}
 	
 	private URL getCalculationRequestURL(String expressionContent) throws UnsupportedEncodingException, MalformedURLException {

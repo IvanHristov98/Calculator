@@ -5,7 +5,6 @@ import com.calculator.web.tests.pageObjects.CalculateResourcePage;
 import java.io.*;
 import java.net.URL;
 
-import org.apache.http.client.ClientProtocolException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -57,7 +56,7 @@ public class CalculateResourceIT {
     }
     
     @Test
-    public void verifyBracketsException() throws ClientProtocolException, IOException {
+    public void verifyBracketsException() throws IOException {
     	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2");
     	
     	assertErrorCode(calculationResponse, "400");
@@ -65,7 +64,7 @@ public class CalculateResourceIT {
     }
     
     @Test
-    public void verifyOperatorMisplacementException() throws ClientProtocolException, IOException {
+    public void verifyOperatorMisplacementException() throws IOException {
     	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1+2+");
     	
     	assertErrorCode(calculationResponse, "400");
@@ -73,7 +72,7 @@ public class CalculateResourceIT {
     }
     
     @Test
-    public void verifyEmptyExpressionException() throws ClientProtocolException, IOException {
+    public void verifyEmptyExpressionException() throws IOException {
     	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("");
     	
     	assertErrorCode(calculationResponse, "400");
@@ -81,7 +80,7 @@ public class CalculateResourceIT {
     }
     
     @Test
-    public void verifyInvalidOperatorException() throws ClientProtocolException, IOException {
+    public void verifyInvalidOperatorException() throws IOException {
     	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1A2");
     	
     	assertErrorCode(calculationResponse, "400");
@@ -89,7 +88,7 @@ public class CalculateResourceIT {
     }
     
     @Test
-    public void verifyNumberMisplacementException() throws ClientProtocolException, IOException {
+    public void verifyNumberMisplacementException() throws IOException {
     	String calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1 2");
     	
     	assertErrorCode(calculationResponse, "400");
