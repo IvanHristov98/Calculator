@@ -7,30 +7,46 @@
   <version>1.0-SNAPSHOT</version>
   <name>calculator</name>
   <url>http://maven.apache.org</url>
+  
+  <properties>
+  	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+	
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  
+  	<!-- Plugins -->
+  	<mavenCompilerPlugin.version>3.8.1</mavenCompilerPlugin.version>
+  	<mavenSurefirePlugin.version>3.0.0-M3</mavenSurefirePlugin.version>
+  	<mavenFailsafePlugin.version>3.0.0-M3</mavenFailsafePlugin.version>
+  	
+  	<!-- Dependencies -->
+  	<junit.version>4.12</junit.version>
+  </properties>
 
   <build>
 		<plugins>
 			<plugin>
-	        	<groupId>org.apache.maven.plugins</groupId>
-	        	<artifactId>maven-surefire-plugin</artifactId>
-	        	<version>3.0.0-M3</version>
-	        	<configuration>
-	          		<skipTests>true</skipTests>
-	        	</configuration>
-     	 	</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>${mavenCompilerPlugin.version}</version>
 				<configuration>
 					<source>8</source>
 					<target>8</target>
 				</configuration>
 			</plugin>
 			<plugin>
+	        	<groupId>org.apache.maven.plugins</groupId>
+	        	<artifactId>maven-surefire-plugin</artifactId>
+	        	<version>${mavenSurefirePlugin.version}</version>
+	        	<configuration>
+	          		<skipTests>true</skipTests>
+	        	</configuration>
+     	 	</plugin>
+			<plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-failsafe-plugin</artifactId>
-		        <version>3.0.0-M3</version>
+		        <version>${mavenFailsafePlugin.version}</version>
 		         <configuration>
                     <skipITs>true</skipITs>
                 </configuration>
@@ -63,7 +79,7 @@
 			      <plugin>
 			        <groupId>org.apache.maven.plugins</groupId>
 			        <artifactId>maven-surefire-plugin</artifactId>
-			        <version>3.0.0-M3</version>
+			        <version>${mavenSurefirePlugin.version}</version>
 			        <configuration>
 			          <skipTests>false</skipTests>
 			        </configuration>
@@ -87,7 +103,7 @@
 		            <plugin>
 		                <groupId>org.apache.maven.plugins</groupId>
 		                <artifactId>maven-failsafe-plugin</artifactId>
-		                <version>3.0.0-M3</version>
+		                <version>${mavenFailsafePlugin.version}</version>
 		                <configuration>
 		                    <skipITs>false</skipITs>
 		                </configuration>
@@ -96,20 +112,12 @@
 		    </build>
 		</profile>
 	</profiles>
-
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
- 	</properties>
   
 	<dependencies>
 	  <dependency>
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
-	    <version>4.12</version>
+	    <version>${junit.version}</version>
 	    <scope>test</scope>
 	  </dependency>
 	</dependencies>
@@ -119,6 +127,6 @@
 		<module>calculator-cli</module>
   		<module>calculator-cli-tests</module>
   		<module>calculator-web</module>
-  <module>calculator-web-tests</module>
+  		<module>calculator-web-tests</module>
   </modules>
 </project>
