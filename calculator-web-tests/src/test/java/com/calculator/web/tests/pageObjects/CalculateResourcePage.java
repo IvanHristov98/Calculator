@@ -21,14 +21,12 @@ public class CalculateResourcePage {
 		this.baseUrl = baseUrl;
 	}
 	
-	public String getPageResponseOnCalculationRequest(String expressionContent) throws IOException {
+	public Response getPageResponseOnCalculationRequest(String expressionContent) throws IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
     	
     	Client client= ClientBuilder.newClient();
     	WebTarget webTarget = client.target(URI.create(calculationServiceUrl.toExternalForm()));
-    	Response response = webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
-    	
-    	return response.readEntity(String.class);
+    	return webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
 	}
 	
 	private URL getCalculationRequestURL(String expressionContent) throws UnsupportedEncodingException, MalformedURLException {
