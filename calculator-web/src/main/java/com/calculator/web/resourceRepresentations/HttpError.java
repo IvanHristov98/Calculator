@@ -1,4 +1,4 @@
-package com.calculator.web;
+package com.calculator.web.resourceRepresentations;
 
 public class HttpError {
 	private String code;
