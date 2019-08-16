@@ -20,14 +20,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CalculationsResource {
 	@Inject
 	ObjectMapper objectMapper;
+	@Inject
+	LocalJdbcEnvironment jdbcEnvironment;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCalculations() throws SQLException, JsonProcessingException, ClassNotFoundException {
-		IDbConnection connection = DbConnection.getInstance();
-		Statement statement = connection.getConnection().createStatement();
-		ResultSet resultSet = statement.executeQuery("SELECT * FROM valid_expression_calculations");
+		IDbConnection connection = DbConnection.getInstance(jdbcEnvironment);
+		//Statement statement = connection.getConnection().createStatement();
+		//ResultSet resultSet = statement.executeQuery("SELECT * FROM valid_expression_calculations");
 		
-		return Response.ok().entity(objectMapper.writeValueAsString("asdas")).build();
+		return Response.ok().entity(objectMapper.writeValueAsString(System.getenv("JAVA_HOME"))).build();
 	}
 }
