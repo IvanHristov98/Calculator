@@ -1,4 +1,4 @@
-package com.calculator.web.wrapper.exception;
+package com.calculator.web.wrappers.calculator.exception;
 
 @SuppressWarnings("serial")
 public class WebCalculatorException extends Exception {

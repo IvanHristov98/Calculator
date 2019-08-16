@@ -6,9 +6,10 @@ import javax.ws.rs.core.*;
 
 import com.calculator.core.CalculatorFactory;
 import com.calculator.core.Expression;
-import com.calculator.web.resourceRepresentations.*;
-import com.calculator.web.wrapper.*;
-import com.calculator.web.wrapper.exception.WebCalculatorException;
+import com.calculator.web.resources.representations.*;
+import com.calculator.web.wrappers.calculator.*;
+import com.calculator.web.wrappers.calculator.exception.WebCalculatorException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

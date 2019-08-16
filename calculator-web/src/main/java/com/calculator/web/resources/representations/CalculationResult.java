@@ -1,4 +1,4 @@
-package com.calculator.web.resourceRepresentations;
+package com.calculator.web.resources.representations;
 
 public class CalculationResult {
 	private String calculationResult;

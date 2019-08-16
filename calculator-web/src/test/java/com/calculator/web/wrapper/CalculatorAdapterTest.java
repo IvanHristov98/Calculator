@@ -2,7 +2,8 @@ package com.calculator.web.wrapper;
 
 import com.calculator.core.Expression;
 import com.calculator.core.exception.*;
-import com.calculator.web.wrapper.exception.WebCalculatorException;
+import com.calculator.web.wrappers.calculator.CalculatorAdapter;
+import com.calculator.web.wrappers.calculator.exception.WebCalculatorException;
 
 import org.junit.*;
 import org.junit.rules.ExpectedException;
