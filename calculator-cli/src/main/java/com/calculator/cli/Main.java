@@ -1,6 +1,7 @@
 package com.calculator.cli;
 
-import com.calculator.cli.coreWrapper.*;
+import com.calculator.cli.wrappers.*;
+import com.calculator.cli.wrappers.calculator.CalculatorAdapter;
 import com.calculator.core.CalculatorFactory;
 
 public class Main {

@@ -1,4 +1,4 @@
-package com.calculator.cli.coreWrapper.exception;
+package com.calculator.cli.wrappers.calculator.exception;
 
 @SuppressWarnings("serial")
 public class CliCalculatorException extends Exception {

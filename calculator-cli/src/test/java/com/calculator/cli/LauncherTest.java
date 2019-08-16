@@ -1,11 +1,11 @@
 package com.calculator.cli;
 
-import com.calculator.cli.coreWrapper.CalculatorAdapter;
-
 import java.io.*;
 import java.util.Locale;
 
 import org.mockito.Mock;
+
+import com.calculator.cli.wrappers.calculator.CalculatorAdapter;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.Mockito.when;

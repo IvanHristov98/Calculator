@@ -1,6 +1,6 @@
 package com.calculator.cli;
 
-import com.calculator.cli.coreWrapper.CalculatorAdapter;
+import com.calculator.cli.wrappers.calculator.CalculatorAdapter;
 import com.calculator.core.Expression;
 
 import java.util.Locale;

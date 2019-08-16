@@ -1,6 +1,6 @@
-package com.calculator.cli.coreWrapper;
+package com.calculator.cli.wrappers.calculator;
 
-import com.calculator.cli.coreWrapper.exception.CliCalculatorException;
+import com.calculator.cli.wrappers.calculator.exception.CliCalculatorException;
 import com.calculator.core.Expression;
 import com.calculator.core.exception.*;
 
