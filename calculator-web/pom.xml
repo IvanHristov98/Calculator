@@ -28,7 +28,7 @@
     <jaxrs.version>2.1.1</jaxrs.version>
     <jackson.version>2.9.9</jackson.version>
     
-    <postgreJdbcConnector.version>9.1-901-1.jdbc4</postgreJdbcConnector.version>
+    <postgreJdbcConnector.version>42.2.6</postgreJdbcConnector.version>
   </properties>
   
     <build>
@@ -116,9 +116,9 @@
 	    <version>${jackson.version}</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 	<dependency>
-	    <groupId>postgresql</groupId>
+	    <groupId>org.postgresql</groupId>
 	    <artifactId>postgresql</artifactId>
 	    <version>${postgreJdbcConnector.version}</version>
 	</dependency>
