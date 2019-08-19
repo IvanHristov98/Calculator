@@ -1,14 +1,18 @@
 package com.calculator.web.wrappers.db.dao;
 
-public interface IDao<T> {
+import java.util.Collection;
+
+import com.calculator.web.wrappers.db.exception.DbException;
+
+public interface IDao<T, E> {
 	
-	public <E> T get(E key);
+	public T getItem(E key) throws DbException;
 	
-	public T[] getItems();
+	public Collection<T> getItems() throws DbException;
 	
-	public void save(T item);
+	public void save(T item) throws DbException;
 	
-	public void update(T item);
+	public void update(T item) throws DbException;
 	
-	public void delete(T item);
+	public void delete(T item) throws DbException;
 }
