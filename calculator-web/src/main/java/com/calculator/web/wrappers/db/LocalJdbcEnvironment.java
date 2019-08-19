@@ -23,27 +23,27 @@ public class LocalJdbcEnvironment {
 	}
 	
 	public String getSubprotocol() {
-		return getSystemEnvironment(JDBC_SUBPROTOCOL);
+		return "postgresql";
 	}
 	
 	public String getHost() {
-		return getSystemEnvironment(JDBC_HOST);
+		return "localhost";
 	}
 	
 	public String getPort() {
-		return getSystemEnvironment(JDBC_PORT);
+		return "5432";
 	}
 	
 	public String getDatabase() {
-		return System.getProperty("santa");
+		return "calculator_db";
 	}
 	
 	public String getUser() {
-		return getSystemEnvironment(JDBC_USER);
+		return "calculator";
 	}
 	
 	public String getPassword() {
-		return getSystemEnvironment(JDBC_PASSWORD);
+		return "calculator";
 	}
 	
 	private String getSystemEnvironment(String variable) {
