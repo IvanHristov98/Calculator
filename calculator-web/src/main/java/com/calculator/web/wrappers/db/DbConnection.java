@@ -27,7 +27,12 @@ public class DbConnection implements IDbConnection {
 	
 	private void loadConnection(LocalJdbcEnvironment jdbcEnvironment) throws SQLException {
 		org.postgresql.Driver.isRegistered();
-		this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/calculator_db", "calculator", "calculator");
+		
+		this.connection = DriverManager.getConnection(
+				jdbcEnvironment.getDatabaseUrl(),
+				jdbcEnvironment.getUser(),
+				jdbcEnvironment.getPassword()
+				);
 	}
 	
 	@Override
