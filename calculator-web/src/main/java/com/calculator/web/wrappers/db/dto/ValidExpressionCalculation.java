@@ -1,18 +1,18 @@
 package com.calculator.web.wrappers.db.dto;
 
-public class ValidExpressionCalculation {
+public class ValidExpressionCalculation extends Calculation {
 	
-	private String result;
+	private Double result;
 	
 	public ValidExpressionCalculation() {
 		super();
 	}
 
-	public String getResult() {
+	public Double getResult() {
 		return result;
 	}
 
-	public void setResult(String result) {
+	public void setResult(Double result) {
 		this.result = result;
 	}
 }

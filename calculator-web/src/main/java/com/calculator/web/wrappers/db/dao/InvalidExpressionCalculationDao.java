@@ -11,18 +11,18 @@ import com.calculator.web.wrappers.db.time.*;
 
 public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCalculation, String> {
 	
-	private IDbConnection dbConnection;
+	private Connection connection;
 	private TimestampTranslator timestampTranslator;
 	
 	public InvalidExpressionCalculationDao(IDbConnection dbConnection, TimestampTranslator timestampStranslator) {
-		this.dbConnection = dbConnection;
+		this.connection = dbConnection.getConnection();
 		this.timestampTranslator = timestampStranslator;
 	}
 	
 	@Override
 	public InvalidExpressionCalculation getItem(String key) throws DbException {
 		try {
-			return getItemWithNoExceptionHandling(key);
+			return getInvalidExpressionCalculation(key);
 		} catch (SQLException exception) {
 			throw new DbException(exception.getMessage(), exception);
 		}
@@ -31,7 +31,7 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 	@Override
 	public Collection<InvalidExpressionCalculation> getItems() throws DbException {
 		try {
-			return getItemsWithNoExceptionHandling();
+			return getInvalidExpressionCalculations();
 		} catch (SQLException exception) {
 			throw new DbException(exception.getMessage(), exception);
 		}
@@ -40,7 +40,7 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 	@Override
 	public void save(InvalidExpressionCalculation item)  throws DbException {
 		try {
-			saveWithNoExceptionHandling(item);
+			saveInvalidExpressionCalculation(item);
 		} catch (SQLException exception) {
 			throw new DbException(exception.getMessage(), exception);
 		}
@@ -49,7 +49,7 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 	@Override
 	public void update(InvalidExpressionCalculation item)  throws DbException {
 		try {
-			updateWithNoExceptionHandling(item);
+			updateInvalidExpressionCalculation(item);
 		} catch (SQLException exception) {
 			throw new DbException(exception.getMessage(), exception);
 		}
@@ -58,17 +58,15 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 	@Override
 	public void delete(InvalidExpressionCalculation item)  throws DbException {
 		try {
-			deleteWithNoExceptionHandling(item);
+			deleteInvalidExpressionCalculation(item);
 		} catch (SQLException exception) {
 			throw new DbException(exception.getMessage(), exception);
 		}
 	}
 	
-	private InvalidExpressionCalculation getItemWithNoExceptionHandling(String key) throws DbException, SQLException {
-		String sql = "SELECT expression, date, incorrectness_reason "
-				+ "FROM invalid_expression_calculations "
-				+ "WHERE expression = ?";
-		PreparedStatement statement = getPreparedStatement(dbConnection, sql);
+	private InvalidExpressionCalculation getInvalidExpressionCalculation(String key) throws DbException, SQLException {
+		String sql = "SELECT expression, date, incorrectness_reason FROM invalid_expression_calculations WHERE expression = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
 		
 		statement.setString(1, key);
 		
@@ -83,11 +81,6 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 		return calculation;
 	}
 	
-	private PreparedStatement getPreparedStatement(IDbConnection dbConnection, String sql) throws SQLException {
-		Connection connection = dbConnection.getConnection();
-		return connection.prepareStatement(sql);
-	}
-	
 	private InvalidExpressionCalculation getInvalidExpressionCalculationFromResultSet(ResultSet resultSet) throws SQLException {
 		InvalidExpressionCalculation calculation = new InvalidExpressionCalculation();
 		
@@ -98,9 +91,9 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 		return calculation;
 	}
 
-	private Collection<InvalidExpressionCalculation> getItemsWithNoExceptionHandling() throws SQLException {
+	private Collection<InvalidExpressionCalculation> getInvalidExpressionCalculations() throws SQLException {
 		String sql = "SELECT expression, date, incorrectness_reason FROM invalid_expression_calculations";
-		PreparedStatement statement = getPreparedStatement(dbConnection, sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 		
 		ResultSet resultSet = statement.executeQuery();
 		Collection<InvalidExpressionCalculation> calculations = new ArrayList<>();
@@ -110,35 +103,42 @@ public class InvalidExpressionCalculationDao implements IDao<InvalidExpressionCa
 			calculations.add(calculation);
 		}
 		
+		statement.close();
 		return calculations;
 	}
 	
-	private void saveWithNoExceptionHandling(InvalidExpressionCalculation item) throws SQLException {
+	private void saveInvalidExpressionCalculation(InvalidExpressionCalculation item) throws SQLException {
 		String sql = "INSERT INTO invalid_expression_calculations (expression, incorrectness_reason) VALUES (?, ?)";
-		PreparedStatement statement = getPreparedStatement(dbConnection, sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 		
 		statement.setString(1, item.getExpression());
 		statement.setString(2, item.getIncorrectnessReason());
 		
 		statement.executeUpdate();
+		
+		statement.close();
 	}
 	
-	private void updateWithNoExceptionHandling(InvalidExpressionCalculation item) throws SQLException {
+	private void updateInvalidExpressionCalculation(InvalidExpressionCalculation item) throws SQLException {
 		String sql = "UPDATE invalid_expression_calculations SET expression = ?";
-		PreparedStatement statement = getPreparedStatement(dbConnection, sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 		
 		statement.setString(1, item.getIncorrectnessReason());
 		statement.setString(2, item.getExpression());
 		
 		statement.executeUpdate();
+		
+		statement.close();
 	}
 	
-	private void deleteWithNoExceptionHandling(InvalidExpressionCalculation item) throws SQLException {
+	private void deleteInvalidExpressionCalculation(InvalidExpressionCalculation item) throws SQLException {
 		String sql = "DELETE FROM invalid_expression_calculations WHERE expression = ?";
-		PreparedStatement statement = getPreparedStatement(dbConnection, sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 		
 		statement.setString(1, item.getExpression());
 		
 		statement.executeUpdate();
+		
+		statement.close();
 	}
 }
