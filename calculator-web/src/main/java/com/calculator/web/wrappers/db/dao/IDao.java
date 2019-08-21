@@ -1,18 +1,17 @@
 package com.calculator.web.wrappers.db.dao;
 
+import java.sql.SQLException;
 import java.util.Collection;
-
-import com.calculator.web.wrappers.db.exception.DbException;
 
 public interface IDao<T, E> {
 	
-	public T getItem(E key) throws DbException;
+	public T getItem(E key) throws SQLException;
 	
-	public Collection<T> getItems() throws DbException;
+	public Collection<T> getItems() throws SQLException;
 	
-	public void save(T item) throws DbException;
+	public void save(T item) throws SQLException;
 	
-	public void update(T item) throws DbException;
+	public void update(T item) throws SQLException;
 	
-	public void delete(T item) throws DbException;
+	public void delete(T item) throws SQLException;
 }
