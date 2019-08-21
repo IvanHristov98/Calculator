@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.calculator.web.wrappers.db.exception.DbException;
-
 public class DbConnection implements IDbConnection {
 
 	private static volatile DbConnection instance;
@@ -13,16 +11,12 @@ public class DbConnection implements IDbConnection {
 	private LocalJdbcEnvironment jdbcEnvironment;
 	private Connection connection;
 	
-	public static synchronized DbConnection getInstance(LocalJdbcEnvironment jdbcEnvironment) throws DbException {
-		try {
-			if (instance == null) {
-				instance = new DbConnection(jdbcEnvironment);
-			}
-			
-			return instance;
-		} catch (SQLException exception) {
-			throw new DbException("An error encountered while trying to connect to the database.");
+	public static synchronized DbConnection getInstance(LocalJdbcEnvironment jdbcEnvironment) throws SQLException {
+		if (instance == null) {
+			instance = new DbConnection(jdbcEnvironment);
 		}
+		
+		return instance;
 	}
 	
 	private DbConnection(LocalJdbcEnvironment jdbcEnvironment) throws SQLException {
@@ -45,5 +39,4 @@ public class DbConnection implements IDbConnection {
 	public Connection getConnection() {
 		return connection;
 	}
-	
 }
