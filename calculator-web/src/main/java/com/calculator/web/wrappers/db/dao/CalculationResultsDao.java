@@ -1,23 +1,30 @@
 package com.calculator.web.wrappers.db.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.calculator.web.resources.representations.CalculationResult;
 import com.calculator.web.wrappers.db.DbConnection;
 import com.calculator.web.wrappers.db.time.TimestampTranslator;
 
+import static com.calculator.web.wrappers.db.dao.tableRepresentations.CalculationResults.*;
+
+import java.sql.*;
+import java.util.*;
+
 public class CalculationResultsDao implements IDao<CalculationResult, String> {
 
-	public static final String GET_ITEM_QUERY = "SELECT expression, date, result, message FROM calculation_results WHERE expression=?;";
-	public static final String GET_ITEMS_QUERY = "SELECT expression, date, result, message FROM calculation_results;";
-	public static final String SAVE_ITEM_QUERY = "INSERT INTO calculation_results (expression, result, message) VALUES (?, ?, ?);";
-	public static final String UPDATE_ITEM_QUERY = "UPDATE calculation_results SET date=?, result=?, message=? WHERE expression=?;";
-	public static final String DELETE_ITEM_QUERY = "DELETE FROM calculation_results WHERE expression=?;";
+	public static final String GET_ITEMS_QUERY = "SELECT " + EXPRESSION_COLUMN + ", "
+			+ DATE_COLUMN + ", "
+			+ RESULT_COLUMN + ", "
+			+ MESSAGE_COLUMN
+			+ " FROM " + TABLE_NAME;
+	public static final String GET_ITEM_QUERY = GET_ITEMS_QUERY + " WHERE " + EXPRESSION_COLUMN + "=?";
+
+	public static final String SAVE_ITEM_QUERY = "INSERT INTO " + TABLE_NAME 
+												+ " (" + EXPRESSION_COLUMN + ", " + RESULT_COLUMN + ", " + MESSAGE_COLUMN + ") "
+												+ "VALUES (?, ?, ?)";
+	public static final String UPDATE_ITEM_QUERY = "UPDATE " + TABLE_NAME 
+												+ " SET " + DATE_COLUMN + "=?, " + RESULT_COLUMN + "=?, " + MESSAGE_COLUMN + "=? "
+												+ "WHERE " + EXPRESSION_COLUMN + "=?";
+	public static final String DELETE_ITEM_QUERY = "DELETE FROM " + TABLE_NAME + " WHERE " + EXPRESSION_COLUMN + "=?";
 	
 	private Connection connection;
 	private TimestampTranslator timestampTranslator;
@@ -92,10 +99,10 @@ public class CalculationResultsDao implements IDao<CalculationResult, String> {
 	
 	private CalculationResult extractCalculationResultFromResultSet(ResultSet resultSet) throws SQLException {
 		CalculationResult result = new CalculationResult();
-		result.setExpression(resultSet.getString("expression"));
-		result.setDate(timestampTranslator.toInstant(resultSet.getTimestamp("date")));
-		result.setResult(resultSet.getDouble("result"));
-		result.setMessage(resultSet.getString("message"));
+		result.setExpression(resultSet.getString(EXPRESSION_COLUMN));
+		result.setDate(timestampTranslator.toInstant(resultSet.getTimestamp(DATE_COLUMN)));
+		result.setResult(resultSet.getDouble(RESULT_COLUMN));
+		result.setMessage(resultSet.getString(MESSAGE_COLUMN));
 		
 		return result;
 	}

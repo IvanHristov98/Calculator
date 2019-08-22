@@ -26,7 +26,7 @@ public class DbConnection implements IDbConnection {
 	}
 	
 	private void loadConnection(LocalJdbcEnvironment jdbcEnvironment) throws SQLException {
-		org.postgresql.Driver.isRegistered();
+		//org.postgresql.Driver.isRegistered();
 		
 		this.connection = DriverManager.getConnection(
 				jdbcEnvironment.getDatabaseUrl(),
