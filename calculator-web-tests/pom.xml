@@ -184,15 +184,12 @@
 		    <artifactId>derby</artifactId>
 		    <version>10.14.2.0</version>
 		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbyclient -->
 		<dependency>
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derbyclient</artifactId>
 		    <version>10.14.2.0</version>
 		</dependency>
-		
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbynet -->
 		<dependency>
 		    <groupId>org.apache.derby</groupId>
@@ -200,7 +197,13 @@
 		    <version>10.14.2.0</version>
 		</dependency>
 		
-	
+		<!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
+		<dependency>
+		    <groupId>org.dbunit</groupId>
+		    <artifactId>dbunit</artifactId>
+		    <version>2.5.1</version>
+		    <scope>test</scope>
+		</dependency>
     </dependencies>
     
     <profiles>

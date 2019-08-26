@@ -3,7 +3,6 @@ package com.calculator.web.tests;
 import com.calculator.web.tests.pageObjects.*;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.URL;
 import java.sql.*;
 
@@ -54,14 +53,21 @@ public class CalculateResourceIT {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
     	resourcePage = new CalculateResourcePage(baseUrl);
+    	dbPage.useDataSet("/datasets/emptySet.xml");
     }
  
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException, SQLException {
     	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2 + 4/2");
     	assertCorrectCalculation(calculationResponse.readEntity(String.class), "15.0");
+    }
+    
+    @Test
+    public void verifyCalculationSaving() throws Exception {
+    	resourcePage.getPageResponseOnCalculationRequest("1+1");
+    	dbPage.compareActualToCurrentTable("/datasets/expected-CalculateResourceIT#verifyCalculationSaving.xml");
     }
     
     @Test
