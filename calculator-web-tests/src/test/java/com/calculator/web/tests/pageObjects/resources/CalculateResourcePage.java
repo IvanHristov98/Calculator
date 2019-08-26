@@ -1,4 +1,4 @@
-package com.calculator.web.tests.pageObjects;
+package com.calculator.web.tests.pageObjects.resources;
 
 import java.io.*;
 import java.net.*;
@@ -10,18 +10,16 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class CalculateResourcePage {
-	public static String CALCULATIONS_URL = "/calculator-web/v1/calculate";
-	public static String URL_QUERY_SEPARATOR = "?";
-	public static String CALCULATIONS_URL_EXPRESSION_PARAMETER = "expression";
+public class CalculateResourcePage extends ResourcePage {
 	
-	private URL baseUrl;
+	public static String CALCULATE_EXPRESSION_SPECIFIC_PATH = "/calculate";
+	public static String CALCULATE_EXPRESSION_URL_EXPRESSION_PARAMETER = "expression";
 	
 	public CalculateResourcePage(URL baseUrl) {
-		this.baseUrl = baseUrl;
+		super(baseUrl);
 	}
 	
-	public Response getPageResponseOnCalculationRequest(String expressionContent) throws IOException {
+	public Response getResourceContent(String expressionContent) throws IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
     	
     	Client client= ClientBuilder.newClient();
@@ -31,8 +29,8 @@ public class CalculateResourcePage {
 	
 	private URL getCalculationRequestURL(String expressionContent) throws UnsupportedEncodingException, MalformedURLException {
 		String urlEncodedExpression = getUrlEncodedExpression(expressionContent);
-		String expressionQuery = buildUrlQueryFrom(CALCULATIONS_URL_EXPRESSION_PARAMETER, urlEncodedExpression);
-		String urlAfterBase = CALCULATIONS_URL + URL_QUERY_SEPARATOR + expressionQuery;
+		String expressionQuery = buildUrlQueryFrom(CALCULATE_EXPRESSION_URL_EXPRESSION_PARAMETER, urlEncodedExpression);
+		String urlAfterBase = BASE_API_PATH + CALCULATE_EXPRESSION_SPECIFIC_PATH + URL_QUERY_SEPARATOR + expressionQuery;
 		
 		return new URL(baseUrl, urlAfterBase);
 	}

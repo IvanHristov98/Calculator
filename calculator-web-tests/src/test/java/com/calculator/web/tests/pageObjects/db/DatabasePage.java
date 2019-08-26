@@ -1,4 +1,4 @@
-package com.calculator.web.tests.pageObjects;
+package com.calculator.web.tests.pageObjects.db;
 
 import java.io.PrintWriter;
 import java.net.InetAddress;

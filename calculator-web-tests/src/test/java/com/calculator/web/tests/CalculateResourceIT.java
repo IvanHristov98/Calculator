@@ -1,6 +1,8 @@
 package com.calculator.web.tests;
 
 import com.calculator.web.tests.pageObjects.*;
+import com.calculator.web.tests.pageObjects.db.DatabasePage;
+import com.calculator.web.tests.pageObjects.resources.CalculateResourcePage;
 
 import java.io.*;
 import java.net.URL;
@@ -60,49 +62,49 @@ public class CalculateResourceIT {
  
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException, SQLException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2 + 4/2");
+    	Response calculationResponse = resourcePage.getResourceContent("(1+2)*3 + 2^2 + 4/2");
     	assertCorrectCalculation(calculationResponse.readEntity(String.class), "15.0");
     }
     
     @Test
     public void verifyCalculationSaving() throws Exception {
-    	resourcePage.getPageResponseOnCalculationRequest("1+1");
+    	resourcePage.getResourceContent("1+1");
     	dbPage.compareActualToCurrentTable("/datasets/expected-CalculateResourceIT#verifyCalculationSaving.xml");
     }
     
     @Test
     public void verifyDivisionByZeroException() throws IOException, InterruptedException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1/0");
+    	Response calculationResponse = resourcePage.getResourceContent("1/0");
     	assertBadRequest(calculationResponse, "400", "Expression error. Division by zero encountered.");
     }
     
     @Test
     public void verifyBracketsException() throws IOException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2");
+    	Response calculationResponse = resourcePage.getResourceContent("(1+2");
     	assertBadRequest(calculationResponse, "400", "Expression error. Brackets misplacement has been encountered.");
     }
     
     @Test
     public void verifyOperatorMisplacementException() throws IOException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1+2+");
+    	Response calculationResponse = resourcePage.getResourceContent("1+2+");
     	assertBadRequest(calculationResponse, "400", "Expression error. Operator misplacement has been encountered.");
     }
     
     @Test
     public void verifyEmptyExpressionException() throws IOException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("");
+    	Response calculationResponse = resourcePage.getResourceContent("");
     	assertBadRequest(calculationResponse, "400", "Expression error. Empty expressions are not permitted.");
     }
     
     @Test
     public void verifyInvalidOperatorException() throws IOException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1A2");
+    	Response calculationResponse = resourcePage.getResourceContent("1A2");
     	assertBadRequest(calculationResponse, "400", "Expression error. An invalid operator has been encountered.");
     }
     
     @Test
     public void verifyNumberMisplacementException() throws IOException {
-    	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("1 2");
+    	Response calculationResponse = resourcePage.getResourceContent("1 2");
     	assertBadRequest(calculationResponse, "400", "Expression error. An invalid number ordering has been encountered.");
     }
     
