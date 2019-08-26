@@ -30,7 +30,7 @@ public class CalculateResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCalculationResult(@QueryParam("expression") String expressionContent) throws JsonProcessingException {
+	public Response getCalculationResult(@QueryParam("expression") String expressionContent) throws JsonProcessingException, InterruptedException {
 		try {
 			Double calculationResult = calculate(expressionContent);
 			CalculationResult calculationResultAsPojo = getCalculationResultAsPojo(expressionContent, calculationResult);
@@ -63,7 +63,7 @@ public class CalculateResource {
 		return calculationResult;
 	}
 	
-	private void safeCalculationResult(CalculationResult calculationResult) {
+	private void safeCalculationResult(CalculationResult calculationResult) throws InterruptedException {
 		try {
 			EntityManagerSupplier managerSupplier = EntityManagerSupplier.getInstance(jdbcEnvironment);
 			EntityManager entityManager = managerSupplier.getEntityManager();

@@ -1,6 +1,5 @@
 package com.calculator.web.wrappers.db.dao;
 
-import com.calculator.web.wrappers.db.LocalJdbcEnvironment;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 
 import static com.calculator.web.wrappers.db.dao.tableRepresentations.CalculationResults.*;
@@ -38,7 +37,6 @@ public class CalculationResultsDaoTest {
 	public static final String JDBC_PASSWORD_PROPERTY_NAME = "javax.persistence.jdbc.password";
 	public static final String JDBC_DRIVER_PROPERTY_NAME = "javax.persistence.jdbc.driver";
 	
-	@Mock private LocalJdbcEnvironment jdbcEnvironment;
 	@Mock private Timestamp mockedTimestamp;
 	private EntityManager entityManager;
 	private CalculationResultsDao calculationResultsDao;

@@ -15,6 +15,8 @@ public class EntityManagerSupplier {
 	public static final String JDBC_PASSWORD_PROPERTY_NAME = "javax.persistence.jdbc.password";
 	public static final String JDBC_DRIVER_PROPERTY_NAME = "javax.persistence.jdbc.driver";
 	
+	public static final String PERSISTENCE_UNIT_NAME = "CalculationResults";
+	
 	private static EntityManagerSupplier instance;
 	
 	private EntityManager entityManager;
@@ -37,9 +39,9 @@ public class EntityManagerSupplier {
 		persistenceMap.put(JDBC_USER_PROPERTY_NAME, jdbcEnvironment.getUser());
 		persistenceMap.put(JDBC_PASSWORD_PROPERTY_NAME, jdbcEnvironment.getPassword());
 		// todo: extract driver logic to separate class
-		persistenceMap.put(JDBC_DRIVER_PROPERTY_NAME, "org.postgresql.Driver");
+		persistenceMap.put(JDBC_DRIVER_PROPERTY_NAME, jdbcEnvironment.getDriverName());
 		
-		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("CalculationResults", persistenceMap);
+		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, persistenceMap);
 		return managerFactory.createEntityManager();
 	}
 	
