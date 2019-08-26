@@ -47,7 +47,7 @@
 		        <executions>
 		          <execution>
 		            <id>copy</id>
-		            <phase>validate</phase>
+		            <phase>generate-resources</phase>
 		            <goals>
 		              <goal>copy</goal>
 		            </goals>
@@ -69,7 +69,28 @@
 		          <overWriteReleases>true</overWriteReleases>
 		          <overWriteSnapshots>true</overWriteSnapshots>
 		        </configuration>
-		      </plugin>
+	      	</plugin>
+	      	<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-failsafe-plugin</artifactId>
+		        <version>${mavenFailsafePlugin.version}</version>
+		         <configuration>
+                    <systemPropertyVariables>
+                    	<CALCULATOR_JDBC_URL>jdbc:derby://localhost:1527/calculator_db;create=true</CALCULATOR_JDBC_URL>
+                    	<CALCULATOR_DATABASE>derbyClient</CALCULATOR_DATABASE>
+                    	<CALCULATOR_JDBC_USER>APP</CALCULATOR_JDBC_USER>
+                    	<CALCULATOR_JDBC_PASSWORD>APP</CALCULATOR_JDBC_PASSWORD>
+                    </systemPropertyVariables>
+                </configuration>
+		        <executions>
+		          	<execution>
+		            	<goals>
+		              		<goal>integration-test</goal>
+		              		<goal>verify</goal>
+		            	</goals>
+		          	</execution>
+		        </executions>
+	      	</plugin>
 	  	</plugins>
 	  </build>
 	
@@ -104,6 +125,7 @@
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
+        
 		<!-- https://mvnrepository.com/artifact/javax.ejb/ejb-api -->
 		<dependency>
 		    <groupId>javax.ejb</groupId>
@@ -155,6 +177,29 @@
 		    <artifactId>jackson-jaxrs-json-provider</artifactId>
 		    <version>${jackson.version}</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.derby/derby -->
+		<dependency>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derby</artifactId>
+		    <version>10.14.2.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbyclient -->
+		<dependency>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derbyclient</artifactId>
+		    <version>10.14.2.0</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.derby/derbynet -->
+		<dependency>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derbynet</artifactId>
+		    <version>10.14.2.0</version>
+		</dependency>
+		
 	
     </dependencies>
     

@@ -1,9 +1,11 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.tests.pageObjects.CalculateResourcePage;
+import com.calculator.web.tests.pageObjects.*;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.URL;
+import java.sql.*;
 
 import javax.ws.rs.core.Response;
 
@@ -22,6 +24,7 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(Arquillian.class)
 public class CalculateResourceIT {
+	public static DatabasePage dbPage;
 	
 	@ArquillianResource
 	private URL baseUrl;
@@ -37,13 +40,26 @@ public class CalculateResourceIT {
         return calculatorWeb;
     }
     
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    	dbPage = new DatabasePage();
+    	dbPage.startDatabaseServer();
+    	dbPage.createTable();
+    }
+    
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    	dbPage.dropTable();
+    	dbPage.shutDownDatabaseServer();
+    }
+    
     @Before
     public void setUp() {
     	resourcePage = new CalculateResourcePage(baseUrl);
     }
  
     @Test
-    public void calculateValidExpression() throws IOException, InterruptedException {
+    public void calculateValidExpression() throws IOException, InterruptedException, SQLException {
     	Response calculationResponse = resourcePage.getPageResponseOnCalculationRequest("(1+2)*3 + 2^2 + 4/2");
     	assertCorrectCalculation(calculationResponse.readEntity(String.class), "15.0");
     }

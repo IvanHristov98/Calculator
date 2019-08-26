@@ -13,9 +13,9 @@ public class DriverFactory {
 		case POSTGRE_DB:
 			return new PostgreDriver();
 		case DERBY_CLIENT_DB:
-			return new DerbyEmbeddedDriver();
-		case DERBY_EMBEDDED_DB:
 			return new DerbyClientDriver();
+		case DERBY_EMBEDDED_DB:
+			return new DerbyEmbeddedDriver();
 		default:
 			throw new DriverException("Unable to find an appropriate jdbc driver.");
 		}
