@@ -18,7 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/calculationResults")
-public class CalculationsResource {
+public class CalculationResultsResource {
 	@Inject ObjectMapper objectMapper;
 	@Inject LocalJdbcEnvironment jdbcEnvironment;
 	

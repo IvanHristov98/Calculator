@@ -15,11 +15,17 @@ public class CalculateResourcePage extends ResourcePage {
 	public static String CALCULATE_EXPRESSION_SPECIFIC_PATH = "/calculate";
 	public static String CALCULATE_EXPRESSION_URL_EXPRESSION_PARAMETER = "expression";
 	
+	private String expressionContent;
+	
 	public CalculateResourcePage(URL baseUrl) {
 		super(baseUrl);
 	}
 	
-	public Response getResourceContent(String expressionContent) throws IOException {
+	public void setExpressionParameter(String expressionContent) {
+		this.expressionContent = expressionContent;
+	}
+	
+	public Response getResourceContent() throws IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
     	
     	Client client= ClientBuilder.newClient();

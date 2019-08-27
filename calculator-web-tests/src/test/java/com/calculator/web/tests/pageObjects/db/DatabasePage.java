@@ -49,7 +49,7 @@ public class DatabasePage {
 		jdbcDatabase.shutdown();
 	}
 	
-	public void createTable() throws SQLException {
+	public void createSchema() throws SQLException {
 		Connection connection = getConnection();
 		
 		PreparedStatement statement = connection.prepareStatement(CREATE_CALCULATION_RESULTS_TABLE_SQL);		

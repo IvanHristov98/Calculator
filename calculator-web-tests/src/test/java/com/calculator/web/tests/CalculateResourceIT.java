@@ -1,6 +1,6 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.tests.pageObjects.*;
+import com.calculator.web.tests.archive.WebCalculatorArchiveFactory;
 import com.calculator.web.tests.pageObjects.db.DatabasePage;
 import com.calculator.web.tests.pageObjects.resources.CalculateResourcePage;
 
@@ -13,8 +13,6 @@ import javax.ws.rs.core.Response;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import org.junit.*;
@@ -33,19 +31,15 @@ public class CalculateResourceIT {
 	
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-    	WebArchive calculatorWeb = ShrinkWrap.create(ZipImporter.class, "calculator-web.war")
-    			.importFrom(new File("target"+File.separator+"wars"+File.separator+"calculator-web.war"))
-    			.as(WebArchive.class)
-    			.addAsManifestResource("arquillian.xml");
- 
-        return calculatorWeb;
+    	WebCalculatorArchiveFactory webCalculatorArchive = new WebCalculatorArchiveFactory();
+        return webCalculatorArchive.makeArchive();
     }
     
     @BeforeClass
     public static void setUpClass() throws Exception {
     	dbPage = new DatabasePage();
     	dbPage.startDatabaseServer();
-    	dbPage.createTable();
+    	dbPage.createSchema();
     }
     
     @AfterClass
@@ -62,49 +56,57 @@ public class CalculateResourceIT {
  
     @Test
     public void calculateValidExpression() throws IOException, InterruptedException, SQLException {
-    	Response calculationResponse = resourcePage.getResourceContent("(1+2)*3 + 2^2 + 4/2");
+    	resourcePage.setExpressionParameter("(1+2)*3 + 2^2 + 4/2");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertCorrectCalculation(calculationResponse.readEntity(String.class), "15.0");
     }
     
     @Test
     public void verifyCalculationSaving() throws Exception {
-    	resourcePage.getResourceContent("1+1");
-    	dbPage.compareActualToCurrentTable("/datasets/expected-CalculateResourceIT#verifyCalculationSaving.xml");
+    	resourcePage.setExpressionParameter("1+1");
+    	resourcePage.getResourceContent();
+    	dbPage.compareActualToCurrentTable("/datasets/singleItemDataSet.xml");
     }
     
     @Test
     public void verifyDivisionByZeroException() throws IOException, InterruptedException {
-    	Response calculationResponse = resourcePage.getResourceContent("1/0");
+    	resourcePage.setExpressionParameter("1/0");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertBadRequest(calculationResponse, "400", "Expression error. Division by zero encountered.");
     }
     
     @Test
     public void verifyBracketsException() throws IOException {
-    	Response calculationResponse = resourcePage.getResourceContent("(1+2");
+    	resourcePage.setExpressionParameter("(1+2");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertBadRequest(calculationResponse, "400", "Expression error. Brackets misplacement has been encountered.");
     }
     
     @Test
     public void verifyOperatorMisplacementException() throws IOException {
-    	Response calculationResponse = resourcePage.getResourceContent("1+2+");
+    	resourcePage.setExpressionParameter("1+2+");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertBadRequest(calculationResponse, "400", "Expression error. Operator misplacement has been encountered.");
     }
     
     @Test
     public void verifyEmptyExpressionException() throws IOException {
-    	Response calculationResponse = resourcePage.getResourceContent("");
+    	resourcePage.setExpressionParameter("");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertBadRequest(calculationResponse, "400", "Expression error. Empty expressions are not permitted.");
     }
     
     @Test
     public void verifyInvalidOperatorException() throws IOException {
-    	Response calculationResponse = resourcePage.getResourceContent("1A2");
+    	resourcePage.setExpressionParameter("1A2");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertBadRequest(calculationResponse, "400", "Expression error. An invalid operator has been encountered.");
     }
     
     @Test
     public void verifyNumberMisplacementException() throws IOException {
-    	Response calculationResponse = resourcePage.getResourceContent("1 2");
+    	resourcePage.setExpressionParameter("1 2");
+    	Response calculationResponse = resourcePage.getResourceContent();
     	assertBadRequest(calculationResponse, "400", "Expression error. An invalid number ordering has been encountered.");
     }
     

@@ -14,7 +14,7 @@ public class CalculationResultsResourcePage extends ResourcePage {
 	}
 
 	@Override
-	public Response getResourceContent(String expressionContent) throws Exception {
+	public Response getResourceContent() throws Exception {
 		URL calculationResultsResourceUrl = getCalculationResultsResourceUrl();
 		
 		Client client = ClientBuilder.newClient();
@@ -26,5 +26,4 @@ public class CalculationResultsResourcePage extends ResourcePage {
 		String urlAfterBase = BASE_API_PATH + CALCULATION_RESULTS_SPECIFIC_PATH;
 		return new URL(baseUrl, urlAfterBase);
 	}
-
 }

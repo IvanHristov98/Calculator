@@ -15,5 +15,5 @@ public abstract class ResourcePage {
 		this.baseUrl = baseUrl;
 	}
 	
-	public abstract Response getResourceContent(String expressionContent) throws Exception;
+	public abstract Response getResourceContent() throws Exception;
 }
