@@ -2,7 +2,8 @@ package com.calculator.web.wrappers.db.dao;
 
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 
-import static com.calculator.web.wrappers.db.dao.tableRepresentations.CalculationResults.*;
+import static com.calculator.web.wrappers.db.dao.CalculationResultsTable.TABLE_NAME;
+import static com.calculator.web.wrappers.db.dao.DatasetPaths.*;
 
 import org.junit.*;
 import org.mockito.Mock;
@@ -45,8 +46,8 @@ public class CalculationResultsDaoTest {
 	public static void setUpClass() throws SQLException {
 		Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 		
-		CalculationResultsTableSetter dbSetter = new CalculationResultsTableSetter(connection);
-		dbSetter.createTable();
+		CalculationResultsTable dbSetter = new CalculationResultsTable(connection);
+		dbSetter.create();
 		
 		connection.close();
 	}
@@ -55,8 +56,8 @@ public class CalculationResultsDaoTest {
 	public static void tearDownClass() throws SQLException {
 		Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
 		
-		CalculationResultsTableSetter dbSetter = new CalculationResultsTableSetter(connection);
-		dbSetter.dropTable();
+		CalculationResultsTable dbSetter = new CalculationResultsTable(connection);
+		dbSetter.drop();
 		
 		connection.close();
 	}
@@ -65,7 +66,7 @@ public class CalculationResultsDaoTest {
     public void setUp() throws Exception {
     	initMocks(this);
     	
-    	applyDataSet("/dbUnit/CalculationResultsDao#setUp.xml");
+    	applyDataSet(EMPTY_DATA_SET);
     	setUpEntityManger();
     	setUpCalculationResultsDao(entityManager);
     }
@@ -77,7 +78,7 @@ public class CalculationResultsDaoTest {
     
 	@Test
 	public void verifyItemFinding() throws Exception {
-		applyDataSet("/dbUnit/CalculationResultsDao#verifyItemFinding.xml");
+		applyDataSet(SINGLE_ITEM_DATA_SET);
 		
 		String expression = "1+1";
 		CalculationResult result = calculationResultsDao.getItem(expression);
@@ -88,7 +89,7 @@ public class CalculationResultsDaoTest {
 	
 	@Test
 	public void verifyNumberWhenGettingItems() throws Exception {
-		applyDataSet("/dbUnit/CalculationResultsDao#verifyNumberWhenGettingItems.xml");
+		applyDataSet(TWO_ITEMS_DATA_SET);
 		final int totalRecordsInTable = 2;
 		
 		List<CalculationResult> result = calculationResultsDao.getItems();
@@ -105,12 +106,12 @@ public class CalculationResultsDaoTest {
 		
 		calculationResultsDao.save(item);
 		
-		compareActualToCurrentTable("/dbUnit/expected-CalculationResultsDao#verifyItemSaving.xml");
+		compareActualToCurrentTable(SINGLE_ITEM_DATA_SET);
 	}
 	
 	@Test
 	public void verifyItemUpdating() throws Exception {
-		applyDataSet("/dbUnit/CalculationResultsDao#verifyItemUpdating.xml");
+		applyDataSet(WRONG_SINGLE_ITEM_DATA_SET);
 		
 		CalculationResult item = new CalculationResult();
 		item.setExpression("1+1");
@@ -119,12 +120,12 @@ public class CalculationResultsDaoTest {
 		
 		calculationResultsDao.update(item);
 		
-		compareActualToCurrentTable("/dbUnit/expected-CalculationResultsDao#verifyItemUpdating.xml");
+		compareActualToCurrentTable(SINGLE_ITEM_DATA_SET);
 	}
 	
 	@Test
 	public void verifyItemDeletion() throws Exception {
-		applyDataSet("/dbUnit/CalculationResultsDao#verifyItemDeletion.xml");
+		applyDataSet(SINGLE_ITEM_DATA_SET);
 		
 		CalculationResult item = new CalculationResult();
 		item.setExpression("1+1");
@@ -132,7 +133,7 @@ public class CalculationResultsDaoTest {
 		
 		calculationResultsDao.delete(item);
 		
-		compareActualToCurrentTable("/dbUnit/expected-CalculationResultsDao#verifyItemDeletion.xml");
+		compareActualToCurrentTable(EMPTY_DATA_SET);
 	}
 	
 	private void applyDataSet(String dataSetFileName) throws Exception {
@@ -152,7 +153,6 @@ public class CalculationResultsDaoTest {
 		persistenceMap.put(JDBC_URL_PROPERTY_NAME, JDBC_URL);
 		persistenceMap.put(JDBC_USER_PROPERTY_NAME, JDBC_USER);
 		persistenceMap.put(JDBC_PASSWORD_PROPERTY_NAME, JDBC_PASSWORD);
-		// todo: extract driver logic to separate class
 		persistenceMap.put(JDBC_DRIVER_PROPERTY_NAME, JDBC_DRIVER);
 		
 		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("CalculationResults", persistenceMap);

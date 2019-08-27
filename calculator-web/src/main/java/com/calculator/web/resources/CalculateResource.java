@@ -15,7 +15,7 @@ import com.calculator.web.resources.representations.*;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 import com.calculator.web.wrappers.calculator.*;
 import com.calculator.web.wrappers.calculator.exception.WebCalculatorException;
-import com.calculator.web.wrappers.db.EntityManagerSupplier;
+import com.calculator.web.wrappers.db.DatabaseConnection;
 import com.calculator.web.wrappers.db.LocalJdbcEnvironment;
 import com.calculator.web.wrappers.db.dao.CalculationResultsDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -65,7 +65,7 @@ public class CalculateResource {
 	
 	private void safeCalculationResult(CalculationResult calculationResult) throws InterruptedException {
 		try {
-			EntityManagerSupplier managerSupplier = EntityManagerSupplier.getInstance(jdbcEnvironment);
+			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(jdbcEnvironment);
 			EntityManager entityManager = managerSupplier.getEntityManager();
 			CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
 			

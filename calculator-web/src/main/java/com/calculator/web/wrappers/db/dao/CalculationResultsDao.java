@@ -1,6 +1,5 @@
 package com.calculator.web.wrappers.db.dao;
 
-import static com.calculator.web.wrappers.db.dao.tableRepresentations.CalculationResults.*;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 
 import java.sql.SQLException;
@@ -11,11 +10,6 @@ import javax.persistence.*;
 
 public class CalculationResultsDao implements IDao<CalculationResult, String> {
 	
-	public static final String SELECT_ALL_ITEMS_SQL = "SELECT " 
-														+ EXPRESSION_COLUMN + ", " 
-														+ DATE_COLUMN + ", " 
-														+ RESULT_COLUMN + ", " 
-														+ MESSAGE_COLUMN + " FROM " + TABLE_NAME;
 	private EntityManager entityManager;
 	
 	public CalculationResultsDao(EntityManager entityManager) {

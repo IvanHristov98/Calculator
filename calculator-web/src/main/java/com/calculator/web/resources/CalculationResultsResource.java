@@ -26,7 +26,7 @@ public class CalculationResultsResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCalculations() throws JsonProcessingException, SQLException {
 		try {
-			EntityManagerSupplier managerSupplier = EntityManagerSupplier.getInstance(jdbcEnvironment);
+			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(jdbcEnvironment);
 			EntityManager entityManager = managerSupplier.getEntityManager();
 			CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
 			return Response.ok().entity(objectMapper.writeValueAsString(calculationResultsDao.getItems())).build();

@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class EntityManagerSupplier {
+public class DatabaseConnection {
 	
 	public static final String JDBC_URL_PROPERTY_NAME = "javax.persistence.jdbc.url";
 	public static final String JDBC_USER_PROPERTY_NAME = "javax.persistence.jdbc.user";
@@ -17,17 +17,17 @@ public class EntityManagerSupplier {
 	
 	public static final String PERSISTENCE_UNIT_NAME = "CalculationResults";
 	
-	private static EntityManagerSupplier instance;
+	private static DatabaseConnection instance;
 	
 	private EntityManager entityManager;
 	
-	private EntityManagerSupplier(LocalJdbcEnvironment jdbcEnvironment) {
+	private DatabaseConnection(LocalJdbcEnvironment jdbcEnvironment) {
 		this.entityManager = getEntityManager(jdbcEnvironment);
 	}
 	
-	public static synchronized EntityManagerSupplier getInstance(LocalJdbcEnvironment jdbcEnvironment) throws SQLException {
+	public static synchronized DatabaseConnection getInstance(LocalJdbcEnvironment jdbcEnvironment) throws SQLException {
 		if (instance == null) {
-			instance = new EntityManagerSupplier(jdbcEnvironment);
+			instance = new DatabaseConnection(jdbcEnvironment);
 		}
 		
 		return instance;
@@ -38,7 +38,6 @@ public class EntityManagerSupplier {
 		persistenceMap.put(JDBC_URL_PROPERTY_NAME, jdbcEnvironment.getDatabaseUrl());
 		persistenceMap.put(JDBC_USER_PROPERTY_NAME, jdbcEnvironment.getUser());
 		persistenceMap.put(JDBC_PASSWORD_PROPERTY_NAME, jdbcEnvironment.getPassword());
-		// todo: extract driver logic to separate class
 		persistenceMap.put(JDBC_DRIVER_PROPERTY_NAME, jdbcEnvironment.getDriverName());
 		
 		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, persistenceMap);

@@ -4,6 +4,8 @@ import com.calculator.web.tests.archive.WebCalculatorArchiveFactory;
 import com.calculator.web.tests.pageObjects.db.DatabasePage;
 import com.calculator.web.tests.pageObjects.resources.CalculationResultsResourcePage;
 
+import static com.calculator.web.tests.DatasetPaths.*;
+
 import java.net.URL;
 
 import javax.ws.rs.core.Response;
@@ -50,12 +52,12 @@ public class CalculationResultsResourceIT {
 	@Before
 	public void SetUp() throws Exception {
 		resourcePage = new CalculationResultsResourcePage(baseUrl);
-		dbPage.useDataSet("/datasets/emptySet.xml");
+		dbPage.useDataSet(EMPTY_DATA_SET);
 	}
 	
 	@Test
 	public void verifyCalculationResultsFetching() throws Exception {
-		dbPage.useDataSet("/datasets/populatedDataSet.xml");
+		dbPage.useDataSet(POPULATED_DATA_SET);
 		Response pageResponse = resourcePage.getResourceContent();
 		String pageEntity = pageResponse.readEntity(String.class);
 		

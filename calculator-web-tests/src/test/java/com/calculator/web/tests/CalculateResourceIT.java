@@ -4,6 +4,8 @@ import com.calculator.web.tests.archive.WebCalculatorArchiveFactory;
 import com.calculator.web.tests.pageObjects.db.DatabasePage;
 import com.calculator.web.tests.pageObjects.resources.CalculateResourcePage;
 
+import static com.calculator.web.tests.DatasetPaths.*;
+
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
@@ -51,7 +53,7 @@ public class CalculateResourceIT {
     @Before
     public void setUp() throws Exception {
     	resourcePage = new CalculateResourcePage(baseUrl);
-    	dbPage.useDataSet("/datasets/emptySet.xml");
+    	dbPage.useDataSet(EMPTY_DATA_SET);
     }
  
     @Test
@@ -65,7 +67,7 @@ public class CalculateResourceIT {
     public void verifyCalculationSaving() throws Exception {
     	resourcePage.setExpressionParameter("1+1");
     	resourcePage.getResourceContent();
-    	dbPage.compareActualToCurrentTable("/datasets/singleItemDataSet.xml");
+    	dbPage.compareActualToCurrentTable(SINGLE_ITEM_DATA_SET);
     }
     
     @Test
