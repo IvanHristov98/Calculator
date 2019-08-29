@@ -18,6 +18,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import org.junit.*;
+import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertThat;
@@ -25,7 +26,11 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(Arquillian.class)
 public class CalculateResourceIT {
+	
 	public static DatabasePage dbPage;
+	
+	@ClassRule
+	public static final EnvironmentVariables environmentVariables = new EnvironmentVariables();
 	
 	@ArquillianResource
 	private URL baseUrl;
@@ -39,6 +44,9 @@ public class CalculateResourceIT {
     
     @BeforeClass
     public static void setUpClass() throws Exception {
+    	EnvironmentVariablesMocker environmentVariablesMocker = new EnvironmentVariablesMocker(environmentVariables);
+    	environmentVariablesMocker.mockEnvironmentVariables();
+    	
     	dbPage = new DatabasePage();
     	dbPage.startDatabaseServer();
     	dbPage.createSchema();

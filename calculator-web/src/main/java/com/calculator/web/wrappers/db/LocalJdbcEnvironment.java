@@ -39,6 +39,6 @@ public class LocalJdbcEnvironment {
 	}
 	
 	private String getJvmProperty(String variableName) {
-		return System.getProperty(variableName);
+		return System.getenv(variableName);
 	}
 }

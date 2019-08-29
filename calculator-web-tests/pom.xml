@@ -70,27 +70,6 @@
 		          <overWriteSnapshots>true</overWriteSnapshots>
 		        </configuration>
 	      	</plugin>
-	      	<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-failsafe-plugin</artifactId>
-		        <version>${mavenFailsafePlugin.version}</version>
-		         <configuration>
-                    <systemPropertyVariables>
-                    	<CALCULATOR_JDBC_URL>jdbc:derby://localhost:1527/calculator_db;create=true</CALCULATOR_JDBC_URL>
-                    	<CALCULATOR_DATABASE>derbyClient</CALCULATOR_DATABASE>
-                    	<CALCULATOR_JDBC_USER>APP</CALCULATOR_JDBC_USER>
-                    	<CALCULATOR_JDBC_PASSWORD>APP</CALCULATOR_JDBC_PASSWORD>
-                    </systemPropertyVariables>
-                </configuration>
-		        <executions>
-		          	<execution>
-		            	<goals>
-		              		<goal>integration-test</goal>
-		              		<goal>verify</goal>
-		            	</goals>
-		          	</execution>
-		        </executions>
-	      	</plugin>
 	  	</plugins>
 	  </build>
 	
@@ -204,6 +183,15 @@
 		    <version>2.5.1</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.github.stefanbirkner/system-rules -->
+		<dependency>
+		    <groupId>com.github.stefanbirkner</groupId>
+		    <artifactId>system-rules</artifactId>
+		    <version>1.19.0</version>
+		    <scope>test</scope>
+		</dependency>
+		
     </dependencies>
     
     <profiles>
