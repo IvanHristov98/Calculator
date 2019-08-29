@@ -29,6 +29,7 @@
     <jackson.version>2.9.9</jackson.version>
     
     <postgreJdbcConnector.version>42.2.6</postgreJdbcConnector.version>
+    <sapHanaJdbcConnector.version>2.4.59</sapHanaJdbcConnector.version>
   </properties>
   
     <build>
@@ -116,11 +117,11 @@
 	    <version>${jackson.version}</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	<!-- https://mvnrepository.com/artifact/com.sap.cloud.db.jdbc/ngdbc -->
 	<dependency>
-	    <groupId>org.postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-	    <version>${postgreJdbcConnector.version}</version>
+	    <groupId>com.sap.cloud.db.jdbc</groupId>
+	    <artifactId>ngdbc</artifactId>
+	    <version>${sapHanaJdbcConnector.version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
