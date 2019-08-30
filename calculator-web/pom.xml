@@ -63,6 +63,13 @@
 	        	<appname>calculator</appname>
 	        	<memory>1024</memory>
 	        	<diskQuota>1024</diskQuota>
+	        	<services>
+	        		<service>
+	        			<name>calculatorDatabase</name>
+	        			<label>hanatrial</label>
+	        			<plan>hdi-shared</plan>
+	        		</service>
+	        	</services>
 	        </configuration>
 	    </plugin>
       </plugins>
