@@ -54,8 +54,22 @@
 		        <attachClasses>true</attachClasses>
 		    </configuration>
 		</plugin>
+		 <plugin>
+	        <groupId>org.cloudfoundry</groupId>
+	        <artifactId>cf-maven-plugin</artifactId>
+	        <version>${cloudFoundryPlugin.version}</version>
+	        <configuration>
+	        	<skip>false</skip>
+	        	<appname>calculator</appname>
+	        	<memory>1024</memory>
+	        	<diskQuota>1024</diskQuota>
+	        </configuration>
+	    </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+   
+    </plugins>
   </build>
 
   <dependencies>
