@@ -3,6 +3,14 @@
     xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="CalculationResults" transaction-type="RESOURCE_LOCAL">
+    	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult</class>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+			<property name="javax.persistence.validation.mode" value="NONE" />
+			<property name="eclipselink.ddl-generation" value="none" />
+		    <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+		    <property name="eclipselink.jdbc.allow-native-sql-queries" value="true" />
+		</properties>
     </persistence-unit>
 </persistence>

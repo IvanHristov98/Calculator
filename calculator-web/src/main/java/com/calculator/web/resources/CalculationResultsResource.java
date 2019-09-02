@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import liquibase.exception.LiquibaseException;
+
 @Path("/calculationResults")
 public class CalculationResultsResource {
 	@Inject ObjectMapper objectMapper;
@@ -24,7 +26,7 @@ public class CalculationResultsResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCalculations() throws JsonProcessingException, SQLException {
+	public Response getCalculations() throws JsonProcessingException, SQLException, LiquibaseException {
 		try {
 			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(jdbcEnvironment);
 			EntityManager entityManager = managerSupplier.getEntityManager();

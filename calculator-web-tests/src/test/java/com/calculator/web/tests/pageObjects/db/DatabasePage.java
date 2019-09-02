@@ -22,10 +22,10 @@ public class DatabasePage {
 	public static final String TABLE_NAME = "calculation_results";
 	public static final String CREATE_CALCULATION_RESULTS_TABLE_SQL = "CREATE TABLE " + TABLE_NAME + " ("
 			+ " expression character varying(128) NOT NULL,"
-			+ " date timestamp DEFAULT CURRENT TIMESTAMP NOT NULL, "
-			+ " result real,"
+			+ " moment timestamp DEFAULT CURRENT TIMESTAMP NOT NULL, "
+			+ " evaluation real,"
 			+ " message character varying(256)"
-			+ "	 )";
+			+ "	)";
 	public static final String DROP_CALCULATION_RESULTS_TABLE_SQL = "DROP TABLE calculation_results";
 	
 	public static final String DATABASE_URL = "jdbc:derby://localhost:1527/calculator_db;create=true";

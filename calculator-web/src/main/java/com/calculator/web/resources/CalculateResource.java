@@ -21,6 +21,8 @@ import com.calculator.web.wrappers.db.dao.CalculationResultsDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import liquibase.exception.LiquibaseException;
+
 import javax.ws.rs.GET;
 
 @Path("/calculate")
@@ -30,7 +32,7 @@ public class CalculateResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCalculationResult(@QueryParam("expression") String expressionContent) throws JsonProcessingException, InterruptedException {
+	public Response getCalculationResult(@QueryParam("expression") String expressionContent) throws JsonProcessingException, InterruptedException, LiquibaseException {
 		try {
 			Double calculationResult = calculate(expressionContent);
 			CalculationResult calculationResultAsPojo = getCalculationResultAsPojo(expressionContent, calculationResult);
@@ -57,13 +59,13 @@ public class CalculateResource {
 	private CalculationResult getCalculationResultAsPojo(String expression, Double result) {
 		CalculationResult calculationResult = new CalculationResult();
 		calculationResult.setExpression(expression);
-		calculationResult.setResult(result);
-		calculationResult.setDate(new Timestamp(Instant.now().toEpochMilli()));
+		calculationResult.setEvaluation(result);
+		calculationResult.setMoment(new Timestamp(Instant.now().toEpochMilli()));
 		
 		return calculationResult;
 	}
 	
-	private void safeCalculationResult(CalculationResult calculationResult) throws InterruptedException {
+	private void safeCalculationResult(CalculationResult calculationResult) throws InterruptedException, LiquibaseException {
 		try {
 			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(jdbcEnvironment);
 			EntityManager entityManager = managerSupplier.getEntityManager();

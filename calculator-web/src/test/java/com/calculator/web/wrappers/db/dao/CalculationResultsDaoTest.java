@@ -101,8 +101,8 @@ public class CalculationResultsDaoTest {
 	public void verifyItemSaving() throws SQLException, DatabaseUnitException {
 		CalculationResult item = new CalculationResult();
 		item.setExpression("1+1");
-		item.setDate(mockedTimestamp);
-		item.setResult(2.0d);
+		item.setMoment(mockedTimestamp);
+		item.setEvaluation(2.0d);
 		
 		calculationResultsDao.save(item);
 		
@@ -115,8 +115,8 @@ public class CalculationResultsDaoTest {
 		
 		CalculationResult item = new CalculationResult();
 		item.setExpression("1+1");
-		item.setDate(mockedTimestamp);
-		item.setResult(2.0d);
+		item.setMoment(mockedTimestamp);
+		item.setEvaluation(2.0d);
 		
 		calculationResultsDao.update(item);
 		
@@ -129,7 +129,7 @@ public class CalculationResultsDaoTest {
 		
 		CalculationResult item = new CalculationResult();
 		item.setExpression("1+1");
-		item.setDate(mockedTimestamp);
+		item.setMoment(mockedTimestamp);
 		
 		calculationResultsDao.delete(item);
 		

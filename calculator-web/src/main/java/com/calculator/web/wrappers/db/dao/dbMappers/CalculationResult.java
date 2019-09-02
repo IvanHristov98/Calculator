@@ -14,31 +14,38 @@ import javax.persistence.NamedQuery;
 public class CalculationResult {
 	
 	@Id @Column(name="expression") private String expression;
-	@Column(name="date") private Timestamp date;
-	@Column(name="result") private double result;
+	@Column(name="moment") private Timestamp moment;
+	@Column(name="evaluation") private double evaluation;
 	@Column(name="message") private String message;
 	
 	public String getExpression() {
 		return expression;
 	}
+	
 	public void setExpression(String expression) {
 		this.expression = expression;
 	}
-	public Timestamp getDate() {
-		return date;
+	
+	public Timestamp getMoment() {
+		return moment;
 	}
-	public void setDate(Timestamp date) {
-		this.date = date;
+	
+	public void setMoment(Timestamp time) {
+		this.moment = time;
 	}
-	public double getResult() {
-		return result;
+	
+	public double getEvaluation() {
+		return evaluation;
 	}
-	public void setResult(double result) {
-		this.result = result;
+	
+	public void setEvaluation(double result) {
+		this.evaluation = result;
 	}
+	
 	public String getMessage() {
 		return message;
 	}
+	
 	public void setMessage(String message) {
 		this.message = message;
 	}

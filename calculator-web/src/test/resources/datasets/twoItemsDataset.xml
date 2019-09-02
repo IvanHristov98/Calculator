@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <calculation_results expression="1+1" date="2019-08-23 13:23:47.383" result="2.0"/>
-  <calculation_results expression="1+2" date="2019-08-23 13:23:47.383" result="2.0"/>
+  <calculation_results expression="1+1" moment="2019-08-23 13:23:47.383" evaluation="2.0"/>
+  <calculation_results expression="1+2" moment="2019-08-23 13:23:47.383" evaluation="2.0"/>
 </dataset>
