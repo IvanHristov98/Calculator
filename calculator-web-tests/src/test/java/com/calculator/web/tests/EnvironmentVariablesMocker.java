@@ -4,13 +4,17 @@ import org.junit.contrib.java.lang.system.EnvironmentVariables;
 
 public class EnvironmentVariablesMocker {
 	
-	public static final String JDBC_URL_VARIABLE_NAME = "CALCULATOR_JDBC_URL";
-	public static final String DATABASE_VARIABLE_NAME = "CALCULATOR_DATABASE";
-	public static final String JDBC_USER_VARIABLE_NAME = "CALCULATOR_JDBC_USER";
-	public static final String JDBC_PASSWORD_VARIABLE_NAME = "CALCULATOR_JDBC_PASSWORD";
+	public static final String VCAP_SERVICES = "VCAP_SERVICES";
+	public static final String SERVICE = "hanatrial";
+	public static final String CREDENTIALS = "credentials";
 	
-	public static final String JDBC_URL = "jdbc:derby://localhost:1527/calculator_db;create=true";
-	public static final String DATABASE = "derbyClient";
+	public static final String DRIVER_VARIABLE_NAME = "driver";
+	public static final String URL_VARIABLE_NAME = "url";
+	public static final String USER_VARIABLE_NAME = "user";
+	public static final String PASSWORD_VARIABLE_NAME = "password";
+	
+	public static final String URL = "jdbc:derby://localhost:1527/calculator_db;create=true";
+	public static final String DRIVER = "org.apache.derby.jdbc.ClientDriver";
 	public static final String USER = "APP";
 	public static final String PASSWORD = "APP";
 	
@@ -21,9 +25,18 @@ public class EnvironmentVariablesMocker {
 	}
 	
 	public void mockEnvironmentVariables() {
-		environmentVariables.set(JDBC_URL_VARIABLE_NAME, JDBC_URL);
-    	environmentVariables.set(DATABASE_VARIABLE_NAME, DATABASE);
-    	environmentVariables.set(JDBC_USER_VARIABLE_NAME, USER);
-    	environmentVariables.set(JDBC_PASSWORD_VARIABLE_NAME, PASSWORD);
+		
+    	environmentVariables.set(VCAP_SERVICES, "{" + 
+    			"		\"" + SERVICE + "\": [" + 
+    			"			{" + 
+    			"				\"" + CREDENTIALS + "\": {" + 
+    			"					\"" + DRIVER_VARIABLE_NAME + "\": \"" + DRIVER + "\"," + 
+    			"					\"" + URL_VARIABLE_NAME + "\": \"" + URL + "\"," + 
+    			"					\"" + USER_VARIABLE_NAME + "\": \"" + USER + "\"," + 
+    			"					\"" + PASSWORD_VARIABLE_NAME + "\": \"" + PASSWORD + "\"," + 
+    			"				}," + 
+    			"			}" + 
+    			"		]" + 
+    			"	}");
 	}
 }

@@ -2,43 +2,48 @@ package com.calculator.web.wrappers.db;
 
 import javax.inject.Inject;
 
-import com.calculator.web.wrappers.db.jdbcDrivers.Driver;
-import com.calculator.web.wrappers.db.jdbcDrivers.DriverFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class LocalJdbcEnvironment {
 	
-	public static final String DATABASE = "CALCULATOR_DATABASE";
-	public static final String JDBC_URL = "CALCULATOR_JDBC_URL";
-	public static final String JDBC_USER = "CALCULATOR_JDBC_USER";
-	public static final String JDBC_PASSWORD = "CALCULATOR_JDBC_PASSWORD";
+	public static final String VCAP_SERVICES = "VCAP_SERVICES";
+	public static final String SERVICE = "hanatrial";
+	public static final int HANATRIAL_CONTENTS_INDEX = 0;
+	public static final String CREDENTIALS = "credentials";
 	
-	private DriverFactory driverFactory;
+	public static final String DRIVER = "driver";
+	public static final String DATABASE_URL = "url";
+	public static final String USER = "user";
+	public static final String PASSWORD = "password";
 	
-	@Inject public LocalJdbcEnvironment(DriverFactory driverFactory) {
-		this.driverFactory = driverFactory;
+	@Inject public LocalJdbcEnvironment() {
 	}
 	
 	public String getDatabaseUrl() {
-		return 	getJvmProperty(JDBC_URL);
+		return getCredentials().getString(DATABASE_URL);
 	}
 	
 	public String getUser() {
-		return getJvmProperty(JDBC_USER);
+		return getCredentials().getString(USER);
 	}
 	
 	public String getPassword() {
-		return getJvmProperty(JDBC_PASSWORD);
+		return getCredentials().getString(PASSWORD);
 	}
 	
 	public String getDriverName() {
-		return getDriver().getDriverName();
+		return getCredentials().getString(DRIVER);
 	}
 	
-	public Driver getDriver() {
-		return driverFactory.makeDriver(getJvmProperty(DATABASE));
+	private JSONObject getCredentials() {
+		JSONObject vcapServices = new JSONObject(getEnvironmentVariable(VCAP_SERVICES));
+		JSONArray hanatrial = vcapServices.getJSONArray(SERVICE);
+		JSONObject hanatrialContents = hanatrial.getJSONObject(HANATRIAL_CONTENTS_INDEX);
+		return hanatrialContents.getJSONObject(CREDENTIALS);
 	}
 	
-	private String getJvmProperty(String variableName) {
+	private String getEnvironmentVariable(String variableName) {
 		return System.getenv(variableName);
 	}
 }
