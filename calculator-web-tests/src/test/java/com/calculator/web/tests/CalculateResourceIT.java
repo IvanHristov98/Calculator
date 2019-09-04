@@ -75,7 +75,23 @@ public class CalculateResourceIT {
     public void verifyCalculationSaving() throws Exception {
     	resourcePage.setExpressionParameter("1+1");
     	resourcePage.getResourceContent();
-    	dbPage.compareActualToCurrentTable(SINGLE_ITEM_DATA_SET);
+    	dbPage.compareActualToExpectedTable(SINGLE_ITEM_DATA_SET);
+    }
+    
+    @Test
+    public void verifyErrorSaving() throws Exception {
+    	resourcePage.setExpressionParameter("1A1");
+    	resourcePage.getResourceContent();
+    	dbPage.compareActualToExpectedTable(WRONG_EXPRESSION_DATA_SET);
+    }
+    
+    @Test
+    public void verifyNoErrorsWhenSavingDuplicateExpressions() throws IOException {
+    	resourcePage.setExpressionParameter("1");
+    	resourcePage.getResourceContent();
+    	Response response = resourcePage.getResourceContent();
+    	
+    	assertThat(response.getStatus(), equalTo(Response.Status.OK.getStatusCode()));
     }
     
     @Test

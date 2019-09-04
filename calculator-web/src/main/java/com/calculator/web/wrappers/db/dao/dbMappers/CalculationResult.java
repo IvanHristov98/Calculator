@@ -15,7 +15,7 @@ public class CalculationResult {
 	
 	@Id @Column(name="expression") private String expression;
 	@Column(name="moment") private Timestamp moment;
-	@Column(name="evaluation") private double evaluation;
+	@Column(name="evaluation") private Double evaluation;
 	@Column(name="message") private String message;
 	
 	public String getExpression() {
@@ -38,7 +38,7 @@ public class CalculationResult {
 		return evaluation;
 	}
 	
-	public void setEvaluation(double result) {
+	public void setEvaluation(Double result) {
 		this.evaluation = result;
 	}
 	

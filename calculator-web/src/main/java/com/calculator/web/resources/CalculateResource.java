@@ -1,6 +1,5 @@
 package com.calculator.web.resources;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -32,18 +31,24 @@ public class CalculateResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCalculationResult(@QueryParam("expression") String expressionContent) throws JsonProcessingException, InterruptedException, LiquibaseException {
+		CalculationResult calculationResult = null;
+		Double evaluation = null;
+		String message = null;
+		
 		try {
-			Double calculationResult = calculate(expressionContent);
-			CalculationResult calculationResultAsPojo = getCalculationResultAsPojo(expressionContent, calculationResult);
+			evaluation = calculate(expressionContent);
+			calculationResult = getCalculationResultAsPojo(expressionContent, evaluation, message);
 			
-			safeCalculationResult(calculationResultAsPojo);
-			
-			return Response.status(Response.Status.OK).entity(objectMapper.writeValueAsString(calculationResultAsPojo)).build();
+			return Response.status(Response.Status.OK).entity(objectMapper.writeValueAsString(calculationResult)).build();
 		} catch (WebCalculatorException exception) {
+			calculationResult = getCalculationResultAsPojo(expressionContent, evaluation, exception.getMessage());
+			
 			Integer statusCode = Response.Status.BAD_REQUEST.getStatusCode();
 			HttpError httpError = new HttpError(statusCode.toString(), exception.getMessage());
 			
 			return Response.status(statusCode).entity(objectMapper.writeValueAsString(httpError)).build();
+		} finally {
+			saveCalculationResult(calculationResult);
 		}
 	}
 	
@@ -55,23 +60,24 @@ public class CalculateResource {
 		return calc.calculate(expression);
 	}
 	
-	private CalculationResult getCalculationResultAsPojo(String expression, Double result) {
+	private CalculationResult getCalculationResultAsPojo(String expression, Double result, String message) {
 		CalculationResult calculationResult = new CalculationResult();
 		calculationResult.setExpression(expression);
 		calculationResult.setEvaluation(result);
 		calculationResult.setMoment(new Timestamp(Instant.now().toEpochMilli()));
+		calculationResult.setMessage(message);
 		
 		return calculationResult;
 	}
 	
-	private void safeCalculationResult(CalculationResult calculationResult) throws InterruptedException, LiquibaseException {
+	private void saveCalculationResult(CalculationResult calculationResult) {
 		try {
 			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(databaseUri);
 			EntityManager entityManager = managerSupplier.getEntityManager();
 			CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
 			
 			calculationResultsDao.save(calculationResult);
-		} catch (SQLException exception) {	
+		} catch (Exception exception) {	
 		}
 	}
 }

@@ -75,7 +75,7 @@ public class DatabasePage {
         databaseTester.onSetup();
 	}
 	
-	public void compareActualToCurrentTable(String expecteDataSetFileName) throws SQLException, DatabaseUnitException {
+	public void compareActualToExpectedTable(String expecteDataSetFileName) throws SQLException, DatabaseUnitException {
 		IDatabaseConnection connection = getDatabaseConnection();
 		
 		IDataSet databaseDataSet = connection.createDataSet(new String[] {TABLE_NAME});

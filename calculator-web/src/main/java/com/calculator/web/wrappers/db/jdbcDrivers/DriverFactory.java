@@ -4,17 +4,17 @@ import com.calculator.web.wrappers.db.jdbcDrivers.exception.DriverException;
 
 public class DriverFactory {
 	
-	public static final String POSTGRE_DB = "postgres";
-	public static final String DERBY_EMBEDDED_DB = "derbyEmbedded";
-	public static final String DERBY_CLIENT_DB = "derbyClient";
+	public static final String POSTGRES = "postgres";
+	public static final String DERBY_EMBEDDED = "derbyEmbedded";
+	public static final String DERBY_CLIENT = "derbyClient";
 	
-	public Driver makeDriver(String dbName) {
-		switch (dbName) {
-		case POSTGRE_DB:
+	public Driver makeDriver(String dbmsName) {
+		switch (dbmsName) {
+		case POSTGRES:
 			return new PostgreDriver();
-		case DERBY_CLIENT_DB:
+		case DERBY_CLIENT:
 			return new DerbyClientDriver();
-		case DERBY_EMBEDDED_DB:
+		case DERBY_EMBEDDED:
 			return new DerbyEmbeddedDriver();
 		default:
 			throw new DriverException("Unable to find an appropriate jdbc driver.");
