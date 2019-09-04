@@ -18,6 +18,7 @@
   	<!-- Plugins -->
   	<tomcat7Plugin.version>2.2</tomcat7Plugin.version>
   	<mavenWarPlugin.version>2.1.1</mavenWarPlugin.version>
+  	<mavenJarPlugin.version>3.1.2</mavenJarPlugin.version>
   	
   	<!-- Dependencies -->
   	<calculatorCore.version>1.0-SNAPSHOT</calculatorCore.version>
@@ -29,7 +30,6 @@
     <jackson.version>2.9.9</jackson.version>
     
     <postgreJdbcConnector.version>42.2.6</postgreJdbcConnector.version>
-    <sapHanaJdbcConnector.version>2.4.59</sapHanaJdbcConnector.version>
   </properties>
   
     <build>
@@ -65,9 +65,9 @@
 	        	<diskQuota>1024</diskQuota>
 	        	<services>
 	        		<service>
-	        			<name>calculatorDatabase</name>
-	        			<label>hanatrial</label>
-	        			<plan>hdi-shared</plan>
+	        			<name>calculatorPostgreDB</name>
+	        			<label>elephantsql</label>
+	        			<plan>turtle</plan>
 	        		</service>
 	        	</services>
 	        </configuration>
@@ -166,11 +166,11 @@
 	    <version>10.14.2.0</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/com.sap.cloud.db.jdbc/ngdbc -->
+	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 	<dependency>
-	    <groupId>com.sap.cloud.db.jdbc</groupId>
-	    <artifactId>ngdbc</artifactId>
-	    <version>${sapHanaJdbcConnector.version}</version>
+	    <groupId>org.postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>${postgreJdbcConnector.version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
@@ -180,12 +180,22 @@
     	<version>3.8.0</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.liquibase.ext/liquibase-hanadb -->
+	<!-- https://mvnrepository.com/artifact/org.liquibase.ext/liquibase-postgresql -->
 	<dependency>
 	    <groupId>org.liquibase.ext</groupId>
-	    <artifactId>liquibase-hanadb</artifactId>
-	    <version>2.0</version>
+	    <artifactId>liquibase-postgresql</artifactId>
+	    <version>3.0</version>
 	</dependency>
+
+	
+	<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>servlet-api</artifactId>
+	    <version>2.5</version>
+	    <scope>provided</scope>
+	</dependency>
+	
 	
 	<!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
 	<dependency>

@@ -5,18 +5,22 @@
 <web-app>
   <display-name>Calculator</display-name>
   
-  <servlet>
-  	<servlet-name>jerseyServlet</servlet-name>
-  	<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-  	<init-param>
-  		<param-name>javax.ws.rs.Application</param-name>
-  		<param-value>com.calculator.web.WebCalculatorConfig</param-value>
-  	</init-param>
-  	<load-on-startup>1</load-on-startup>
-  </servlet>
+  	<listener>
+		<listener-class>com.calculator.web.wrappers.db.deployment.DatabaseMigrationListener</listener-class>
+	</listener>
   
-  <servlet-mapping>
-  	<servlet-name>jerseyServlet</servlet-name>
-  	<url-pattern>/v1/*</url-pattern>
-  </servlet-mapping>
+  	<servlet>
+  		<servlet-name>jerseyServlet</servlet-name>
+  		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+  		<init-param>
+  			<param-name>javax.ws.rs.Application</param-name>
+  			<param-value>com.calculator.web.WebCalculatorConfig</param-value>
+  		</init-param>
+  		<load-on-startup>1</load-on-startup>
+  	</servlet>
+  
+  	<servlet-mapping>
+  		<servlet-name>jerseyServlet</servlet-name>
+  		<url-pattern>/v1/*</url-pattern>
+  	</servlet-mapping>
 </web-app>

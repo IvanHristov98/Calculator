@@ -5,35 +5,55 @@ import javax.inject.Inject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.calculator.web.wrappers.db.jdbcDrivers.Driver;
+import com.calculator.web.wrappers.db.jdbcDrivers.DriverFactory;
+
 public class LocalJdbcEnvironment {
 	
 	public static final String VCAP_SERVICES = "VCAP_SERVICES";
-	public static final String SERVICE = "hanatrial";
+	public static final String SERVICE = "elephantsql";
 	public static final int HANATRIAL_CONTENTS_INDEX = 0;
 	public static final String CREDENTIALS = "credentials";
+	public static final String URI = "uri";
 	
-	public static final String DRIVER = "driver";
-	public static final String DATABASE_URL = "url";
-	public static final String USER = "user";
-	public static final String PASSWORD = "password";
+	public static final int DBMS = 0;
+	public static final int USERNAME = 1;
+	public static final int PASSWORD = 2;
+	public static final int HOST = 3;
+	public static final int PORT = 4;
+	public static final int DATABASE = 5;
 	
-	@Inject public LocalJdbcEnvironment() {
+	private DriverFactory driverFactory;
+	
+	@Inject public LocalJdbcEnvironment(DriverFactory driverFactory) {
+		this.driverFactory = driverFactory;
 	}
 	
 	public String getDatabaseUrl() {
-		return getCredentials().getString(DATABASE_URL);
+		String[] uriParameters = getUriParameters();
+		
+		return "jdbc:" + uriParameters[DBMS] + "ql://" + uriParameters[HOST] + ":" + uriParameters[PORT] + "/" + uriParameters[DATABASE];
 	}
 	
 	public String getUser() {
-		return getCredentials().getString(USER);
+		return getUriParameters()[USERNAME];
 	}
 	
 	public String getPassword() {
-		return getCredentials().getString(PASSWORD);
+		return getUriParameters()[PASSWORD];
 	}
 	
 	public String getDriverName() {
-		return getCredentials().getString(DRIVER);
+		Driver driver = driverFactory.makeDriver(getUriParameters()[DBMS]);
+		return driver.getDriverName();
+	}
+	
+	private String[] getUriParameters() {
+		return getUri().split(":\\/\\/|:|@|\\/");
+	}
+	
+	private String getUri() {
+		return getCredentials().getString(URI);
 	}
 	
 	private JSONObject getCredentials() {
