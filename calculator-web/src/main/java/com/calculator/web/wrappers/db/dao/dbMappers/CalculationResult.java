@@ -34,7 +34,7 @@ public class CalculationResult {
 		this.moment = time;
 	}
 	
-	public double getEvaluation() {
+	public Double getEvaluation() {
 		return evaluation;
 	}
 	
