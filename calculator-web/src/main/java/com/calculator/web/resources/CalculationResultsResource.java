@@ -22,13 +22,13 @@ import liquibase.exception.LiquibaseException;
 @Path("/calculationResults")
 public class CalculationResultsResource {
 	@Inject ObjectMapper objectMapper;
-	@Inject LocalJdbcEnvironment jdbcEnvironment;
+	@Inject DatabaseUri databaseUri;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCalculations() throws JsonProcessingException, SQLException, LiquibaseException {
 		try {
-			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(jdbcEnvironment);
+			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(databaseUri);
 			EntityManager entityManager = managerSupplier.getEntityManager();
 			CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
 			return Response.ok().entity(objectMapper.writeValueAsString(calculationResultsDao.getItems())).build();

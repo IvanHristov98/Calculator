@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.calculator.web.wrappers.db.LocalJdbcEnvironment;
+import com.calculator.web.wrappers.db.DatabaseUri;
+import com.calculator.web.wrappers.db.JdbcCredentials;
 import com.calculator.web.wrappers.db.jdbcDrivers.DriverFactory;
 
 import liquibase.Contexts;
@@ -25,11 +26,10 @@ public class DatabaseMigrationListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent contextEvent) {
-		DriverFactory driverFactory = new DriverFactory();
-		LocalJdbcEnvironment jdbcEnvironment = new LocalJdbcEnvironment(driverFactory);
+		DatabaseUri databaseUri = makeDatabaseUri();
 		
 		try {
-			updateDb(jdbcEnvironment);
+			updateDb(databaseUri);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,9 +39,15 @@ public class DatabaseMigrationListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent contextEvent) {
 	}
 	
-	private static void updateDb(LocalJdbcEnvironment jdbcEnvironment) throws SQLException, LiquibaseException, ClassNotFoundException {
-		org.postgresql.Driver.isRegistered();
-		Connection connection = DriverManager.getConnection(jdbcEnvironment.getDatabaseUrl(), jdbcEnvironment.getUser(), jdbcEnvironment.getPassword());
+	private DatabaseUri makeDatabaseUri() {
+		DriverFactory driverFactory = new DriverFactory();
+		JdbcCredentials jdbcEnvironment = new JdbcCredentials();
+		
+		return new DatabaseUri(jdbcEnvironment, driverFactory);
+	}
+	
+	private static void updateDb(DatabaseUri databaseUri) throws SQLException, LiquibaseException, ClassNotFoundException {
+		Connection connection = DriverManager.getConnection(databaseUri.getDatabaseUrl(), databaseUri.getUser(), databaseUri.getPassword());
 		
 		updateDbViaLiquiBase(connection);
 		

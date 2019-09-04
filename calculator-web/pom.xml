@@ -186,7 +186,6 @@
 	    <artifactId>liquibase-postgresql</artifactId>
 	    <version>3.0</version>
 	</dependency>
-
 	
 	<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
 	<dependency>
@@ -195,7 +194,6 @@
 	    <version>2.5</version>
 	    <scope>provided</scope>
 	</dependency>
-	
 	
 	<!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
 	<dependency>
@@ -218,6 +216,13 @@
 	    <version>20190722</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/com.github.stefanbirkner/system-rules -->
+	<dependency>
+	    <groupId>com.github.stefanbirkner</groupId>
+	    <artifactId>system-rules</artifactId>
+	    <version>1.19.0</version>
+	    <scope>test</scope>
+	</dependency>
 	
   </dependencies>
 </project>

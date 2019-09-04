@@ -15,8 +15,7 @@ import com.calculator.web.resources.representations.*;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 import com.calculator.web.wrappers.calculator.*;
 import com.calculator.web.wrappers.calculator.exception.WebCalculatorException;
-import com.calculator.web.wrappers.db.DatabaseConnection;
-import com.calculator.web.wrappers.db.LocalJdbcEnvironment;
+import com.calculator.web.wrappers.db.*;
 import com.calculator.web.wrappers.db.dao.CalculationResultsDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +27,7 @@ import javax.ws.rs.GET;
 @Path("/calculate")
 public class CalculateResource {
 	@Inject private ObjectMapper objectMapper;
-	@Inject private LocalJdbcEnvironment jdbcEnvironment;
+	@Inject private DatabaseUri databaseUri;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -67,7 +66,7 @@ public class CalculateResource {
 	
 	private void safeCalculationResult(CalculationResult calculationResult) throws InterruptedException, LiquibaseException {
 		try {
-			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(jdbcEnvironment);
+			DatabaseConnection managerSupplier = DatabaseConnection.getInstance(databaseUri);
 			EntityManager entityManager = managerSupplier.getEntityManager();
 			CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
 			
