@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
@@ -13,7 +15,9 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name="CalculationResult.findAll", query="SELECT e FROM CalculationResult e")
 public class CalculationResult {
 	
-	@Id @Column(name="request_id") private Integer requestId; 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="request_id") private Integer requestId;
+	
 	@Column(name="expression") private String expression;
 	@Column(name="moment") private Timestamp moment;
 	@Column(name="evaluation") private Double evaluation;

@@ -66,6 +66,8 @@ public class CalculationResultsDaoTest {
     public void setUp() throws Exception {
     	initMocks(this);
     	
+    	restartCalculationResultsAutoIncrementation();
+    	
     	applyDataSet(EMPTY_DATA_SET);
     	setUpEntityManger();
     	setUpCalculationResultsDao(entityManager);
@@ -137,6 +139,12 @@ public class CalculationResultsDaoTest {
 		calculationResultsDao.delete(item);
 		
 		compareActualToCurrentTable(EMPTY_DATA_SET);
+	}
+	
+	private void restartCalculationResultsAutoIncrementation() throws SQLException {
+		Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+    	CalculationResultsTable dbSetter = new CalculationResultsTable(connection);
+    	dbSetter.restartAutoIncrementation();
 	}
 	
 	private void applyDataSet(String dataSetFileName) throws Exception {

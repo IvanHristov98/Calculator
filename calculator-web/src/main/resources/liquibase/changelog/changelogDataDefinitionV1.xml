@@ -11,7 +11,7 @@
 			</not>
 		</preConditions>
 		<createTable tableName="calculation_results">
-			<column name="request_id" type="${type.int}">
+			<column name="request_id" type="${type.int}" incrementBy="1" startWith="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="expression" type="${type.unicode128}">
