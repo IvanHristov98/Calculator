@@ -1,6 +1,7 @@
 package com.calculator.web.wrappers.db.dao;
 
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
+import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
 
 import static com.calculator.web.wrappers.db.dao.CalculationResultsTable.TABLE_NAME;
 import static com.calculator.web.wrappers.db.dao.DatasetPaths.*;
@@ -66,16 +67,15 @@ public class CalculationResultsDaoTest {
     public void setUp() throws Exception {
     	initMocks(this);
     	
-    	restartCalculationResultsAutoIncrementation();
-    	
     	applyDataSet(EMPTY_DATA_SET);
     	setUpEntityManger();
     	setUpCalculationResultsDao(entityManager);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
     	tearDownEntityManager();
+    	restartCalculationResultsAutoIncrementation();
     }
     
 	@Test
@@ -102,10 +102,10 @@ public class CalculationResultsDaoTest {
 	@Test
 	public void verifyItemSaving() throws SQLException, DatabaseUnitException {
 		CalculationResult item = new CalculationResult();
-		item.setRequestId(1);
 		item.setExpression("1+1");
 		item.setMoment(mockedTimestamp);
 		item.setEvaluation(2.0d);
+		item.setStatus(CalculationStatus.PENDING);
 		
 		calculationResultsDao.save(item);
 		
@@ -121,6 +121,7 @@ public class CalculationResultsDaoTest {
 		item.setExpression("1+1");
 		item.setMoment(mockedTimestamp);
 		item.setEvaluation(2.0d);
+		item.setStatus(CalculationStatus.PENDING);
 		
 		calculationResultsDao.update(item);
 		
@@ -134,6 +135,7 @@ public class CalculationResultsDaoTest {
 		CalculationResult item = new CalculationResult();
 		item.setRequestId(1);
 		item.setExpression("1+1");
+		item.setStatus(CalculationStatus.PENDING);
 		item.setMoment(mockedTimestamp);
 		
 		calculationResultsDao.delete(item);

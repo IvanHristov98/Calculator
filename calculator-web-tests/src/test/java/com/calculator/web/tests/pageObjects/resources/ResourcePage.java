@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 public abstract class ResourcePage {
 	
 	public static String BASE_API_PATH = "/calculator-web/v1";
-	public static String URL_QUERY_SEPARATOR = "?";
 	
 	protected URL baseUrl;
 	

@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <calculation_results expression="1A1" message="Expression error. An invalid operator has been encountered."/>
+  <calculation_results expression="1A1" message="Expression error. An invalid operator has been encountered." status="1" />
 </dataset>

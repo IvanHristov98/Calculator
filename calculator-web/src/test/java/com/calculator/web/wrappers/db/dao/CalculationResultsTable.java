@@ -11,8 +11,9 @@ public class CalculationResultsTable {
 			+ " expression character varying(128) NOT NULL,"
 			+ " moment timestamp DEFAULT CURRENT TIMESTAMP NOT NULL, "
 			+ " evaluation real,"
-			+ " message character varying(256)"
-			+ "	 )";
+			+ " message character varying(256),"
+			+ " status int NOT NULL"
+			+ "	)";
 	public static final String DROP_CALCULATION_RESULTS_TABLE_SQL = "DROP TABLE " + TABLE_NAME;
 	public static final String RESTART_AUTO_INCREMENTATION = "ALTER TABLE " + TABLE_NAME + " ALTER COLUMN request_id RESTART WITH 1";
 	

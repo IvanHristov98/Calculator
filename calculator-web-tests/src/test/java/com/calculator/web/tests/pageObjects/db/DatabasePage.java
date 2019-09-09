@@ -21,12 +21,15 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 public class DatabasePage {
 	public static final String TABLE_NAME = "calculation_results";
 	public static final String CREATE_CALCULATION_RESULTS_TABLE_SQL = "CREATE TABLE " + TABLE_NAME + " ("
+			+ " request_id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
 			+ " expression character varying(128) NOT NULL,"
 			+ " moment timestamp DEFAULT CURRENT TIMESTAMP NOT NULL, "
 			+ " evaluation real,"
-			+ " message character varying(256)"
+			+ " message character varying(256),"
+			+ " status int NOT NULL"
 			+ "	)";
 	public static final String DROP_CALCULATION_RESULTS_TABLE_SQL = "DROP TABLE calculation_results";
+	public static final String RESTART_AUTO_INCREMENTATION = "ALTER TABLE " + TABLE_NAME + " ALTER COLUMN request_id RESTART WITH 1";
 	
 	public static final String DATABASE_URL = "jdbc:derby://localhost:1527/calculator_db;create=true";
 	public static final String DATABASE_DRIVER = "org.apache.derby.jdbc.ClientDriver";
@@ -50,21 +53,11 @@ public class DatabasePage {
 	}
 	
 	public void createSchema() throws SQLException {
-		Connection connection = getConnection();
-		
-		PreparedStatement statement = connection.prepareStatement(CREATE_CALCULATION_RESULTS_TABLE_SQL);		
-		statement.executeUpdate();
-		
-		closeConnection(connection);
+		executePreparedStatement(CREATE_CALCULATION_RESULTS_TABLE_SQL);
 	}
 	
 	public void dropTable() throws SQLException {
-		Connection connection = getConnection();
-		
-		PreparedStatement statement = connection.prepareStatement(DROP_CALCULATION_RESULTS_TABLE_SQL);
-		statement.executeUpdate();
-		
-		closeConnection(connection);
+		executePreparedStatement(DROP_CALCULATION_RESULTS_TABLE_SQL);
 	}
 	
 	public void useDataSet(String fileName) throws Exception {
@@ -87,6 +80,19 @@ public class DatabasePage {
         ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable.getTableMetaData().getColumns());
         
         verifyTablesEquality(expectedTable, filteredActualTable);
+	}
+	
+	public void restartAutoIncrementation() throws SQLException {
+		executePreparedStatement(RESTART_AUTO_INCREMENTATION);
+	}
+	
+	private void executePreparedStatement(String sql) throws SQLException {
+		Connection connection = getConnection();
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.executeUpdate();
+		
+		closeConnection(connection);
 	}
 	
 	private Connection getConnection() throws SQLException {

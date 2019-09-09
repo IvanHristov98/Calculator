@@ -63,109 +63,24 @@ public class CalculateResourceIT {
     	resourcePage = new CalculateResourcePage(baseUrl);
     	dbPage.useDataSet(EMPTY_DATA_SET);
     }
+    
+    @After
+    public void tearDown() throws SQLException {
+    	dbPage.restartAutoIncrementation();
+    }
  
     @Test
-    public void calculateValidExpression() throws IOException, InterruptedException, SQLException {
+    public void calculateExpressionAcceptance() throws IOException, InterruptedException, SQLException {
     	resourcePage.setExpressionParameter("(1+2)*3 + 2^2 + 4/2");
     	Response calculationResponse = resourcePage.getResourceContent();
-    	assertCorrectCalculation(calculationResponse.readEntity(String.class), "15.0");
+    	
+    	assertThat(calculationResponse.getStatus(), equalTo(Response.Status.ACCEPTED.getStatusCode()));
     }
     
     @Test
     public void verifyCalculationSaving() throws Exception {
     	resourcePage.setExpressionParameter("1+1");
     	resourcePage.getResourceContent();
-    	dbPage.compareActualToExpectedTable(SINGLE_ITEM_DATA_SET);
-    }
-    
-    @Test
-    public void verifyErrorSaving() throws Exception {
-    	resourcePage.setExpressionParameter("1A1");
-    	resourcePage.getResourceContent();
-    	dbPage.compareActualToExpectedTable(WRONG_EXPRESSION_DATA_SET);
-    }
-    
-    @Test
-    public void verifyNoErrorsWhenSavingDuplicateExpressions() throws IOException {
-    	resourcePage.setExpressionParameter("1");
-    	resourcePage.getResourceContent();
-    	Response response = resourcePage.getResourceContent();
-    	
-    	assertThat(response.getStatus(), equalTo(Response.Status.OK.getStatusCode()));
-    }
-    
-    @Test
-    public void verifyDivisionByZeroException() throws IOException, InterruptedException {
-    	resourcePage.setExpressionParameter("1/0");
-    	Response calculationResponse = resourcePage.getResourceContent();
-    	assertBadRequest(calculationResponse, "400", "Expression error. Division by zero encountered.");
-    }
-    
-    @Test
-    public void verifyBracketsException() throws IOException {
-    	resourcePage.setExpressionParameter("(1+2");
-    	Response calculationResponse = resourcePage.getResourceContent();
-    	assertBadRequest(calculationResponse, "400", "Expression error. Brackets misplacement has been encountered.");
-    }
-    
-    @Test
-    public void verifyOperatorMisplacementException() throws IOException {
-    	resourcePage.setExpressionParameter("1+2+");
-    	Response calculationResponse = resourcePage.getResourceContent();
-    	assertBadRequest(calculationResponse, "400", "Expression error. Operator misplacement has been encountered.");
-    }
-    
-    @Test
-    public void verifyEmptyExpressionException() throws IOException {
-    	resourcePage.setExpressionParameter("");
-    	Response calculationResponse = resourcePage.getResourceContent();
-    	assertBadRequest(calculationResponse, "400", "Expression error. Empty expressions are not permitted.");
-    }
-    
-    @Test
-    public void verifyInvalidOperatorException() throws IOException {
-    	resourcePage.setExpressionParameter("1A2");
-    	Response calculationResponse = resourcePage.getResourceContent();
-    	assertBadRequest(calculationResponse, "400", "Expression error. An invalid operator has been encountered.");
-    }
-    
-    @Test
-    public void verifyNumberMisplacementException() throws IOException {
-    	resourcePage.setExpressionParameter("1 2");
-    	Response calculationResponse = resourcePage.getResourceContent();
-    	assertBadRequest(calculationResponse, "400", "Expression error. An invalid number ordering has been encountered.");
-    }
-    
-    private void assertBadRequest(Response calculationResponse, String code, String message) {
-    	assertThat(getHttpStatusCodeOfResponse(calculationResponse), equalTo(getBadRequestStatusCode()));
-    	
-    	// After first read it empties the buffer
-    	String entityOfResponse = getEntityOfResponse(calculationResponse);
-    	assertErrorCode(entityOfResponse, code);
-    	assertErrorMessage(entityOfResponse, message);
-    }
-    
-    private int getHttpStatusCodeOfResponse(Response response) {
-    	return response.getStatus();
-    }
-    
-    private int getBadRequestStatusCode() {
-    	return Response.Status.BAD_REQUEST.getStatusCode();
-    }
-    
-    private String getEntityOfResponse(Response response) {
-    	return response.readEntity(String.class);
-    }
-    
-    private void assertCorrectCalculation(String pageResponce, String value) {
-    	assertThat(pageResponce, containsString(value));
-    }
-    
-    private void assertErrorCode(String pageResponse, String code) {
-    	assertThat(pageResponse, containsString("\"code\":\"" + code + "\""));
-    }
-    
-    private void assertErrorMessage(String pageResponse, String message) {
-    	assertThat(pageResponse, containsString("\"message\":\"" + message + "\""));
+    	dbPage.compareActualToExpectedTable(PENDING_SINGLE_ITEM_DATA_SET);
     }
 }

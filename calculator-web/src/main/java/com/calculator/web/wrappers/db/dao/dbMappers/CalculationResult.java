@@ -22,6 +22,7 @@ public class CalculationResult {
 	@Column(name="moment") private Timestamp moment;
 	@Column(name="evaluation") private Double evaluation;
 	@Column(name="message") private String message;
+	@Column(name="status") private Integer status;
 	
 	public Integer getRequestId() {
 		return requestId;
@@ -61,5 +62,13 @@ public class CalculationResult {
 	
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public void setStatus(CalculationStatus status) {
+		this.status = status.getStatusValue();
+	}
+	
+	public Integer getStatus() {
+		return status;
 	}
 }
