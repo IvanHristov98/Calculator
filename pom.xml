@@ -130,9 +130,9 @@
 					        <artifactId>cf-maven-plugin</artifactId>
 					        <version>${cloudFoundryPlugin.version}</version>
 					        <configuration>
-					        	<target>https://api.run.pivotal.io</target>
-					        	<org>calculatorOrg</org>
-					        	<space>development</space>
+					        	<target>${cfTarget}</target>
+					        	<org>${cfOrg}</org>
+					        	<space>${cfSpace}</space>
 					        </configuration>
 				        </plugin>
 					</plugins>
@@ -159,9 +159,9 @@
 					        <configuration>
 					        	<skip>true</skip>
 					        	
-					        	<target>https://api.run.pivotal.io</target>
-					        	<org>calculatorOrg</org>
-					        	<space>development</space>
+					        	<target>${cfTarget}</target>
+					        	<org>${cfOrg}</org>
+					        	<space>${cfSpace}</space>
 					        </configuration>
 				        </plugin>
 					</plugins>
