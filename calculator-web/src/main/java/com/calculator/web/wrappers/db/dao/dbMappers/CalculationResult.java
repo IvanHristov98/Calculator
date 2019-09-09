@@ -13,10 +13,19 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name="CalculationResult.findAll", query="SELECT e FROM CalculationResult e")
 public class CalculationResult {
 	
-	@Id @Column(name="expression") private String expression;
+	@Id @Column(name="request_id") private Integer requestId; 
+	@Column(name="expression") private String expression;
 	@Column(name="moment") private Timestamp moment;
 	@Column(name="evaluation") private Double evaluation;
 	@Column(name="message") private String message;
+	
+	public Integer getRequestId() {
+		return requestId;
+	}
+	
+	public void setRequestId(Integer requestId) {
+		this.requestId = requestId;
+	}
 	
 	public String getExpression() {
 		return expression;

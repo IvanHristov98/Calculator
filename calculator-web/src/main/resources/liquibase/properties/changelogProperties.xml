@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 	<!-- Portable database type definitions -->
+	<property name="type.int" value="INT" dbms="all,derby,postgresql"/>
 	<property name="type.double" value="DOUBLE" dbms="all,derby,postgresql" />
 	<property name="type.timestamp" value="TIMESTAMP" dbms="all,derby,postgresql" />
 	<property name="type.unicode128" value="VARCHAR(128)" dbms="all,derby,postgresql" />

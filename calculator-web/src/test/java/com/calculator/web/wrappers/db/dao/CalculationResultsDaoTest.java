@@ -80,11 +80,11 @@ public class CalculationResultsDaoTest {
 	public void verifyItemFinding() throws Exception {
 		applyDataSet(SINGLE_ITEM_DATA_SET);
 		
-		String expression = "1+1";
-		CalculationResult result = calculationResultsDao.getItem(expression);
+		Integer requestId = 1;
+		CalculationResult result = calculationResultsDao.getItem(requestId);
 		
 		assertThat(result, notNullValue());
-		assertThat(result.getExpression(), equalTo(expression));
+		assertThat(result.getRequestId(), equalTo(requestId));
 	}
 	
 	@Test
@@ -100,6 +100,7 @@ public class CalculationResultsDaoTest {
 	@Test
 	public void verifyItemSaving() throws SQLException, DatabaseUnitException {
 		CalculationResult item = new CalculationResult();
+		item.setRequestId(1);
 		item.setExpression("1+1");
 		item.setMoment(mockedTimestamp);
 		item.setEvaluation(2.0d);
@@ -114,6 +115,7 @@ public class CalculationResultsDaoTest {
 		applyDataSet(WRONG_SINGLE_ITEM_DATA_SET);
 		
 		CalculationResult item = new CalculationResult();
+		item.setRequestId(1);
 		item.setExpression("1+1");
 		item.setMoment(mockedTimestamp);
 		item.setEvaluation(2.0d);
@@ -128,6 +130,7 @@ public class CalculationResultsDaoTest {
 		applyDataSet(SINGLE_ITEM_DATA_SET);
 		
 		CalculationResult item = new CalculationResult();
+		item.setRequestId(1);
 		item.setExpression("1+1");
 		item.setMoment(mockedTimestamp);
 		

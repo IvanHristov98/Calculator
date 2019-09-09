@@ -11,6 +11,9 @@
 			</not>
 		</preConditions>
 		<createTable tableName="calculation_results">
+			<column name="request_id" type="${type.int}">
+				<constraints nullable="false" />
+			</column>
 			<column name="expression" type="${type.unicode128}">
 				<constraints nullable="false" />
 			</column>
@@ -21,7 +24,7 @@
 			</column>
 			<column name="message" type="${type.unicode256}" />
 		</createTable>
-		<addPrimaryKey columnNames=" expression " constraintName="calculation_constraints_pkey"
+		<addPrimaryKey columnNames=" request_id " constraintName="calculation_results_pkey"
 			tableName="calculation_results" />
 	</changeSet>
 </databaseChangeLog>

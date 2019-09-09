@@ -46,7 +46,7 @@ public class DatabaseMigrationListener implements ServletContextListener {
 		return new DatabaseUri(jdbcEnvironment, driverFactory);
 	}
 	
-	private static void updateDb(DatabaseUri databaseUri) throws SQLException, LiquibaseException, ClassNotFoundException {
+	private void updateDb(DatabaseUri databaseUri) throws SQLException, LiquibaseException, ClassNotFoundException {
 		Connection connection = DriverManager.getConnection(databaseUri.getDatabaseUrl(), databaseUri.getUser(), databaseUri.getPassword());
 		
 		updateDbViaLiquiBase(connection);
@@ -54,7 +54,7 @@ public class DatabaseMigrationListener implements ServletContextListener {
 		connection.close();
 	}
 	
-	private static void updateDbViaLiquiBase(Connection connection) throws LiquibaseException {
+	private void updateDbViaLiquiBase(Connection connection) throws LiquibaseException {
 		Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
 		Liquibase liquiBase = new liquibase.Liquibase(CHANGELOG_PATH, new ClassLoaderResourceAccessor(), database);
 		

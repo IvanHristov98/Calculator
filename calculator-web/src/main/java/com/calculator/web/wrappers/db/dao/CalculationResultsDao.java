@@ -8,7 +8,7 @@ import java.util.function.BiConsumer;
 
 import javax.persistence.*;
 
-public class CalculationResultsDao implements IDao<CalculationResult, String> {
+public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	
 	private EntityManager entityManager;
 	
@@ -17,7 +17,7 @@ public class CalculationResultsDao implements IDao<CalculationResult, String> {
 	}
 
 	@Override
-	public CalculationResult getItem(String key) throws SQLException {
+	public CalculationResult getItem(Integer key) throws SQLException {
 		return entityManager.find(CalculationResult.class, key);
 	}
 	
