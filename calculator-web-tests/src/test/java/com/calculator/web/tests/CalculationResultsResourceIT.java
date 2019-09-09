@@ -74,6 +74,6 @@ public class CalculationResultsResourceIT {
 	}
 	
 	private void verifyThatEntityContainsExpression(String pageEntity, String expressionContent) {
-		assertThat(pageEntity, containsString("{\"expression\":\"" + expressionContent + "\""));
+		assertThat(pageEntity, containsString("\"expression\":\"" + expressionContent + "\""));
 	}
 }
