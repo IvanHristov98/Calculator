@@ -5,6 +5,8 @@ import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
 
 import static com.calculator.web.wrappers.db.dao.CalculationResultsTable.TABLE_NAME;
 import static com.calculator.web.wrappers.db.dao.DatasetPaths.*;
+import static com.calculator.web.wrappers.db.MockedPersistenceProperties.*;
+import static com.calculator.web.wrappers.db.MockedPersistencePropertyNames.*;
 
 import org.junit.*;
 import org.mockito.Mock;
@@ -27,25 +29,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class CalculationResultsDaoTest {
-	
-	public static final String JDBC_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-	public static final String JDBC_URL = "jdbc:derby:memory:calculator_db;create=true";
-	public static final String JDBC_USER = "";
-	public static final String JDBC_PASSWORD = "";
-	
-	public static final String JDBC_URL_PROPERTY_NAME = "javax.persistence.jdbc.url";
-	public static final String JDBC_USER_PROPERTY_NAME = "javax.persistence.jdbc.user";
-	public static final String JDBC_PASSWORD_PROPERTY_NAME = "javax.persistence.jdbc.password";
-	public static final String JDBC_DRIVER_PROPERTY_NAME = "javax.persistence.jdbc.driver";
-	
+public class CalculationResultsDaoTest {	
 	@Mock private Timestamp mockedTimestamp;
 	private EntityManager entityManager;
 	private CalculationResultsDao calculationResultsDao;
 	
 	@BeforeClass
 	public static void setUpClass() throws SQLException {
-		Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+		Connection connection = getJdbcConnection();
 		
 		CalculationResultsTable dbSetter = new CalculationResultsTable(connection);
 		dbSetter.create();
@@ -55,7 +46,7 @@ public class CalculationResultsDaoTest {
 	
 	@AfterClass
 	public static void tearDownClass() throws SQLException {
-		Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+		Connection connection = getJdbcConnection();
 		
 		CalculationResultsTable dbSetter = new CalculationResultsTable(connection);
 		dbSetter.drop();
@@ -80,7 +71,7 @@ public class CalculationResultsDaoTest {
     
 	@Test
 	public void verifyItemFinding() throws Exception {
-		applyDataSet(SINGLE_ITEM_DATA_SET);
+		applyDataSet(PENDING_SINGLE_ITEM_DATA_SET);
 		
 		Integer requestId = 1;
 		CalculationResult result = calculationResultsDao.getItem(requestId);
@@ -91,7 +82,7 @@ public class CalculationResultsDaoTest {
 	
 	@Test
 	public void verifyNumberWhenGettingItems() throws Exception {
-		applyDataSet(TWO_ITEMS_DATA_SET);
+		applyDataSet(PENDING_TWO_ITEMS_DATA_SET);
 		final int totalRecordsInTable = 2;
 		
 		List<CalculationResult> result = calculationResultsDao.getItems();
@@ -109,12 +100,12 @@ public class CalculationResultsDaoTest {
 		
 		calculationResultsDao.save(item);
 		
-		compareActualToCurrentTable(SINGLE_ITEM_DATA_SET);
+		compareActualToCurrentTable(PENDING_SINGLE_ITEM_DATA_SET);
 	}
 	
 	@Test
 	public void verifyItemUpdating() throws Exception {
-		applyDataSet(WRONG_SINGLE_ITEM_DATA_SET);
+		applyDataSet(PENDING_WRONG_SINGLE_ITEM_DATA_SET);
 		
 		CalculationResult item = new CalculationResult();
 		item.setRequestId(1);
@@ -125,12 +116,12 @@ public class CalculationResultsDaoTest {
 		
 		calculationResultsDao.update(item);
 		
-		compareActualToCurrentTable(SINGLE_ITEM_DATA_SET);
+		compareActualToCurrentTable(PENDING_SINGLE_ITEM_DATA_SET);
 	}
 	
 	@Test
 	public void verifyItemDeletion() throws Exception {
-		applyDataSet(SINGLE_ITEM_DATA_SET);
+		applyDataSet(PENDING_SINGLE_ITEM_DATA_SET);
 		
 		CalculationResult item = new CalculationResult();
 		item.setRequestId(1);
@@ -143,14 +134,24 @@ public class CalculationResultsDaoTest {
 		compareActualToCurrentTable(EMPTY_DATA_SET);
 	}
 	
+	@Test
+	public void verifyPendingItemsGetting() throws Exception {
+		applyDataSet(PENDING_SINGLE_ITEM_DATA_SET);
+		final int totalPendingRecordsInTable = 1;
+		
+		List<CalculationResult> pendingItems = calculationResultsDao.getPendingItems();
+		
+		assertThat(pendingItems.size(), equalTo(totalPendingRecordsInTable));
+	}
+	
 	private void restartCalculationResultsAutoIncrementation() throws SQLException {
-		Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+		Connection connection = getJdbcConnection();
     	CalculationResultsTable dbSetter = new CalculationResultsTable(connection);
     	dbSetter.restartAutoIncrementation();
 	}
 	
 	private void applyDataSet(String dataSetFileName) throws Exception {
-		IDatabaseTester databaseTester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+		IDatabaseTester databaseTester = new JdbcDatabaseTester(JDBC_DRIVER.getValue(), JDBC_URL.getValue(), JDBC_USER.getValue(), JDBC_PASSWORD.getValue());
         
         IDataSet dataSet = getDataSet(dataSetFileName);
         databaseTester.setDataSet(dataSet);
@@ -163,10 +164,10 @@ public class CalculationResultsDaoTest {
 	
 	private void setUpEntityManger() {
 		Map<String, String> persistenceMap = new HashMap<>();
-		persistenceMap.put(JDBC_URL_PROPERTY_NAME, JDBC_URL);
-		persistenceMap.put(JDBC_USER_PROPERTY_NAME, JDBC_USER);
-		persistenceMap.put(JDBC_PASSWORD_PROPERTY_NAME, JDBC_PASSWORD);
-		persistenceMap.put(JDBC_DRIVER_PROPERTY_NAME, JDBC_DRIVER);
+		persistenceMap.put(JDBC_URL_PROPERTY_NAME.getValue(), JDBC_URL.getValue());
+		persistenceMap.put(JDBC_USER_PROPERTY_NAME.getValue(), JDBC_USER.getValue());
+		persistenceMap.put(JDBC_PASSWORD_PROPERTY_NAME.getValue(), JDBC_PASSWORD.getValue());
+		persistenceMap.put(JDBC_DRIVER_PROPERTY_NAME.getValue(), JDBC_DRIVER.getValue());
 		
 		EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("CalculationResults", persistenceMap);
 		entityManager = managerFactory.createEntityManager();
@@ -199,8 +200,8 @@ public class CalculationResultsDaoTest {
 		return new DatabaseConnection(jdbcConnection);
 	}
 	
-	private Connection getJdbcConnection() throws SQLException {
-		return DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+	private static Connection getJdbcConnection() throws SQLException {
+		return DriverManager.getConnection(JDBC_URL.getValue(), JDBC_USER.getValue(), JDBC_PASSWORD.getValue());
 	}
 	
 	private void verifyTablesEquality(ITable expectedTable, ITable actualTable) throws DatabaseUnitException {

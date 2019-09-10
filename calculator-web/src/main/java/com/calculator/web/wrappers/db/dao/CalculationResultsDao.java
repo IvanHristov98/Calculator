@@ -1,6 +1,7 @@
 package com.calculator.web.wrappers.db.dao;
 
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
+import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -56,6 +57,13 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 				},
 				entityManager, item
 				);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CalculationResult> getPendingItems() throws SQLException {
+		Query query = entityManager.createNamedQuery("CalculationResult.findPendingItems");
+		query.setParameter("status", CalculationStatus.PENDING.getStatusValue());
+		return query.getResultList();
 	}
 	
 	private void executeTransaction(BiConsumer<EntityManager, CalculationResult> consumer, EntityManager entityManager, CalculationResult result) {
