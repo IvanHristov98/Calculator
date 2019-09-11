@@ -17,7 +17,6 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import org.junit.*;
-import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertThat;
@@ -28,9 +27,6 @@ import static org.hamcrest.Matchers.containsString;
 public class CalculationResultsResourceIT {
 	
 	public static DatabasePage dbPage;
-	
-	@ClassRule
-	public static final EnvironmentVariables environmentVariables = new EnvironmentVariables();
 	
 	static {
 		try {
