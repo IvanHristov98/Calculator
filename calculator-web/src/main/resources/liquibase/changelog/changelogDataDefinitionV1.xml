@@ -4,14 +4,14 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
 	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet author="Ivan" id="CalculationStatuses">
+	<changeSet author="1" id="CalculationStatuses">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="calculation_results"/>
+				<tableExists tableName="calculation_statuses" />
 			</not>
 		</preConditions>
 		<createTable tableName="calculation_statuses">
-			<column name="status_id" type="${type.int}" incrementBy="1" startWith="1">
+			<column name="status_id" type="${type.int}" autoIncrement="true" incrementBy="1" startWith="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="status_name" type="${type.unicode128}">
@@ -21,7 +21,14 @@
 		
 		<addPrimaryKey columnNames=" status_id " constraintName="calculation_statuses_pkey"
 			tableName="calculation_statuses" />
-			
+	</changeSet>
+	
+	<changeSet author="2" id="CalculationStatusesPopulation">
+		<preConditions onFail="MARK_RAN">
+				<sqlCheck expectedResult="0">SELECT count(*) FROM calculation_statuses WHERE status_id=1</sqlCheck>
+				<sqlCheck expectedResult="0">SELECT count(*) FROM calculation_statuses WHERE status_id=2</sqlCheck>
+		</preConditions>
+	
 		<insert tableName="calculation_statuses">
 			<column name="status_name">pending</column>
 		</insert>
@@ -30,16 +37,14 @@
 		</insert>
 	</changeSet>
 
-	<changeSet author="Ivan" id="CalculationResults">
+	<changeSet author="3" id="CalculationResults">
 		<preConditions onFail="MARK_RAN">
 			<not>
 				<tableExists tableName="calculation_results" />
 			</not>
 		</preConditions>
 		<createTable tableName="calculation_results">
-			<column name="request_id" type="${type.int}" incrementBy="1" startWith="1">
-				<constraints nullable="false" />
-			</column>
+			<column name="request_id" type="${type.int}" autoIncrement="true" incrementBy="1" startWith="1"></column>
 			<column name="expression" type="${type.unicode128}">
 				<constraints nullable="false" />
 			</column>

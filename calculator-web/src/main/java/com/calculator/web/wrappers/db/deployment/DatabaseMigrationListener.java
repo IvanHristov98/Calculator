@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.eclipse.persistence.sessions.Session;
+
+import com.calculator.web.wrappers.db.DatabaseConnection;
 import com.calculator.web.wrappers.db.DatabaseUri;
 import com.calculator.web.wrappers.db.JdbcCredentials;
 import com.calculator.web.wrappers.db.jdbcDrivers.DriverFactory;
@@ -47,6 +50,7 @@ public class DatabaseMigrationListener implements ServletContextListener {
 	}
 	
 	private void updateDb(DatabaseUri databaseUri) throws SQLException, LiquibaseException, ClassNotFoundException {
+		DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
 		Connection connection = DriverManager.getConnection(databaseUri.getDatabaseUrl(), databaseUri.getUser(), databaseUri.getPassword());
 		
 		updateDbViaLiquiBase(connection);

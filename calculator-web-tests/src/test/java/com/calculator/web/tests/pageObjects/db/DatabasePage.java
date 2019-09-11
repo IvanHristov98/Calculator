@@ -52,14 +52,6 @@ public class DatabasePage {
 		jdbcDatabase.shutdown();
 	}
 	
-	public void createSchema() throws SQLException {
-		executePreparedStatement(CREATE_CALCULATION_RESULTS_TABLE_SQL);
-	}
-	
-	public void dropTable() throws SQLException {
-		executePreparedStatement(DROP_CALCULATION_RESULTS_TABLE_SQL);
-	}
-	
 	public void useDataSet(String fileName) throws Exception {
 		IDatabaseTester databaseTester = new JdbcDatabaseTester(DATABASE_DRIVER, DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
         

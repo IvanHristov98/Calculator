@@ -7,6 +7,7 @@ import com.calculator.web.tests.pageObjects.resources.CalculationResultsResource
 import static com.calculator.web.tests.DatasetPaths.*;
 
 import java.net.URL;
+import java.sql.SQLException;
 
 import javax.ws.rs.core.Response;
 
@@ -31,6 +32,15 @@ public class CalculationResultsResourceIT {
 	@ClassRule
 	public static final EnvironmentVariables environmentVariables = new EnvironmentVariables();
 	
+	static {
+		try {
+			dbPage = new DatabasePage();
+			dbPage.startDatabaseServer();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
 	@ArquillianResource
 	private URL baseUrl;
 	private CalculationResultsResourcePage resourcePage;
@@ -41,19 +51,8 @@ public class CalculationResultsResourceIT {
     	return webCalculatorArchive.makeArchive();
     }
 	
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		EnvironmentVariablesMocker environmentVariablesMocker = new EnvironmentVariablesMocker(environmentVariables);
-    	environmentVariablesMocker.mockEnvironmentVariables();
-		
-		dbPage = new DatabasePage();
-		dbPage.startDatabaseServer();
-		dbPage.createSchema();
-	}
-	
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		dbPage.dropTable();
 		dbPage.shutDownDatabaseServer();
 	}
 	
@@ -62,6 +61,11 @@ public class CalculationResultsResourceIT {
 		resourcePage = new CalculationResultsResourcePage(baseUrl);
 		dbPage.useDataSet(EMPTY_DATA_SET);
 	}
+	
+	@After
+    public void tearDown() throws SQLException {
+    	dbPage.restartAutoIncrementation();
+    }
 	
 	@Test
 	public void verifyCalculationResultsFetching() throws Exception {

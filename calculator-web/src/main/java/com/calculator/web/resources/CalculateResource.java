@@ -23,9 +23,9 @@ public class CalculateResource {
 	@Inject private CalculationResult calculationResult;
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCalculationResult(String expressionContent)
+	public Response getCalculationResult(@FormParam("expression") String expressionContent)
 			throws JsonProcessingException, InterruptedException, SQLException {
 		calculationResult.setExpression(expressionContent);
 		calculationResult.setMoment(new Timestamp(Instant.now().toEpochMilli()));

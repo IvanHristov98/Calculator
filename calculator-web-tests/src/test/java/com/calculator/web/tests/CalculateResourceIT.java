@@ -36,25 +36,23 @@ public class CalculateResourceIT {
 	private URL baseUrl;
 	private CalculateResourcePage resourcePage;
 	
+	static {
+		try {
+    		dbPage = new DatabasePage();
+			dbPage.startDatabaseServer();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
     	WebCalculatorArchiveFactory webCalculatorArchive = new WebCalculatorArchiveFactory();
         return webCalculatorArchive.makeArchive();
     }
     
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    	EnvironmentVariablesMocker environmentVariablesMocker = new EnvironmentVariablesMocker(environmentVariables);
-    	environmentVariablesMocker.mockEnvironmentVariables();
-    	
-    	dbPage = new DatabasePage();
-    	dbPage.startDatabaseServer();
-    	dbPage.createSchema();
-    }
-    
     @AfterClass
     public static void tearDownClass() throws Exception {
-    	dbPage.dropTable();
     	dbPage.shutDownDatabaseServer();
     }
     
@@ -82,5 +80,18 @@ public class CalculateResourceIT {
     	resourcePage.setExpressionParameter("1+1");
     	resourcePage.getResourceContent();
     	dbPage.compareActualToExpectedTable(PENDING_SINGLE_ITEM_DATA_SET);
+    }
+    
+    @Test
+    public void verifyReturnedId() throws IOException {
+    	resourcePage.setExpressionParameter("1+1");
+    	
+    	resourcePage.getResourceContent();
+    	Response calculationResponse = resourcePage.getResourceContent();
+    	
+    	String recordId = calculationResponse.readEntity(String.class);
+    	final String expectedRecordId = "2";
+    	
+    	assertThat(recordId, equalTo(expectedRecordId));
     }
 }
