@@ -3,8 +3,6 @@ package com.calculator.web.tests.pageObjects.resources;
 import java.io.*;
 import java.net.*;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
@@ -28,8 +26,7 @@ public class CalculateResourcePage extends ResourcePage {
 	public Response getResourceContent() throws IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
     	
-    	Client client= ClientBuilder.newClient();
-    	WebTarget webTarget = client.target(URI.create(calculationServiceUrl.toExternalForm()));
+    	WebTarget webTarget = getWebTarget(calculationServiceUrl);
     	
     	Form formData = new Form();
     	formData.param(CALCULATE_EXPRESSION_URL_EXPRESSION_PARAMETER, expressionContent);
