@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
@@ -21,7 +22,7 @@ public class CalculationResultResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCalculation(@PathParam("id") int id) throws JsonProcessingException, SQLException {
+	public Response getCalculation(@NotNull(message = "Id must not be null.") @PathParam("id") int id) throws JsonProcessingException, SQLException {
 		DatabaseConnection managerSupplier = DatabaseConnection.getInstance(databaseUri);
 		EntityManager entityManager = managerSupplier.getEntityManager();
 		CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);

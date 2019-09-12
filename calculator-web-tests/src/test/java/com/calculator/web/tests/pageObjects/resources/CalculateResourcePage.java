@@ -5,8 +5,7 @@ import java.net.*;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 
 public class CalculateResourcePage extends ResourcePage {
 	
@@ -28,9 +27,7 @@ public class CalculateResourcePage extends ResourcePage {
     	
     	WebTarget webTarget = getWebTarget(calculationServiceUrl);
     	
-    	Form formData = new Form();
-    	formData.param(CALCULATE_EXPRESSION_URL_EXPRESSION_PARAMETER, expressionContent);
-    	return webTarget.request().post(Entity.form(formData), Response.class);
+    	return webTarget.request(MediaType.APPLICATION_JSON).post(Entity.entity(expressionContent, MediaType.APPLICATION_JSON));
 	}
 	
 	private URL getCalculationRequestURL(String expressionContent) throws UnsupportedEncodingException, MalformedURLException {
