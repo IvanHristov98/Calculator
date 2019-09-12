@@ -5,7 +5,7 @@ import org.junit.contrib.java.lang.system.EnvironmentVariables;
 public class EnvironmentVariablesPage {
 	
 	public static final String VCAP_SERVICES = "VCAP_SERVICES";
-	public static final String SERVICE = "elephantsql";
+	public static final String SERVICE = "postgresql";
 	public static final String CREDENTIALS = "credentials";
 	
 	public static final String URI_VARIABLE_NAME = "uri";

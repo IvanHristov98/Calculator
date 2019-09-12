@@ -27,7 +27,7 @@ public class JdbcCredentialsTest {
 	}
 	
 	private void setUpServicesServices(String uri) {
-		environmentVariables.set(SERVICES, "{ \"elephantsql\": [ { \"credentials\": { \"uri\": \"" + uri + "\" } } ] }");
+		environmentVariables.set(SERVICES, "{ \"postgresql\": [ { \"credentials\": { \"uri\": \"" + uri + "\" } } ] }");
 	}
 	
 	private String getStubbedUri() {
