@@ -2,6 +2,8 @@ package com.calculator.web.tests;
 
 import com.calculator.web.tests.pageObjects.resources.CalculationResultResourcePage;
 
+import static com.calculator.web.tests.pageObjects.db.CalculationResultsTable.*;
+
 import static com.calculator.web.tests.DatasetPaths.*;
 import static org.junit.Assert.assertThat;
 
@@ -34,21 +36,28 @@ public class CalculationResultResourceIT extends ResourceIT {
 	public void verifyExpressionGetting() throws Exception {
 		dbPage.useDataSet(COMPLETED_SINGLE_ITEM_DATA_SET);
 		
-		resourcePage.setIdParameter("1");
+		final String calculationResultId = "1";
+		
+		resourcePage.setIdParameter(calculationResultId);
 		Response pageResponse = resourcePage.getResourceContent();
 		String pageEntity = pageResponse.readEntity(String.class);
 		
 		JSONObject calculationResult = new JSONObject(pageEntity);
 		
-		assertThat(calculationResult.getString("expression"), equalTo("1"));
-		assertThat(calculationResult.getDouble("evaluation"), closeTo(1.0, 0.001));
-		assertThat(calculationResult.getInt("status"), equalTo(2));
+		final String expectedExpression = "1";
+		final Double expectedResult = 1.0d;
+		final int expectedStatus = 2;
+		
+		assertThat(calculationResult.getString(EXPRESSION), equalTo(expectedExpression));
+		assertThat(calculationResult.getDouble(EVALUATION), closeTo(expectedResult, 0.001));
+		assertThat(calculationResult.getInt(STATUS), equalTo(expectedStatus));
 	}
-	
 	
 	@Test
 	public void verifyHttpStatusCodeWhenResourceNotFound() throws Exception {
-		resourcePage.setIdParameter("12345");
+		final String invalidCalculationResultId = "12345";
+		
+		resourcePage.setIdParameter(invalidCalculationResultId);
 		Response pageResponse = resourcePage.getResourceContent();
 		
 		assertThat(pageResponse.getStatus(), equalTo(Response.Status.NOT_FOUND.getStatusCode()));

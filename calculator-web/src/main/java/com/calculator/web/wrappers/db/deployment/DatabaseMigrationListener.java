@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.eclipse.persistence.sessions.Session;
-
-import com.calculator.web.wrappers.db.DatabaseConnection;
 import com.calculator.web.wrappers.db.DatabaseUri;
 import com.calculator.web.wrappers.db.JdbcCredentials;
 import com.calculator.web.wrappers.db.jdbcDrivers.DriverFactory;

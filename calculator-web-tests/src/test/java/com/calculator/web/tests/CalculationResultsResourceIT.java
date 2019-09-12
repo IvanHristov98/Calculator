@@ -3,13 +3,15 @@ package com.calculator.web.tests;
 import com.calculator.web.tests.pageObjects.resources.CalculationResultsResourcePage;
 
 import static com.calculator.web.tests.DatasetPaths.*;
+import static com.calculator.web.tests.pageObjects.db.CalculationResultsTable.*;
 
 import java.sql.SQLException;
 
 import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.junit.Arquillian;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -37,13 +39,19 @@ public class CalculationResultsResourceIT extends ResourceIT {
 	public void verifyCalculationResultsFetching() throws Exception {
 		dbPage.useDataSet(PENDING_POPULATED_DATA_SET);
 		Response pageResponse = resourcePage.getResourceContent();
-		String pageEntity = pageResponse.readEntity(String.class);
+		String pageContent = pageResponse.readEntity(String.class);
+		JSONArray calculationResults = new JSONArray(pageContent);
 		
-		verifyThatEntityContainsExpression(pageEntity, "1");
-		verifyThatEntityContainsExpression(pageEntity, "2");
+		final int firstCalculationResultIndex = 0;
+		final String firstExpression = "1";
+		verifyThatEntityContainsExpression(calculationResults.getJSONObject(firstCalculationResultIndex), firstExpression);
+		
+		final int secondCalculationResultIndex = 1;
+		final String secondExpression = "2";
+		verifyThatEntityContainsExpression(calculationResults.getJSONObject(secondCalculationResultIndex), secondExpression);
 	}
 	
-	private void verifyThatEntityContainsExpression(String pageEntity, String expressionContent) {
-		assertThat(pageEntity, containsString("\"expression\":\"" + expressionContent + "\""));
+	private void verifyThatEntityContainsExpression(JSONObject calculationResult, String expectedExpression) {
+		assertThat(calculationResult.getString(EXPRESSION), containsString(expectedExpression));
 	}
 }
