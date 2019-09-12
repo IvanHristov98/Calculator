@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class JdbcCredentials {
 	
 	public static final String VCAP_SERVICES = "VCAP_SERVICES";
-	public static final String SERVICE = "elephantsql";
+	public static final String SERVICE = "postgresql";
 	public static final int HANATRIAL_CONTENTS_INDEX = 0;
 	public static final String CREDENTIALS = "credentials";
 	public static final String URI = "uri";

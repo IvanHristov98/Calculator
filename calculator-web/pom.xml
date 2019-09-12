@@ -65,9 +65,9 @@
 	        	<diskQuota>1024</diskQuota>
 	        	<services>
 	        		<service>
-	        			<name>calculatorPostgreDB</name>
-	        			<label>elephantsql</label>
-	        			<plan>turtle</plan>
+	        			<name>${cfDbServiceName}</name>
+	        			<label>${cfDbServiceLabel}</label>
+	        			<plan>${cfDbServicePlan}</plan>
 	        		</service>
 	        	</services>
 	        </configuration>
