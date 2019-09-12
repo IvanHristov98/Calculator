@@ -35,8 +35,8 @@ public class EvaluatingJob implements Job {
 				calculationResultsDao.update(calculationResult);
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException exception) {
+			throw new JobExecutionException(exception);
 		}
 	}
 	
