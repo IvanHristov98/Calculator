@@ -185,5 +185,6 @@
   		<module>calculator-cli-tests</module>
   		<module>calculator-web</module>
   		<module>calculator-web-tests</module>
+  <module>calculator-web-ui</module>
   </modules>
 </project>
