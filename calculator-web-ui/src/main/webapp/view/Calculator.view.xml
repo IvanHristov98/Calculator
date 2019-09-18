@@ -1,9 +1,69 @@
 <mvc:View
 		controllerName="com.calculator.webUi.controller.Calculator"
 		xmlns="sap.m"
-		xmlns:mvc="sap.ui.core.mvc">
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:f="sap.f"
+		xmlns:m="sap.m"
+		xmlns:card="sap.f.cards"
+		xmlns:core="sap.ui.core"
+		displayBlock="true"
+		height="100%">
 	<Page title="{i18n>calculatorPageTitle}">
 		<content>
+			<f:Card
+				width="auto"
+				class="sapUiMediumPadding sapUiMediumMargin calculatorCard">
+				<f:content>
+				<VBox
+					justifyContent="SpaceBetween">
+					<HBox justifyContent="SpaceBetween">
+						<Input 
+							class="sapUiMediumMargin"
+							value="{/recipient/name}"
+							valueLiveUpdate="true"
+							width="350px"/>
+					</HBox>
+					<HBox justifyContent="SpaceBetween">
+						<VBox
+							width="300px"
+							height="150px"
+							justifyContent="SpaceBetween"
+							displayInline="true">
+							<HBox  justifyContent="SpaceBetween">
+								<Button class="sapUiMediumMarginBegin"  text="1" press="onBookPress" type="Emphasized" />
+								<Button  text="2" press="onBookPress" type="Emphasized" />
+								<Button  text="3" press="onBookPress" type="Emphasized" />
+								<Button  text="4" press="onBookPress" type="Emphasized" />
+								<Button class="sapUiMediumMarginEnd"  text="5" press="onBookPress" type="Emphasized" />
+							</HBox>
+							<HBox justifyContent="SpaceBetween">
+								<Button class="sapUiMediumMarginBegin"  text="6" press="onBookPress" type="Emphasized" />
+								<Button  text="7" press="onBookPress" type="Emphasized" />
+								<Button  text="8" press="onBookPress" type="Emphasized" />
+								<Button  text="9" press="onBookPress" type="Emphasized" />
+								<Button class="sapUiMediumMarginEnd"  text="0" press="onBookPress" type="Emphasized" />
+							</HBox>
+							<HBox justifyContent="SpaceBetween">
+								<Button class="sapUiMediumMarginBegin"  text="+" press="onBookPress" type="Emphasized" />
+								<Button  text="-" press="onBookPress" type="Emphasized" />
+								<Button  text="*" press="onBookPress" type="Emphasized" />
+								<Button  text="/" press="onBookPress" type="Emphasized" />
+								<Button class="sapUiMediumMarginEnd"  text="^" press="onBookPress" type="Emphasized" />
+							</HBox>
+						</VBox>
+						<VBox
+							height="150px"
+							justifyContent="SpaceBetween"
+							displayInline="true">
+
+						<Button text="Calculate" class="sapUiMediumMarginEnd calculateButton" press="onBookPress" type="Default" />
+						</VBox>
+					</HBox>
+					<HBox height="25px">
+					</HBox>
+				</VBox>	 
+				</f:content>
+			</f:Card>
 		</content>
 	</Page>
 </mvc:View>

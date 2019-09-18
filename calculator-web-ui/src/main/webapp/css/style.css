@@ -1,12 +1,6 @@
-html[dir="ltr"] .myAppDemoWT .myCustomButton.sapMBtn {
-    margin-right: 1.525rem;
+ .myAppDemoWT .calculatorCard {
+    background-color: #c2ecff;
  }
- 
- html[dir="rtl"] .myAppDemoWT .myCustomButton.sapMBtn {
-    margin-left: 1.525rem;
- }
- 
- .myAppDemoWT .myCustomText {
-    display: inline-block;
-    font-weight: bold;
- }
+
+ .myAppDemoWT .calculateButton {
+}
