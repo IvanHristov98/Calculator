@@ -1,0 +1,87 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+      "id": "com.calculator.webUi",
+      "type": "application",
+      "i18n": "i18n/i18n.properties",
+      "title": "{{appTitle}}",
+      "description": "{{appDescription}}",
+      "applicationVersion": {
+        "version": "1.0.0"
+      },
+      "dataSources": {
+        "calculationResults": {
+        "uri": "https://calculator.cfapps.sap.hana.ondemand.com/v1/calculationResults",
+        "type": "JSON"
+        }
+      }
+    },
+    "sap.ui": {
+      "technology": "UI5",
+      "deviceTypes": {
+          "desktop": true,
+          "tablet": true,
+          "phone": true
+      }
+    },
+    "sap.ui5": {
+      "rootView": {
+          "viewName": "com.calculator.webUi.view.App",
+          "type": "XML",
+          "async": true,
+          "id": "app"
+      },
+      "dependencies": {
+        "minUI5Version": "1.60",
+        "libs": {
+          "sap.m": {}
+        }
+      },
+      "models": {
+        "i18n": {
+          "type": "sap.ui.model.resource.ResourceModel",
+          "settings": {
+            "bundleName": "com.calculator.webUi.i18n.i18n"
+          }
+        },
+        "invoice": {
+          "dataSource": "calculationResults"
+          }
+      },
+      "routing": {
+        "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "com.calculator.webUi.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+        },
+        "routes": [
+          {
+            "pattern": "",
+            "name": "default",
+            "target": "calculator"
+          },
+          {
+            "pattern": "calculator",
+            "name": "calculator",
+            "target": "calculator"
+          }
+        ],
+        "targets": {
+          "calculator": {
+            "viewId": "calculator",
+            "viewName": "Calculator"
+          }
+        }
+      },
+      "resources": {
+        "css": [
+          {
+            "uri": "css/style.css"
+          }
+        ]
+      }
+    }
+  }
