@@ -41,7 +41,7 @@
 								<Button text="3" press=".onTokenPress('3')" type="Emphasized" />
 								<Button text="4" press=".onTokenPress('4')" type="Emphasized" />
 								<Button text="5" press=".onTokenPress('5')" type="Emphasized" />
-								<Button text="C" press=".deleteLastToken()" type="Reject" />
+								<Button text="C" press=".onBackspaceButtonPress()" type="Reject" />
 								<Button class="sapUiMediumMarginEnd" text="(" press=".onTokenPress('(')" type="Emphasized" />
 							</HBox>
 							<HBox justifyContent="SpaceBetween">
@@ -50,7 +50,7 @@
 								<Button text="8" press=".onTokenPress('8')" type="Emphasized" />
 								<Button text="9" press=".onTokenPress('9')" type="Emphasized" />
 								<Button text="0" press=".onTokenPress('0')" type="Emphasized" />
-								<Button icon="sap-icon://delete" press=".deleteAllTokens()" type="Reject" />
+								<Button icon="sap-icon://delete" press=".onDeleteAllButtonPress()" type="Reject" />
 								<Button class="sapUiMediumMarginEnd" text=")" press=".onTokenPress(')')" type="Emphasized" />
 							</HBox>
 							<HBox justifyContent="SpaceBetween">
