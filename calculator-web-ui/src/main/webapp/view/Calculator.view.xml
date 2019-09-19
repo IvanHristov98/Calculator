@@ -10,6 +10,10 @@
 		height="100%">
 	<Page title="{i18n>calculatorPageTitle}">
 		<content>
+		<m:FlexBox
+        alignItems="Center"
+        justifyContent="Center">
+		<m:items>
 			<f:Card
 				width="auto"
 				class="sapUiMediumPadding sapUiMediumMargin calculatorCard">
@@ -18,45 +22,46 @@
 					justifyContent="SpaceBetween">
 					<HBox justifyContent="SpaceBetween">
 						<Input 
+							id="expressionBar"
 							class="sapUiMediumMargin"
 							value="{/recipient/name}"
 							valueLiveUpdate="true"
-							width="350px"/>
+							editable="false"
+							width="355px"/>
 					</HBox>
 					<HBox justifyContent="SpaceBetween">
 						<VBox
-							width="300px"
+							width="420px"
 							height="150px"
 							justifyContent="SpaceBetween"
 							displayInline="true">
 							<HBox  justifyContent="SpaceBetween">
-								<Button class="sapUiMediumMarginBegin"  text="1" press="onBookPress" type="Emphasized" />
-								<Button  text="2" press="onBookPress" type="Emphasized" />
-								<Button  text="3" press="onBookPress" type="Emphasized" />
-								<Button  text="4" press="onBookPress" type="Emphasized" />
-								<Button class="sapUiMediumMarginEnd"  text="5" press="onBookPress" type="Emphasized" />
+								<Button class="sapUiMediumMarginBegin" text="1" press=".onTokenPress('1')" type="Emphasized" />
+								<Button text="2" press=".onTokenPress('2')" type="Emphasized" />
+								<Button text="3" press=".onTokenPress('3')" type="Emphasized" />
+								<Button text="4" press=".onTokenPress('4')" type="Emphasized" />
+								<Button text="5" press=".onTokenPress('5')" type="Emphasized" />
+								<Button text="C" press=".deleteLastToken()" type="Reject" />
+								<Button class="sapUiMediumMarginEnd" text="(" press=".onTokenPress('(')" type="Emphasized" />
 							</HBox>
 							<HBox justifyContent="SpaceBetween">
-								<Button class="sapUiMediumMarginBegin"  text="6" press="onBookPress" type="Emphasized" />
-								<Button  text="7" press="onBookPress" type="Emphasized" />
-								<Button  text="8" press="onBookPress" type="Emphasized" />
-								<Button  text="9" press="onBookPress" type="Emphasized" />
-								<Button class="sapUiMediumMarginEnd"  text="0" press="onBookPress" type="Emphasized" />
+								<Button class="sapUiMediumMarginBegin" text="6" press=".onTokenPress('6')" type="Emphasized" />
+								<Button text="7" press=".onTokenPress('7')" type="Emphasized" />
+								<Button text="8" press=".onTokenPress('8')" type="Emphasized" />
+								<Button text="9" press=".onTokenPress('9')" type="Emphasized" />
+								<Button text="0" press=".onTokenPress('0')" type="Emphasized" />
+								<Button icon="sap-icon://delete" press=".deleteAllTokens()" type="Reject" />
+								<Button class="sapUiMediumMarginEnd" text=")" press=".onTokenPress(')')" type="Emphasized" />
 							</HBox>
 							<HBox justifyContent="SpaceBetween">
-								<Button class="sapUiMediumMarginBegin"  text="+" press="onBookPress" type="Emphasized" />
-								<Button  text="-" press="onBookPress" type="Emphasized" />
-								<Button  text="*" press="onBookPress" type="Emphasized" />
-								<Button  text="/" press="onBookPress" type="Emphasized" />
-								<Button class="sapUiMediumMarginEnd"  text="^" press="onBookPress" type="Emphasized" />
+								<Button class="sapUiMediumMarginBegin" text="+" press=".onTokenPress('+')" type="Emphasized" />
+								<Button text="-" press=".onTokenPress('-')" type="Emphasized" />
+								<Button text="*" press=".onTokenPress('*')" type="Emphasized" />
+								<Button text="/" press=".onTokenPress('/')" type="Emphasized" />
+								<Button text="^" press=".onTokenPress('^')" type="Emphasized" />
+								<Button text="." press=".onTokenPress('.')" type="Default" />
+								<Button class="sapUiMediumMarginEnd" icon="sap-icon://play" press="" type="Default" />
 							</HBox>
-						</VBox>
-						<VBox
-							height="150px"
-							justifyContent="SpaceBetween"
-							displayInline="true">
-
-						<Button text="Calculate" class="sapUiMediumMarginEnd calculateButton" press="onBookPress" type="Default" />
 						</VBox>
 					</HBox>
 					<HBox height="25px">
@@ -64,6 +69,8 @@
 				</VBox>	 
 				</f:content>
 			</f:Card>
+			</m:items>
+			</m:FlexBox>
 		</content>
 	</Page>
 </mvc:View>
