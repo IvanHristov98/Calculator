@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+import com.calculator.web.CorsHttpHeaders;
 import com.calculator.web.wrappers.db.DatabaseConnection;
 import com.calculator.web.wrappers.db.DatabaseUri;
 import com.calculator.web.wrappers.db.dao.CalculationResultsDao;
@@ -17,6 +18,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/calculationResults/{id}")
 public class CalculationResultResource {
+	public static final String ALL_ORIGINS = "*";
+	public static final String ALLOWED_HEADERS = "cache-control, content-type";
+	public static final String ALLOWED_HTTP_METHODS = "GET";
+	
 	@Inject ObjectMapper objectMapper;
 	@Inject DatabaseUri databaseUri;
 	
@@ -29,9 +34,23 @@ public class CalculationResultResource {
 		CalculationResult result = calculationResultsDao.getItem(id);
 		
 		if (result != null) {
-			return Response.ok().entity(objectMapper.writeValueAsString(result)).build();
+			return Response.ok().entity(objectMapper.writeValueAsString(result))
+					.header(CorsHttpHeaders.AccessControlAllowOrigin.getHeaderName(), ALL_ORIGINS)
+					.build();
 		} else {
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND)
+					.header(CorsHttpHeaders.AccessControlAllowOrigin.getHeaderName(), ALL_ORIGINS)
+					.build();
 		}
+	}
+	
+	@OPTIONS
+	public Response getCorsHeaders() {
+		return Response.ok()
+				.header(CorsHttpHeaders.AccessControlAllowOrigin.getHeaderName(), ALL_ORIGINS)
+				.header(CorsHttpHeaders.AccessControlAllowHeaders.getHeaderName(), ALLOWED_HEADERS)
+				.header(CorsHttpHeaders.AccessControlAllowMethods.getHeaderName(), ALLOWED_HTTP_METHODS)
+				.entity("")
+				.build();
 	}
 }

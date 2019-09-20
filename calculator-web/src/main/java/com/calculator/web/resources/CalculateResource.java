@@ -11,6 +11,7 @@ import javax.ws.rs.core.*;
 
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
+import com.calculator.web.CorsHttpHeaders;
 import com.calculator.web.wrappers.db.*;
 import com.calculator.web.wrappers.db.dao.CalculationResultsDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("/calculate")
 public class CalculateResource {
+	public static final String ALL_ORIGINS = "*";
+	public static final String ALLOWED_HEADERS = "cache-control, content-type";
+	public static final String ALLOWED_HTTP_METHODS = "POST";
+	
 	@Inject private ObjectMapper objectMapper;
 	@Inject private DatabaseUri databaseUri;
 	@Inject private CalculationResult calculationResult;
@@ -33,9 +38,21 @@ public class CalculateResource {
 		
 		saveCalculationResult(calculationResult);
 		
-		return Response.status(Response.Status.ACCEPTED).entity(objectMapper.writeValueAsString(
+		return Response.status(Response.Status.ACCEPTED)
+				.header(CorsHttpHeaders.AccessControlAllowOrigin.getHeaderName(), ALL_ORIGINS)
+				.entity(objectMapper.writeValueAsString(
 				calculationResult.getRequestId()
 				)).build();
+	}
+	
+	@OPTIONS
+	public Response getCorsHeaders() {
+		return  Response.ok()
+					.header(CorsHttpHeaders.AccessControlAllowOrigin.getHeaderName(), ALL_ORIGINS)
+					.header(CorsHttpHeaders.AccessControlAllowHeaders.getHeaderName(), ALLOWED_HEADERS)
+					.header(CorsHttpHeaders.AccessControlAllowMethods.getHeaderName(), ALLOWED_HTTP_METHODS)
+					.entity("")
+					.build();
 	}
 	
 	private void saveCalculationResult(CalculationResult calculationResult) throws SQLException {
