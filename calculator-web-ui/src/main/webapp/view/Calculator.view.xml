@@ -60,7 +60,7 @@
 								<Button text="/" press=".onTokenPress('/')" type="Emphasized" />
 								<Button text="^" press=".onTokenPress('^')" type="Emphasized" />
 								<Button text="." press=".onTokenPress('.')" type="Default" />
-								<Button class="sapUiMediumMarginEnd" icon="sap-icon://play" press="" type="Default" />
+								<Button class="sapUiMediumMarginEnd" icon="sap-icon://play" press=".onCalculateButtonPress()" type="Default" />
 							</HBox>
 						</VBox>
 					</HBox>

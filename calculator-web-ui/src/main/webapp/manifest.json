@@ -11,7 +11,7 @@
       },
       "dataSources": {
         "calculationResults": {
-        "uri": "https://calculator.cfapps.sap.hana.ondemand.com/v1/calculationResults",
+        "uri": "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/calculationResults",
         "type": "JSON"
         }
       }
