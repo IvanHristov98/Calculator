@@ -8,12 +8,6 @@
       "description": "{{appDescription}}",
       "applicationVersion": {
         "version": "1.0.0"
-      },
-      "dataSources": {
-        "calculationResults": {
-        "uri": "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/calculationResults",
-        "type": "JSON"
-        }
       }
     },
     "sap.ui": {
@@ -43,10 +37,7 @@
           "settings": {
             "bundleName": "com.calculator.webUi.i18n.i18n"
           }
-        },
-        "invoice": {
-          "dataSource": "calculationResults"
-          }
+        }
       },
       "routing": {
         "config": {

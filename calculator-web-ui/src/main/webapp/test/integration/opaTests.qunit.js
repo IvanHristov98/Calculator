@@ -6,6 +6,7 @@ sap.ui.getCore().attachInit(function () {
     "use strict";
 
     sap.ui.require([
+        "com/calculator/webUi/test/integration/CalculatorJourney"
     ], function () {
         QUnit.start();
     });

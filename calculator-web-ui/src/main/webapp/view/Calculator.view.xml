@@ -36,31 +36,31 @@
 							justifyContent="SpaceBetween"
 							displayInline="true">
 							<HBox  justifyContent="SpaceBetween">
-								<Button class="sapUiMediumMarginBegin" text="1" press=".onTokenPress('1')" type="Emphasized" />
-								<Button text="2" press=".onTokenPress('2')" type="Emphasized" />
-								<Button text="3" press=".onTokenPress('3')" type="Emphasized" />
-								<Button text="4" press=".onTokenPress('4')" type="Emphasized" />
-								<Button text="5" press=".onTokenPress('5')" type="Emphasized" />
-								<Button text="C" press=".onBackspaceButtonPress()" type="Reject" />
-								<Button class="sapUiMediumMarginEnd" text="(" press=".onTokenPress('(')" type="Emphasized" />
+								<Button id="one" class="sapUiMediumMarginBegin" text="1" press=".onTokenPress('1')" type="Emphasized" />
+								<Button id="two" text="2" press=".onTokenPress('2')" type="Emphasized" />
+								<Button id="three" text="3" press=".onTokenPress('3')" type="Emphasized" />
+								<Button id="four" text="4" press=".onTokenPress('4')" type="Emphasized" />
+								<Button id="five" text="5" press=".onTokenPress('5')" type="Emphasized" />
+								<Button id="backspace" text="C" press=".onBackspaceButtonPress()" type="Reject" />
+								<Button id="openingBracket" class="sapUiMediumMarginEnd" text="(" press=".onTokenPress('(')" type="Emphasized" />
 							</HBox>
 							<HBox justifyContent="SpaceBetween">
-								<Button class="sapUiMediumMarginBegin" text="6" press=".onTokenPress('6')" type="Emphasized" />
-								<Button text="7" press=".onTokenPress('7')" type="Emphasized" />
-								<Button text="8" press=".onTokenPress('8')" type="Emphasized" />
-								<Button text="9" press=".onTokenPress('9')" type="Emphasized" />
-								<Button text="0" press=".onTokenPress('0')" type="Emphasized" />
-								<Button icon="sap-icon://delete" press=".onDeleteAllButtonPress()" type="Reject" />
-								<Button class="sapUiMediumMarginEnd" text=")" press=".onTokenPress(')')" type="Emphasized" />
+								<Button id="six" class="sapUiMediumMarginBegin" text="6" press=".onTokenPress('6')" type="Emphasized" />
+								<Button id="seven" text="7" press=".onTokenPress('7')" type="Emphasized" />
+								<Button id="eight" text="8" press=".onTokenPress('8')" type="Emphasized" />
+								<Button id="nine" text="9" press=".onTokenPress('9')" type="Emphasized" />
+								<Button id="zero" text="0" press=".onTokenPress('0')" type="Emphasized" />
+								<Button id="delete" icon="sap-icon://delete" press=".onDeleteAllButtonPress()" type="Reject" />
+								<Button id="closingBracket" class="sapUiMediumMarginEnd" text=")" press=".onTokenPress(')')" type="Emphasized" />
 							</HBox>
 							<HBox justifyContent="SpaceBetween">
-								<Button class="sapUiMediumMarginBegin" text="+" press=".onTokenPress('+')" type="Emphasized" />
-								<Button text="-" press=".onTokenPress('-')" type="Emphasized" />
-								<Button text="*" press=".onTokenPress('*')" type="Emphasized" />
-								<Button text="/" press=".onTokenPress('/')" type="Emphasized" />
-								<Button text="^" press=".onTokenPress('^')" type="Emphasized" />
-								<Button text="." press=".onTokenPress('.')" type="Default" />
-								<Button class="sapUiMediumMarginEnd" icon="sap-icon://play" press=".onCalculateButtonPress()" type="Default" />
+								<Button id="plus" class="sapUiMediumMarginBegin" text="+" press=".onTokenPress('+')" type="Emphasized" />
+								<Button id="minus" text="-" press=".onTokenPress('-')" type="Emphasized" />
+								<Button id="product" text="*" press=".onTokenPress('*')" type="Emphasized" />
+								<Button id="division" text="/" press=".onTokenPress('/')" type="Emphasized" />
+								<Button id="pow" text="^" press=".onTokenPress('^')" type="Emphasized" />
+								<Button id="dot" text="." press=".onTokenPress('.')" type="Default" />
+								<Button id="calculate" class="sapUiMediumMarginEnd" icon="sap-icon://play" press=".onCalculateButtonPress()" type="Default" />
 							</HBox>
 						</VBox>
 					</HBox>
