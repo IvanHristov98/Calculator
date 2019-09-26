@@ -5,7 +5,7 @@ module.exports = function(config) {
         ui5 : {
             mode : "html",
             url : "http://localhost:7777",
-            testpage : "webapp/test/integration/opaTests.qunit.html"
+            testpage : "webapp/test/testsuite.qunit.html"
         },
         browsers : ['ChromeHeadless'],
         singleRun : true
