@@ -12,59 +12,67 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>calculator-web-ui Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>CalculatorWebUi</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
     <finalName>calculator-web-ui</finalName>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    
       <plugins>
         <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <!-- Use the latest released version: https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+          <version>1.8.0</version>
+          <executions>
+            <execution>
+              <!-- optional: you don't really need execution ids, but it looks nice in your build log. -->
+              <id>install node and npm</id>
+              <goals>
+                  <goal>install-node-and-npm</goal>
+              </goals>
+            </execution>
+            <execution>
+                <id>npm install</id>
+                <goals>
+                    <goal>npm</goal>
+                </goals>
+                <configuration>
+                    <arguments>install</arguments>
+                </configuration>
+            </execution>
+            <execution>
+              <id>javascript tests</id>
+              <goals>
+                  <goal>karma</goal>
+              </goals>
+
+              <!-- optional: the default plase is "test". Some developers choose to run karma in the "integration-test" phase. -->
+              <phase>test</phase>
+              <configuration>
+                <karmaConfPath>src/test/javascript/karma.conf.js</karmaConfPath>
+              </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <nodeVersion>v10.16.3</nodeVersion>
+        </configuration>
+      </plugin>
       </plugins>
-    </pluginManagement>
+    
   </build>
 </project>

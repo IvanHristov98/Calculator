@@ -2,3 +2,5 @@
 **/derby.log
 **/calculator_db
 **/mongoose*
+**/node
+**/node_modules

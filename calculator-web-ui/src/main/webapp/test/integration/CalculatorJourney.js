@@ -7,13 +7,7 @@ sap.ui.define([
 ], function (MockServer) {
     "use strict";
 
-    QUnit.module("Calculator", {
-        beforeEach : function () {
-        },
-        afterEach : function () {
-
-        }
-    });
+    QUnit.module("Calculator");
 
     opaTest("Verify number pad typing", function (Given, When, Then) {
         let tokens = {

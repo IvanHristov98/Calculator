@@ -1,0 +1,22 @@
+{
+  "name": "calculator-web-ui",
+  "description": "A web calculator user interface.",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IvanHristov98/calculator.git"
+  },
+  "author": "Ivan Hristov",
+  "dependencies": {
+    "karma": "^4.3.0",
+    "karma-cli": "^2.0.0",
+    "karma-ui5": "^1.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-qunit": "^4.0.0"
+  }
+}
