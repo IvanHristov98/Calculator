@@ -64,13 +64,30 @@
 							</HBox>
 						</VBox>
 					</HBox>
-					<HBox height="25px">
+					<HBox height="35px" justifyContent="Center" alignItems="Center">
+					<BusyIndicator id="calculationLoadingIndicator" visible="false" />
 					</HBox>
 				</VBox>	 
 				</f:content>
 			</f:Card>
 			</m:items>
 			</m:FlexBox>
+			
+			<List
+				id="historyList"
+				class="sapUiResponsiveMargin"
+				width="auto"
+				>
+				<headerToolbar>
+					<Toolbar>
+						<Title text="{i18n>historyListTitle}"/>
+						<Button id="refresh" icon="sap-icon://synchronize" press=".refreshHistoryListItems(10);"/>
+						<BusyIndicator id="historyLoadingIndicator" visible="false" />
+					</Toolbar>
+				</headerToolbar>
+				<items>
+				</items>
+			</List>
 		</content>
 	</Page>
 </mvc:View>

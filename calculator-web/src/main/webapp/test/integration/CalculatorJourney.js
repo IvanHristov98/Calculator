@@ -38,7 +38,6 @@ sap.ui.define([
         When.onTheAppPage.iPressButton(backspaceButtonId);
 
         Then.onTheAppPage.iShouldSeeOnExpressionBar(backspacedDummyExpression);
-
         Then.iTeardownMyApp();
     });
 
@@ -53,7 +52,6 @@ sap.ui.define([
         When.onTheAppPage.iPressButton(deleteButtonId);
 
         Then.onTheAppPage.iShouldSeeOnExpressionBar(emptyExpression);
-
         Then.iTeardownMyApp();
     });
 
@@ -62,8 +60,27 @@ sap.ui.define([
 
         When.onTheAppPage.iSetExpressionBarContent("1+2*3");
         When.onTheAppPage.iPressButton("calculate");
-        
+
+        Then.onTheAppPage.iShouldWaitForCalculationToStartLoading();
         Then.onTheAppPage.iShouldSeeOnExpressionBar("7");
+        Then.onTheAppPage.iShouldWaitForCalculationToLoad();
+
+        Then.iTeardownMyApp();
+    });
+
+    opaTest("Verify history list content", function (Given, When, Then) {
+        const refreshButton = "refresh";
+        const iExpectedNumberOfCalculationResults = 2;
+
+        Given.iStartMyUIComponent(getComponentConfig());
+
+        Then.onTheAppPage.iShouldWaitForHistoryToLoad();
+
+        When.onTheAppPage.iPressButton(refreshButton);
+        
+        Then.onTheAppPage.iShouldWaitForHistoryToStartLoading();
+        Then.onTheAppPage.iShouldWaitForHistoryToLoad();
+        Then.onTheAppPage.iShouldSeeHistory(iExpectedNumberOfCalculationResults);
         Then.iTeardownMyApp();
     });
 

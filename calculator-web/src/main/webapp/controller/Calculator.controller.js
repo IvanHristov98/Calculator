@@ -4,10 +4,15 @@ sap.ui.define([
 ], function (Controller, JSONModel, Calculator) {
    "use strict";
 
+   const limitOfHistoryItems = 10;
+
    return Controller.extend("com.calculator.webUi.controller.Calculator", {
       calculateResource : "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/calculate",
       calculationResultsResource : "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/calculationResults",
       intervalBetweenCompletionChecks: 1000,
+      onInit : function () {
+         this.refreshHistoryListItems(limitOfHistoryItems);
+      },
       onTokenPress : function (sToken) {
          let oExpressionBar = this.getExpressionBar();
          let sCurrentExpression = oExpressionBar.getValue();
@@ -33,6 +38,8 @@ sap.ui.define([
          return this.getView();
       },
       uploadExpression : function () {
+         this.showCalculationLoadingIndicator();
+
          let oCalculator = this;
          let onSuccessfulExpressionRecording = function () {
             oCalculator.startResultRetrievingJob(this.readyState, this.responseText, oCalculator);
@@ -49,21 +56,6 @@ sap.ui.define([
          let oXhr = new XMLHttpRequest();
 
          this.runHttpRequest(oXhr, oHttpRequestDetails);
-      },
-      getCompletedCalculationResult : function (oCalculationResultId, iCalculationResultGettingInterval, oCalculator) {
-         let checkIfCalculationIsCompleted = function () {
-            oCalculator.checkIfCalculationIsCompleted(this.readyState, this.responseText, iCalculationResultGettingInterval);
-         };
-
-         let oHttpRequestDetails = {
-            resource : oCalculator.calculationResultsResource + "/" + oCalculationResultId,
-            method: "GET",
-            readyStateListener : checkIfCalculationIsCompleted,
-            data : null
-         };
-         let oXhr = new XMLHttpRequest();
-
-         oCalculator.runHttpRequest(oXhr, oHttpRequestDetails);
       },
       runHttpRequest : function (oXhr, oHttpRequestDetails) {
          oXhr.open(oHttpRequestDetails.method, oHttpRequestDetails.resource);
@@ -82,6 +74,21 @@ sap.ui.define([
             }, oCalculator.intervalBetweenCompletionChecks);
          }
       },
+      getCompletedCalculationResult : function (oCalculationResultId, iCalculationResultGettingInterval, oCalculator) {
+         let checkIfCalculationIsCompleted = function () {
+            oCalculator.checkIfCalculationIsCompleted(this.readyState, this.responseText, iCalculationResultGettingInterval);
+         };
+
+         let oHttpRequestDetails = {
+            resource : oCalculator.calculationResultsResource + "/" + oCalculationResultId,
+            method: "GET",
+            readyStateListener : checkIfCalculationIsCompleted,
+            data : null
+         };
+         let oXhr = new XMLHttpRequest();
+
+         oCalculator.runHttpRequest(oXhr, oHttpRequestDetails);
+      },
       checkIfCalculationIsCompleted : function (iReadyState, sResponseText, iCalculationResultGettingInterval) {
          if (iReadyState === 4) {
             let oCalculationResult = JSON.parse(sResponseText);
@@ -99,6 +106,8 @@ sap.ui.define([
             } else if (this.isExpressionIncorrect(oCalculationResult)) {
                oExpressionBar.setValue(oCalculationResult.message);
             }
+
+            this.hideCalculationLoadingIndicator();
          }
       },
       isExpressionCorrect : function (oCalculationResult) {
@@ -106,6 +115,81 @@ sap.ui.define([
       },
       isExpressionIncorrect : function (oCalculationResult) {
          return oCalculationResult.evaluation === null && oCalculationResult.message !== null;
+      },
+      refreshHistoryListItems : function (iLimit) {
+         this.showHistoryLoadingIndicator();
+
+         let oCalculator = this;
+         let onCalculationResultsDownloaded = function () {
+            oCalculator.onCalculationResultsDownloaded(this.readyState, this.responseText, oCalculator, iLimit);
+         };
+
+         let oHttpRequestDetails = {
+            resource : this.calculationResultsResource,
+            method: "GET",
+            readyStateListener : onCalculationResultsDownloaded,
+            data : null
+         };
+
+         let oXhr = new XMLHttpRequest();
+         oCalculator.runHttpRequest(oXhr, oHttpRequestDetails);
+      },
+      onCalculationResultsDownloaded : function (oReadyState, sResponseText, oCalculator, iLimit) {
+         if (oReadyState !== 4) {
+            return;
+         }
+
+         let aCalculationResults = JSON.parse(sResponseText);
+         aCalculationResults = oCalculator.getMostRecentCalculationResults(aCalculationResults, iLimit);
+
+         let itemTemplate = new sap.m.StandardListItem({
+            title : '{expression}',
+            info : "{evaluation}{message}"
+            });
+
+         let oModel = new sap.ui.model.json.JSONModel();
+         oModel.setData({calculationResults: aCalculationResults});
+
+         let oHistoryList = oCalculator.getHistoryList();
+         oHistoryList.bindItems("/calculationResults", itemTemplate);
+         oHistoryList.setModel(oModel);
+
+         oCalculator.hideHistoryLoadingIndicator();
+      },
+      getMostRecentCalculationResults : function (aCalculationResults, iLimit) {
+         aCalculationResults.sort(function (left, right) {
+            return right.moment - left.moment;
+         });
+
+         return aCalculationResults.slice(0, iLimit);
+      },
+      getHistoryList : function () {
+         let oView = this.getCurrentView();
+         return oView.byId("historyList");
+      },
+      hideCalculationLoadingIndicator : function () {
+         let loadingIndicator = this.getCalculationLoadingIndicator();
+         loadingIndicator.setVisible(false); 
+      },
+      showCalculationLoadingIndicator : function () {
+         let loadingIndicator = this.getCalculationLoadingIndicator();
+         loadingIndicator.setVisible(true);
+      },
+      getCalculationLoadingIndicator : function () {
+         let oView = this.getCurrentView();
+         return oView.byId("calculationLoadingIndicator");
+      },
+      hideHistoryLoadingIndicator : function () {
+         let loadingIndicator = this.getHistoryLoadingIndicator();
+         loadingIndicator.setVisible(false); 
+      },
+      showHistoryLoadingIndicator : function () {
+         let loadingIndicator = this.getHistoryLoadingIndicator();
+         loadingIndicator.setVisible(true);
+      },
+      getHistoryLoadingIndicator : function () {
+         let oView = this.getCurrentView();
+         return oView.byId("historyLoadingIndicator");
       }
    });
 });
