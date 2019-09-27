@@ -4,7 +4,8 @@ sap.ui.define([
 ], function (Opa5, Press) {
     "use strict";
     
-    const sViewName = "com.calculator.webUi.view.Calculator";
+    const sCalculatorViewName = "com.calculator.webUi.view.Calculator";
+    const sHistoryViewName = "com.calculator.webUi.view.History";
     const sExpressionBarId = "expressionBar";
     const sHistoryListId = "historyList";
     const sHistoryLoadingIndicatorId = "historyLoadingIndicator";
@@ -13,7 +14,13 @@ sap.ui.define([
     Opa5.createPageObjects({
         onTheAppPage : {
             actions : {
-                iPressButton : function (sButtonId) {
+                iPressCalculatorButton : function (sButtonId) {
+                    this.iPressButton(sButtonId, sCalculatorViewName);
+                },
+                iPressHistoryButton : function (sButtonId) {
+                    this.iPressButton(sButtonId, sHistoryViewName);
+                },
+                iPressButton : function (sButtonId, sViewName) {
                     return this.waitFor({
                         id : sButtonId,
                         viewName : sViewName,
@@ -24,7 +31,7 @@ sap.ui.define([
                 iSetExpressionBarContent : function (sExpressionBarContent) {
                     return this.waitFor({
                         id : sExpressionBarId,
-                        viewName : sViewName,
+                        viewName : sCalculatorViewName,
                         actions : function (oExpressionBar) {
                             oExpressionBar.setValue(sExpressionBarContent);
                         }
@@ -35,7 +42,7 @@ sap.ui.define([
                 iShouldSeeOnExpressionBar : function (sExpectedExpressionBarContent) {
                     return this.waitFor({
                         id : sExpressionBarId,
-                        viewName : sViewName,
+                        viewName : sCalculatorViewName,
                         matchers : function (oInput) {
                             return oInput.getValue() == sExpectedExpressionBarContent;
                         },
@@ -49,20 +56,20 @@ sap.ui.define([
                     });
                 },
                 iShouldWaitForCalculationToStartLoading : function () {
-                    this.iShouldWaitForIndicatorToStartLoading(sCalculationLoadingIndicatorId);
+                    this.iShouldWaitForIndicatorToStartLoading(sCalculationLoadingIndicatorId, sCalculatorViewName);
                 },
                 iShouldWaitForCalculationToLoad : function () {
-                    this.iShouldWaitForIndicatorToLoad(sCalculationLoadingIndicatorId);
+                    this.iShouldWaitForIndicatorToLoad(sCalculationLoadingIndicatorId, sCalculatorViewName);
                 },
                 iShouldWaitForHistoryToStartLoading : function () {
-                    this.iShouldWaitForIndicatorToStartLoading(sHistoryLoadingIndicatorId);
+                    this.iShouldWaitForIndicatorToStartLoading(sHistoryLoadingIndicatorId, sHistoryViewName);
                 },
                 iShouldWaitForHistoryToLoad : function () {
-                    this.iShouldWaitForIndicatorToLoad(sHistoryLoadingIndicatorId);
+                    this.iShouldWaitForIndicatorToLoad(sHistoryLoadingIndicatorId, sHistoryViewName);
                 },
-                iShouldWaitForIndicatorToStartLoading : function (indicatorId) {
+                iShouldWaitForIndicatorToStartLoading : function (iIndicatorId, sViewName) {
                     return this.waitFor({
-                        id : indicatorId,
+                        id : iIndicatorId,
                         viewName : sViewName,
                         visible: true,
                         success : function () {
@@ -71,9 +78,9 @@ sap.ui.define([
                         errorMessage : "Wait for history exceeded maximum possible time."
                     });
                 },
-                iShouldWaitForIndicatorToLoad : function (indicatorId) {
+                iShouldWaitForIndicatorToLoad : function (iIndicatorId, sViewName) {
                     return this.waitFor({
-                        id : indicatorId,
+                        id : iIndicatorId,
                         viewName : sViewName,
                         visible : false,
                         matchers : function (oHistoryListIndicator) {
@@ -88,7 +95,7 @@ sap.ui.define([
                 iShouldSeeHistory : function (iExpectedNumberOfCalculationResults) {
                     return this.waitFor({
                         id : sHistoryListId,
-                        viewName : sViewName,
+                        viewName : sHistoryViewName,
                         success : function (oHistoryList) {
                             let aItems = oHistoryList.getItems();
 

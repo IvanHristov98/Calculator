@@ -20,7 +20,7 @@ sap.ui.define([
         Object.keys(tokens).map(function (key) {
             Given.iStartMyUIComponent(getComponentConfig());
 
-            When.onTheAppPage.iPressButton(key);
+            When.onTheAppPage.iPressCalculatorButton(key);
             Then.onTheAppPage.iShouldSeeOnExpressionBar(tokens[key]);
 
             Then.iTeardownMyApp();
@@ -35,7 +35,7 @@ sap.ui.define([
         Given.iStartMyUIComponent(getComponentConfig());
 
         When.onTheAppPage.iSetExpressionBarContent(dummyExpression);
-        When.onTheAppPage.iPressButton(backspaceButtonId);
+        When.onTheAppPage.iPressCalculatorButton(backspaceButtonId);
 
         Then.onTheAppPage.iShouldSeeOnExpressionBar(backspacedDummyExpression);
         Then.iTeardownMyApp();
@@ -49,7 +49,7 @@ sap.ui.define([
         Given.iStartMyUIComponent(getComponentConfig());
 
         When.onTheAppPage.iSetExpressionBarContent(dummyExpression);
-        When.onTheAppPage.iPressButton(deleteButtonId);
+        When.onTheAppPage.iPressCalculatorButton(deleteButtonId);
 
         Then.onTheAppPage.iShouldSeeOnExpressionBar(emptyExpression);
         Then.iTeardownMyApp();
@@ -59,7 +59,7 @@ sap.ui.define([
         Given.iStartMyUIComponent(getComponentConfig());
 
         When.onTheAppPage.iSetExpressionBarContent("1+2*3");
-        When.onTheAppPage.iPressButton("calculate");
+        When.onTheAppPage.iPressCalculatorButton("calculate");
 
         Then.onTheAppPage.iShouldWaitForCalculationToStartLoading();
         Then.onTheAppPage.iShouldSeeOnExpressionBar("7");
@@ -76,7 +76,7 @@ sap.ui.define([
 
         Then.onTheAppPage.iShouldWaitForHistoryToLoad();
 
-        When.onTheAppPage.iPressButton(refreshButton);
+        When.onTheAppPage.iPressHistoryButton(refreshButton);
         
         Then.onTheAppPage.iShouldWaitForHistoryToStartLoading();
         Then.onTheAppPage.iShouldWaitForHistoryToLoad();

@@ -1,0 +1,20 @@
+<mvc:View
+controllerName="com.calculator.webUi.controller.History"
+   xmlns="sap.m"
+   xmlns:mvc="sap.ui.core.mvc">
+    <List
+        id="historyList"
+        class="sapUiResponsiveMargin"
+        width="auto"
+        >
+        <headerToolbar>
+            <Toolbar>
+                <Title text="{i18n>historyListTitle}"/>
+                <Button id="refresh" icon="sap-icon://synchronize" press=".refreshHistoryListItems(10);"/>
+                <BusyIndicator id="historyLoadingIndicator" visible="false" />
+            </Toolbar>
+        </headerToolbar>
+        <items>
+        </items>
+    </List>
+</mvc:View>
