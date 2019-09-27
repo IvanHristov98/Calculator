@@ -29,7 +29,10 @@ public class CalculationResultsResource {
 		DatabaseConnection managerSupplier = DatabaseConnection.getInstance(databaseUri);
 		EntityManager entityManager = managerSupplier.getEntityManager();
 		CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
-		return Response.ok().entity(objectMapper.writeValueAsString(calculationResultsDao.getItems())).build();
+		return Response.ok()
+				.entity(objectMapper.writeValueAsString(calculationResultsDao.getItems()))
+				.header(CorsHttpHeaders.AccessControlAllowOrigin.getHeaderName(), ALL_ORIGINS)
+				.build();
 	}
 	
 	@OPTIONS
