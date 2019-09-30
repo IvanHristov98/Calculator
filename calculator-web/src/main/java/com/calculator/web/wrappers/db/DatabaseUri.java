@@ -1,7 +1,5 @@
 package com.calculator.web.wrappers.db;
 
-import javax.inject.Inject;
-
 import com.calculator.web.wrappers.db.jdbcDrivers.Driver;
 import com.calculator.web.wrappers.db.jdbcDrivers.DriverFactory;
 
@@ -10,7 +8,7 @@ public class DatabaseUri {
 	private JdbcCredentials jdbcCredentials;
 	private DriverFactory driverFactory;
 	
-	@Inject public DatabaseUri(JdbcCredentials jdbcCredentials, DriverFactory driverFactory) {
+	public DatabaseUri(JdbcCredentials jdbcCredentials, DriverFactory driverFactory) {
 		this.jdbcCredentials = jdbcCredentials;
 		this.driverFactory = driverFactory;
 	}

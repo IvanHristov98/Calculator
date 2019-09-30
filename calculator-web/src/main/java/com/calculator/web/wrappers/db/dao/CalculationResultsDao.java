@@ -1,7 +1,9 @@
 package com.calculator.web.wrappers.db.dao;
 
+import com.calculator.web.aspects.annotations.InteractWithDb;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
+import com.google.inject.Inject;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,16 +15,18 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	
 	private EntityManager entityManager;
 	
-	public CalculationResultsDao(EntityManager entityManager) {
+	@Inject public CalculationResultsDao(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 
 	@Override
+	@InteractWithDb
 	public CalculationResult getItem(Integer key) throws SQLException {
 		return entityManager.find(CalculationResult.class, key);
 	}
 	
 	@SuppressWarnings("unchecked")
+	@InteractWithDb
 	@Override
 	public List<CalculationResult> getItems() throws SQLException {
 		Query query = entityManager.createNamedQuery("CalculationResult.findAll");
@@ -30,6 +34,7 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	}
 
 	@Override
+	@InteractWithDb
 	public void save(CalculationResult item) throws SQLException {
 		executeTransaction(
 				(entityManager, result) -> { entityManager.persist(result); },
@@ -38,6 +43,7 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	}
 
 	@Override
+	@InteractWithDb
 	public void update(CalculationResult item) throws SQLException {
 		executeTransaction(
 				(entityManager, result) -> { entityManager.merge(result); },
@@ -46,6 +52,7 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	}
 
 	@Override
+	@InteractWithDb
 	public void delete(CalculationResult item) throws SQLException {
 		executeTransaction(
 				(entityManager, result) -> {
@@ -60,6 +67,7 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@InteractWithDb
 	public List<CalculationResult> getPendingItems() throws SQLException {
 		Query query = entityManager.createNamedQuery("CalculationResult.findPendingItems");
 		query.setParameter("status", CalculationStatus.PENDING.getStatusValue());

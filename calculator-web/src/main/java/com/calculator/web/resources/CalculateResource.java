@@ -5,17 +5,18 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
 import com.calculator.web.CorsHttpHeaders;
-import com.calculator.web.wrappers.db.*;
+import com.calculator.web.aspects.DbInteractionModule;
 import com.calculator.web.wrappers.db.dao.CalculationResultsDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 @Path("/calculate")
 public class CalculateResource {
@@ -24,7 +25,6 @@ public class CalculateResource {
 	public static final String ALLOWED_HTTP_METHODS = "POST";
 	
 	@Inject private ObjectMapper objectMapper;
-	@Inject private DatabaseUri databaseUri;
 	@Inject private CalculationResult calculationResult;
 	
 	@POST
@@ -56,9 +56,8 @@ public class CalculateResource {
 	}
 	
 	private void saveCalculationResult(CalculationResult calculationResult) throws SQLException {
-		DatabaseConnection managerSupplier = DatabaseConnection.getInstance(databaseUri);
-		EntityManager entityManager = managerSupplier.getEntityManager();
-		CalculationResultsDao calculationResultsDao = new CalculationResultsDao(entityManager);
+		Injector injector = Guice.createInjector(new DbInteractionModule());
+		CalculationResultsDao calculationResultsDao = injector.getInstance(CalculationResultsDao.class);
 		
 		calculationResultsDao.save(calculationResult);
 	}
