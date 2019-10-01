@@ -16,21 +16,21 @@ import com.google.inject.matcher.Matchers;
 public class DbInteractionModule extends AbstractModule {
 	
 	protected void configure () {
-		try {
-			bind(EntityManager.class).toInstance(makeEntityManager());
-			
-			bindInterceptor(Matchers.any(), Matchers.annotatedWith(InteractWithDb.class), new DbInteractionLogger());
-		} catch (SQLException exception) {
-			exception.printStackTrace();
-		}
+		bind(EntityManager.class).toInstance(makeEntityManager());
+		
+		bindInterceptor(Matchers.any(), Matchers.annotatedWith(InteractWithDb.class), new DbInteractionLogger());
 	}
 	
-	private EntityManager makeEntityManager () throws SQLException {
+	private EntityManager makeEntityManager () {
 		return makeDatabaseConnection().getEntityManager();
 	}
 	
-	private DatabaseConnection makeDatabaseConnection () throws SQLException {
-		return DatabaseConnection.getInstance(makeDatabaseUri());
+	private DatabaseConnection makeDatabaseConnection () {
+		try {
+			return DatabaseConnection.getInstance(makeDatabaseUri());
+		} catch (SQLException exception) {
+			throw new RuntimeException(exception);
+		}
 	}
 	
 	private DatabaseUri makeDatabaseUri () {
