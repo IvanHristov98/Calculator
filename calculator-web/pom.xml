@@ -61,13 +61,21 @@
 	        <configuration>
 	        	<skip>false</skip>
 	        	<appname>calculator</appname>
-	        	<memory>1024</memory>
-	        	<diskQuota>1024</diskQuota>
+	        	<memory>800</memory>
+	        	<diskQuota>512</diskQuota>
+	        	<env>
+	        		<SAP_JWT_TRUST_ACL>[{"clientid" : "*", "identityzone" : "*"}]</SAP_JWT_TRUST_ACL>
+	        	</env>
 	        	<services>
 	        		<service>
 	        			<name>${cfDbServiceName}</name>
 	        			<label>${cfDbServiceLabel}</label>
 	        			<plan>${cfDbServicePlan}</plan>
+	        		</service>
+	        		<service>
+	        			<name>${cfXsuaaServiceName}</name>
+	        			<label>${cfXsuaaServiceLabel}</label>
+	        			<plan>${cfXsuaaServicePlan}</plan>
 	        		</service>
 	        	</services>
 	        </configuration>
@@ -292,6 +300,43 @@
 	    <groupId>com.google.inject</groupId>
 	    <artifactId>guice</artifactId>
 	    <version>4.2.2</version>
+	</dependency>
+	
+	<!-- Authentication and Authorization imports with Spring Security -->
+	<dependency>
+	    <groupId>com.sap.xs2.security</groupId>
+	    <artifactId>security-commons</artifactId>
+	    <version>0.28.6</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sap.xs2.security</groupId>
+	    <artifactId>java-container-security</artifactId>
+	    <version>0.28.6</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sap.xs2.security</groupId>
+	    <artifactId>java-container-security-api</artifactId>
+	    <version>0.28.6</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-jwt</artifactId>
+	    <version>1.0.9.RELEASE</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.security.oauth</groupId>
+	    <artifactId>spring-security-oauth2</artifactId>
+	    <version>2.2.3.RELEASE</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sap.cloud.security.xsuaa</groupId>
+	    <artifactId>api</artifactId>
+	    <version>1.6.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sap.security.nw.sso.linuxx86_64.opt</groupId>
+	    <artifactId>sapjwt.linuxx86_64</artifactId>
+	    <version>1.1.19</version>
 	</dependency>
 	
   </dependencies>
