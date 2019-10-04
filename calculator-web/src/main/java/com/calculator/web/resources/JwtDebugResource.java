@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import com.calculator.web.CorsHttpHeaders;
-import com.calculator.web.security.JsonWebToken;
+import com.calculator.web.security.jwt.JsonWebToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
