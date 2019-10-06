@@ -1,8 +1,9 @@
 package com.calculator.web.tests;
 
+import com.calculator.web.tests.authorization.StubAuthorizationHeader;
+import com.calculator.web.tests.authorization.JwtGenerator;
 import com.calculator.web.tests.pageObjects.resources.*;
 
-import static com.calculator.web.tests.DatasetPaths.*;
 import static com.calculator.web.tests.pageObjects.db.CalculationResultsTable.*;
 
 import static org.hamcrest.Matchers.closeTo;
@@ -27,12 +28,17 @@ public class EvaluatingCronJobIT extends ResourceIT {
 	
 	private CalculationResultResourcePage calculationResultPage;
 	private CalculateResourcePage calculatePage;
+	private JwtGenerator jwtGenerator;
+	private StubAuthorizationHeader authorizationHeader;
 	
 	@Before
 	public void setUp() throws Exception {
-		calculationResultPage = new CalculationResultResourcePage(baseUrl);
-		calculatePage = new CalculateResourcePage(baseUrl);
-		dbPage.useDataSet(EMPTY_DATA_SET);
+		jwtGenerator = new JwtGenerator();
+		authorizationHeader = new StubAuthorizationHeader(jwtGenerator);
+		
+		calculationResultPage = new CalculationResultResourcePage(baseUrl, authorizationHeader);
+		calculatePage = new CalculateResourcePage(baseUrl, authorizationHeader);
+		dbPage.useDataSet(Datasets.EMPTY_DATA_SET.getPath());
 	}
 	
 	@After

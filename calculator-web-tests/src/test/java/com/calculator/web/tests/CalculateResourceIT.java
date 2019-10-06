@@ -1,8 +1,8 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.tests.pageObjects.resources.CalculateResourcePage;
-
-import static com.calculator.web.tests.DatasetPaths.*;
+import com.calculator.web.tests.authorization.StubAuthorizationHeader;
+import com.calculator.web.tests.authorization.JwtGenerator;
+import com.calculator.web.tests.pageObjects.resources.*;
 
 import java.io.*;
 import java.sql.*;
@@ -21,11 +21,16 @@ import static org.hamcrest.Matchers.*;
 public class CalculateResourceIT extends ResourceIT {
 	
 	private CalculateResourcePage resourcePage;
+	private JwtGenerator jwtGenerator;
+	private StubAuthorizationHeader authorizationHeader;
     
     @Before
     public void setUp() throws Exception {
-    	resourcePage = new CalculateResourcePage(baseUrl);
-    	dbPage.useDataSet(EMPTY_DATA_SET);
+    	jwtGenerator = new JwtGenerator();
+    	authorizationHeader = new StubAuthorizationHeader(jwtGenerator);
+    	
+    	resourcePage = new CalculateResourcePage(baseUrl, authorizationHeader);
+    	dbPage.useDataSet(Datasets.EMPTY_DATA_SET.getPath());
     }
     
     @After
@@ -45,7 +50,7 @@ public class CalculateResourceIT extends ResourceIT {
     public void verifyCalculationSaving() throws Exception {
     	resourcePage.setExpressionParameter("1+1");
     	resourcePage.getResourceContent();
-    	dbPage.compareActualToExpectedTable(PENDING_SINGLE_ITEM_DATA_SET);
+    	dbPage.compareActualToExpectedTable(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
     }
     
     @Test

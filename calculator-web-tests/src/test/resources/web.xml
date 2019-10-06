@@ -1,0 +1,29 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  	<display-name>Calculator</display-name>
+  
+  	<listener>
+		<listener-class>com.calculator.web.wrappers.db.deployment.DatabaseMigrationListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.calculator.web.cron.EvaluatingJobListener</listener-class>
+	</listener>
+  
+  	<servlet>
+  		<servlet-name>jerseyServlet</servlet-name>
+  		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+  		<init-param>
+  			<param-name>javax.ws.rs.Application</param-name>
+  			<param-value>com.calculator.web.WebCalculatorConfig</param-value>
+  		</init-param>
+  		<load-on-startup>1</load-on-startup>
+  	</servlet>
+  
+  	<servlet-mapping>
+  		<servlet-name>jerseyServlet</servlet-name>
+  		<url-pattern>/api/v1/*</url-pattern>
+  	</servlet-mapping>
+</web-app>

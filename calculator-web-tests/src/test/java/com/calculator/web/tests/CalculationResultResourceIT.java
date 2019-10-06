@@ -1,12 +1,11 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.tests.pageObjects.resources.CalculationResultResourcePage;
+import com.calculator.web.tests.authorization.*;
+import com.calculator.web.tests.pageObjects.resources.*;
 
 import static com.calculator.web.tests.pageObjects.db.CalculationResultsTable.*;
 
-import static com.calculator.web.tests.DatasetPaths.*;
 import static org.junit.Assert.assertThat;
-
 import static org.hamcrest.Matchers.*;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -20,11 +19,16 @@ import javax.ws.rs.core.Response;
 public class CalculationResultResourceIT extends ResourceIT {
 	
 	private CalculationResultResourcePage resourcePage;
+	private JwtGenerator jwtGenerator;
+	private AuthorizationHeader authorizationHeader;
 	
 	@Before
 	public void setUp() throws Exception {
-		resourcePage = new CalculationResultResourcePage(baseUrl);
-		dbPage.useDataSet(EMPTY_DATA_SET);
+		jwtGenerator = new JwtGenerator();
+		authorizationHeader = new StubAuthorizationHeader(jwtGenerator);
+		
+		resourcePage = new CalculationResultResourcePage(baseUrl, authorizationHeader);
+		dbPage.useDataSet(Datasets.EMPTY_DATA_SET.getPath());
 	}
 	
 	@After
@@ -34,7 +38,7 @@ public class CalculationResultResourceIT extends ResourceIT {
 	
 	@Test
 	public void verifyExpressionGetting() throws Exception {
-		dbPage.useDataSet(COMPLETED_SINGLE_ITEM_DATA_SET);
+		dbPage.useDataSet(Datasets.COMPLETED_SINGLE_ITEM_DATA_SET.getPath());
 		
 		final String calculationResultId = "1";
 		

@@ -5,12 +5,14 @@ import java.net.*;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 
+import com.calculator.web.tests.authorization.*;
+
 public class CalculationResultsResourcePage extends ResourcePage {
 
 	public static final String CALCULATION_RESULTS_PATH = "/calculationResults";
 	
-	public CalculationResultsResourcePage(URL baseUrl) {
-		super(baseUrl);
+	public CalculationResultsResourcePage(URL baseUrl, AuthorizationHeader authorizationHeader) {
+		super(baseUrl, authorizationHeader);
 	}
 
 	@Override
@@ -18,7 +20,12 @@ public class CalculationResultsResourcePage extends ResourcePage {
 		URL calculationResultsResourceUrl = getCalculationResultsResourceUrl();
 		WebTarget webTarget = getWebTarget(calculationResultsResourceUrl);
 		
-		return webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
+		String authorizationHeaderContent = authorizationHeader.getAuthorizationHeaderValue();
+		
+		return webTarget
+				.request(MediaType.APPLICATION_JSON)
+				.header(authorizationHeader.getAuthorizationHeader(), authorizationHeaderContent)
+				.get(Response.class);
 	}
 	
 	private URL getCalculationResultsResourceUrl() throws MalformedURLException {

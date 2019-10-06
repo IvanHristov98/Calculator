@@ -3,9 +3,10 @@ package com.calculator.web.tests.pageObjects.resources;
 import java.io.*;
 import java.net.*;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
+
+import com.calculator.web.tests.authorization.*;
 
 public class CalculateResourcePage extends ResourcePage {
 	
@@ -14,8 +15,8 @@ public class CalculateResourcePage extends ResourcePage {
 	
 	private String expressionContent;
 	
-	public CalculateResourcePage(URL baseUrl) {
-		super(baseUrl);
+	public CalculateResourcePage(URL baseUrl, AuthorizationHeader authorizationHeader) {
+		super(baseUrl, authorizationHeader);
 	}
 	
 	public void setExpressionParameter(String expressionContent) {
@@ -24,10 +25,14 @@ public class CalculateResourcePage extends ResourcePage {
 	
 	public Response getResourceContent() throws IOException {
 		URL calculationServiceUrl = getCalculationRequestURL(expressionContent);
-    	
     	WebTarget webTarget = getWebTarget(calculationServiceUrl);
     	
-    	return webTarget.request(MediaType.APPLICATION_JSON).post(Entity.entity(expressionContent, MediaType.APPLICATION_JSON));
+    	String authorizationHeaderContent = authorizationHeader.getAuthorizationHeaderValue();
+    	
+    	return webTarget
+    			.request(MediaType.APPLICATION_JSON)
+    			.header(authorizationHeader.getAuthorizationHeader(), authorizationHeaderContent)
+    			.post(Entity.entity(expressionContent, MediaType.APPLICATION_JSON));
 	}
 	
 	private URL getCalculationRequestURL(String expressionContent) throws UnsupportedEncodingException, MalformedURLException {

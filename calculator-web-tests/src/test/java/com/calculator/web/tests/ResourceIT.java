@@ -1,7 +1,5 @@
 package com.calculator.web.tests;
 
-import static com.calculator.web.tests.DatasetPaths.EMPTY_DATA_SET;
-
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -40,7 +38,7 @@ public abstract class ResourceIT {
     
     @AfterClass
     public static void tearDownClass() throws Exception {
-    	dbPage.useDataSet(EMPTY_DATA_SET);
+    	dbPage.useDataSet(Datasets.EMPTY_DATA_SET.getPath());
     	dbPage.shutDownDatabaseServer();
     }
     

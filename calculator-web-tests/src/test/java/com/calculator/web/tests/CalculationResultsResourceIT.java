@@ -1,8 +1,9 @@
 package com.calculator.web.tests;
 
-import com.calculator.web.tests.pageObjects.resources.CalculationResultsResourcePage;
+import com.calculator.web.tests.authorization.StubAuthorizationHeader;
+import com.calculator.web.tests.authorization.JwtGenerator;
+import com.calculator.web.tests.pageObjects.resources.*;
 
-import static com.calculator.web.tests.DatasetPaths.*;
 import static com.calculator.web.tests.pageObjects.db.CalculationResultsTable.*;
 
 import java.sql.SQLException;
@@ -23,11 +24,16 @@ import static org.hamcrest.Matchers.containsString;
 public class CalculationResultsResourceIT extends ResourceIT {
 	
 	private CalculationResultsResourcePage resourcePage;
+	private JwtGenerator jwtGenerator;
+	private StubAuthorizationHeader authorizationHeader;
 	
 	@Before
 	public void SetUp() throws Exception {
-		resourcePage = new CalculationResultsResourcePage(baseUrl);
-		dbPage.useDataSet(EMPTY_DATA_SET);
+		jwtGenerator = new JwtGenerator();
+		authorizationHeader = new StubAuthorizationHeader(jwtGenerator);
+		
+		resourcePage = new CalculationResultsResourcePage(baseUrl, authorizationHeader);
+		dbPage.useDataSet(Datasets.EMPTY_DATA_SET.getPath());
 	}
 	
 	@After
@@ -37,7 +43,7 @@ public class CalculationResultsResourceIT extends ResourceIT {
 	
 	@Test
 	public void verifyCalculationResultsFetching() throws Exception {
-		dbPage.useDataSet(PENDING_POPULATED_DATA_SET);
+		dbPage.useDataSet(Datasets.PENDING_POPULATED_DATA_SET.getPath());
 		Response pageResponse = resourcePage.getResourceContent();
 		String pageContent = pageResponse.readEntity(String.class);
 		JSONArray calculationResults = new JSONArray(pageContent);

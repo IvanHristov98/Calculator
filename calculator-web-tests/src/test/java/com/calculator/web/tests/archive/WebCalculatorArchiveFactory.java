@@ -14,6 +14,11 @@ public class WebCalculatorArchiveFactory {
     			.as(WebArchive.class)
     			.addAsManifestResource("arquillian.xml")
     			.addAsManifestResource("context.xml", "context.xml");
+		
+		calculatorWeb.delete("/WEB-INF/web.xml");
+		calculatorWeb.delete("/WEB-INF/spring-security.xml");
+		
+		calculatorWeb.addAsWebInfResource("web.xml");
  
         return calculatorWeb;
 	}
