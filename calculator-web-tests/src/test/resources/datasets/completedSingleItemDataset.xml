@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <calculation_results expression="1" evaluation="1.0" moment="1998-10-16 11:58:23" status="2"/>
+  <calculation_results expression="1" evaluation="1.0" moment="1998-10-16 11:58:23" status="2" email="test@mail.com"/>
 </dataset>

@@ -1,18 +1,19 @@
 package com.calculator.web.wrappers.db.dao;
 
+import static com.calculator.web.wrappers.db.dao.dbMappers.tables.CalculationResultsTable.*;
+
 import java.sql.*;
 
 public class CalculationResultsTable {
 	
-	public static final String TABLE_NAME = "calculation_results";
-	
 	public static final String CREATE_CALCULATION_RESULTS_TABLE_SQL = "CREATE TABLE " + TABLE_NAME + " ("
-			+ " request_id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-			+ " expression character varying(128) NOT NULL,"
-			+ " moment timestamp DEFAULT CURRENT TIMESTAMP NOT NULL, "
-			+ " evaluation real,"
-			+ " message character varying(256),"
-			+ " status int NOT NULL"
+			+ REQUEST_ID + " int PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+			+ EXPRESSION + " character varying(128) NOT NULL,"
+			+ MOMENT + " timestamp DEFAULT CURRENT TIMESTAMP NOT NULL, "
+			+ EVALUATION + " real,"
+			+ MESSAGE + " character varying(256),"
+			+ STATUS + " int NOT NULL,"
+			+ EMAIL + " character varying(128) NOT NULL"
 			+ "	)";
 	public static final String DROP_CALCULATION_RESULTS_TABLE_SQL = "DROP TABLE " + TABLE_NAME;
 	public static final String RESTART_AUTO_INCREMENTATION = "ALTER TABLE " + TABLE_NAME + " ALTER COLUMN request_id RESTART WITH 1";

@@ -3,11 +3,11 @@ package com.calculator.web.wrappers.db.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IDao<T, E> {
+public interface IDao<T> {
 	
-	public T getItem(E key) throws SQLException;
+	public T getItem(T key) throws SQLException;
 	
-	public List<T> getItems() throws SQLException;
+	public List<T> getItems(T key) throws SQLException;
 	
 	public void save(T item) throws SQLException;
 	

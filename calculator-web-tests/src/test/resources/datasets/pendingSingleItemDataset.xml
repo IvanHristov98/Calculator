@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <calculation_results expression="1+1" status="1"/>
+  <calculation_results expression="1+1" status="1"  email="test@mail.com"/>
 </dataset>

@@ -3,8 +3,7 @@ package com.calculator.web.wrappers.db.dao;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
 import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
 
-import static com.calculator.web.wrappers.db.dao.CalculationResultsTable.TABLE_NAME;
-import static com.calculator.web.wrappers.db.dao.DatasetPaths.*;
+import static com.calculator.web.wrappers.db.dao.dbMappers.tables.CalculationResultsTable.*;
 import static com.calculator.web.wrappers.db.MockedPersistenceProperties.*;
 import static com.calculator.web.wrappers.db.MockedPersistencePropertyNames.*;
 
@@ -58,7 +57,7 @@ public class CalculationResultsDaoTest {
     public void setUp() throws Exception {
     	initMocks(this);
     	
-    	applyDataSet(EMPTY_DATA_SET);
+    	applyDataSet(Datasets.EMPTY_DATA_SET.getPath());
     	setUpEntityManger();
     	setUpCalculationResultsDao(entityManager);
     }
@@ -71,21 +70,41 @@ public class CalculationResultsDaoTest {
     
 	@Test
 	public void verifyItemFinding() throws Exception {
-		applyDataSet(PENDING_SINGLE_ITEM_DATA_SET);
+		applyDataSet(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
 		
-		Integer requestId = 1;
-		CalculationResult result = calculationResultsDao.getItem(requestId);
+		final int requestId = 1;
+		final String email = "test@mail.com";
+		
+		CalculationResult calculationResult = new CalculationResult();
+		calculationResult.setRequestId(requestId);
+		calculationResult.setEmail(email);
+		
+		CalculationResult result = calculationResultsDao.getItem(calculationResult);
 		
 		assertThat(result, notNullValue());
-		assertThat(result.getRequestId(), equalTo(requestId));
+		assertThat(result.getRequestId(), equalTo(calculationResult.getRequestId()));
+	}
+	
+	@Test
+	public void verifyInvalidItemFindingRequest() throws Exception {
+		applyDataSet(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
+		
+		CalculationResult calculationResult = new CalculationResult();
+		calculationResult.setRequestId(1);
+		calculationResult.setEmail("wrong@mail.com");
+		
+		assertThat(calculationResultsDao.getItem(calculationResult), is(nullValue()));
 	}
 	
 	@Test
 	public void verifyNumberWhenGettingItems() throws Exception {
-		applyDataSet(PENDING_TWO_ITEMS_DATA_SET);
+		applyDataSet(Datasets.PENDING_TWO_ITEMS_DATA_SET.getPath());
 		final int totalRecordsInTable = 2;
 		
-		List<CalculationResult> result = calculationResultsDao.getItems();
+		CalculationResult calculationResult = new CalculationResult();
+		calculationResult.setEmail("test@mail.com");
+		
+		List<CalculationResult> result = calculationResultsDao.getItems(calculationResult);
 		
 		assertThat(result.size(), equalTo(totalRecordsInTable));
 	}
@@ -97,15 +116,16 @@ public class CalculationResultsDaoTest {
 		item.setMoment(mockedTimestamp);
 		item.setEvaluation(2.0d);
 		item.setStatus(CalculationStatus.PENDING);
+		item.setEmail("test@mail.com");
 		
 		calculationResultsDao.save(item);
 		
-		compareActualToCurrentTable(PENDING_SINGLE_ITEM_DATA_SET);
+		compareActualToCurrentTable(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
 	}
 	
 	@Test
 	public void verifyItemUpdating() throws Exception {
-		applyDataSet(PENDING_WRONG_SINGLE_ITEM_DATA_SET);
+		applyDataSet(Datasets.PENDING_WRONG_SINGLE_ITEM_DATA_SET.getPath());
 		
 		CalculationResult item = new CalculationResult();
 		item.setRequestId(1);
@@ -113,30 +133,32 @@ public class CalculationResultsDaoTest {
 		item.setMoment(mockedTimestamp);
 		item.setEvaluation(2.0d);
 		item.setStatus(CalculationStatus.PENDING);
+		item.setEmail("test@mail.com");
 		
 		calculationResultsDao.update(item);
 		
-		compareActualToCurrentTable(PENDING_SINGLE_ITEM_DATA_SET);
+		compareActualToCurrentTable(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
 	}
 	
 	@Test
 	public void verifyItemDeletion() throws Exception {
-		applyDataSet(PENDING_SINGLE_ITEM_DATA_SET);
+		applyDataSet(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
 		
 		CalculationResult item = new CalculationResult();
 		item.setRequestId(1);
 		item.setExpression("1+1");
 		item.setStatus(CalculationStatus.PENDING);
 		item.setMoment(mockedTimestamp);
+		item.setEmail("test@mail.com");
 		
 		calculationResultsDao.delete(item);
 		
-		compareActualToCurrentTable(EMPTY_DATA_SET);
+		compareActualToCurrentTable(Datasets.EMPTY_DATA_SET.getPath());
 	}
 	
 	@Test
 	public void verifyPendingItemsGetting() throws Exception {
-		applyDataSet(PENDING_SINGLE_ITEM_DATA_SET);
+		applyDataSet(Datasets.PENDING_SINGLE_ITEM_DATA_SET.getPath());
 		final int totalPendingRecordsInTable = 1;
 		
 		List<CalculationResult> pendingItems = calculationResultsDao.getPendingItems();

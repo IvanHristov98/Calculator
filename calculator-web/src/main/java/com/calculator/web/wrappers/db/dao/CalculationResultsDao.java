@@ -1,8 +1,10 @@
 package com.calculator.web.wrappers.db.dao;
 
 import com.calculator.web.aspects.annotations.InteractWithDb;
-import com.calculator.web.wrappers.db.dao.dbMappers.CalculationResult;
-import com.calculator.web.wrappers.db.dao.dbMappers.CalculationStatus;
+import com.calculator.web.wrappers.db.dao.dbMappers.*;
+
+import static com.calculator.web.wrappers.db.dao.dbMappers.tables.CalculationResultsTable.*;
+
 import com.google.inject.Inject;
 
 import java.sql.SQLException;
@@ -11,7 +13,9 @@ import java.util.function.BiConsumer;
 
 import javax.persistence.*;
 
-public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
+public class CalculationResultsDao implements IDao<CalculationResult> {
+	
+	public static final String SQL_NOT_FOUND_MESSAGE = "Sql error. Row not found.";
 	
 	private EntityManager entityManager;
 	
@@ -19,17 +23,31 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 		this.entityManager = entityManager;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@InteractWithDb
-	public CalculationResult getItem(Integer key) throws SQLException {
-		return entityManager.find(CalculationResult.class, key);
+	public CalculationResult getItem(CalculationResult key) throws SQLException {
+		Query query = entityManager.createNamedQuery("CalculationResult.find");
+		query.setParameter(EMAIL, key.getEmail());
+		query.setParameter(REQUEST_ID, key.getRequestId());
+		
+		List<CalculationResult> queryResult = query.getResultList();
+		
+		if (queryResult.size() != 1) {
+			return null;
+		}
+		
+		final int firstArrayElement = 0;
+		return queryResult.get(firstArrayElement);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@InteractWithDb
 	@Override
-	public List<CalculationResult> getItems() throws SQLException {
+	public List<CalculationResult> getItems(CalculationResult key) throws SQLException {
 		Query query = entityManager.createNamedQuery("CalculationResult.findAll");
+		query.setParameter(EMAIL, key.getEmail());
+		
 		return query.getResultList();
 	}
 
@@ -70,7 +88,8 @@ public class CalculationResultsDao implements IDao<CalculationResult, Integer> {
 	@InteractWithDb
 	public List<CalculationResult> getPendingItems() throws SQLException {
 		Query query = entityManager.createNamedQuery("CalculationResult.findPendingItems");
-		query.setParameter("status", CalculationStatus.PENDING.getStatusValue());
+		query.setParameter(STATUS, CalculationStatus.PENDING.getStatusValue());
+		
 		return query.getResultList();
 	}
 	

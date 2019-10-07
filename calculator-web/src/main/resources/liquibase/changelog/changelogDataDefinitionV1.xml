@@ -57,6 +57,9 @@
 			<column name="status" type="${type.int}">
 				<constraints nullable="false"/>
 			</column>
+			<column name="email" type="${type.unicode256}">
+				<constraints nullable="false"/>
+			</column>
 		</createTable>
 		<addPrimaryKey columnNames=" request_id " constraintName="calculation_results_pkey"
 			tableName="calculation_results" />

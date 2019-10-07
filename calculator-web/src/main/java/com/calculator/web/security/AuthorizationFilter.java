@@ -3,29 +3,34 @@ package com.calculator.web.security;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.container.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.ext.Provider;
 
 import org.json.*;
 
-import com.calculator.web.security.jwt.JsonWebToken;
+import com.calculator.web.security.jwt.JwtBasedAuthorizationHeader;
 
+@Provider
 public class AuthorizationFilter implements ContainerRequestFilter {
 	
-	public static final String AUTHORIZATION_PROPERTY = "Authorization";
 	public static final int JWT_INDEX = 0;
 	public static final String EMAIL_PROPERTY = "email";
+	
+	@Inject
+	private JwtBasedAuthorizationHeader authorizationHeader;
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		
 		final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 		
-		if (!headers.containsKey(AUTHORIZATION_PROPERTY)) {
+		if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
 			abortUnauthorizedRequest(requestContext);
 		}
 		
-		final List<String> authProperty = headers.get(AUTHORIZATION_PROPERTY);
+		final List<String> authProperty = headers.get(HttpHeaders.AUTHORIZATION);
 		
 		if (authProperty.isEmpty()) {
 			abortUnauthorizedRequest(requestContext);
@@ -47,30 +52,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	
 	private boolean isJwtPropertyPresent(String rawJwt, String propertyName) {
 		try {
-			JSONObject jwtPayload = getJwtPayload(rawJwt);
-			getJsonProperty(jwtPayload, propertyName);
+			authorizationHeader.getJwtPayloadField(rawJwt, propertyName);
 		} catch (JSONException exception) {
 			return false;
 		}
 		
 		return true;
-	}
-	
-	private Object getJsonProperty(JSONObject jsonObject, String propertyName) {
-		return jsonObject.get(propertyName);
-	}
-	
-	private JSONObject getJwtPayload(String rawJwt) {
-		JsonWebToken jwt = getParsedJwt(rawJwt);
-		String jwtPayloadContent = jwt.getPayload();
-		return new JSONObject(jwtPayloadContent);
-	}
-	
-	private JsonWebToken getParsedJwt(String authorizationToken) {
-		String jwtContent = authorizationToken;
-		JsonWebToken jwt = new JsonWebToken();
-		jwt.setContent(jwtContent);
-		
-		return jwt;
 	}
 }
