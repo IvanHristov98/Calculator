@@ -1,13 +1,42 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
-], function (Controller, JSONModel, Calculator) {
+    "sap/ui/model/json/JSONModel",
+    "com/calculator/webUi/controller/App.controller"
+], function (Controller, JSONModel, App) {
    "use strict";
 
+   const app = new App();
+
    return Controller.extend("com.calculator.webUi.controller.Calculator", {
-      calculateResource : "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/calculate",
-      calculationResultsResource : "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/calculationResults",
+      calculateResource : app.getBaseUrl() + "/api/v1/calculate",
+      calculationResultsResource : app.getBaseUrl() + "/api/v1/calculationResults",
       intervalBetweenCompletionChecks: 1000,
+      xCsrfToken : null,
+      onInit : function () {
+         this.fetchXsrfToken();
+      },
+      fetchXsrfToken : function () {
+         let oXhr = new XMLHttpRequest();
+
+         let oCalculator = this;
+         let onSuccessfulTokenFetch = function () {
+            if (this.readyState == this.HEADERS_RECEIVED) {
+               oCalculator.xCsrfToken = oXhr.getResponseHeader("X-Csrf-Token");
+            }
+         };
+
+         let oExpressionBar = this.getExpressionBar();
+
+         let oHttpRequestDetails = {
+            resource : this.calculationResultsResource,
+            method: "GET",
+            readyStateListener : onSuccessfulTokenFetch,
+            data : null,
+            xCsrfToken : "Fetch"
+         };
+
+         this.runHttpRequest(oXhr, oHttpRequestDetails);
+      },
       onTokenPress : function (sToken) {
          let oExpressionBar = this.getExpressionBar();
          let sCurrentExpression = oExpressionBar.getValue();
@@ -46,7 +75,8 @@ sap.ui.define([
             resource : this.calculateResource,
             method: "POST",
             readyStateListener : onSuccessfulExpressionRecording,
-            data : oExpressionBar.getValue()
+            data : oExpressionBar.getValue(),
+            xCsrfToken : this.xCsrfToken
          };
          let oXhr = new XMLHttpRequest();
 
@@ -57,6 +87,7 @@ sap.ui.define([
          oXhr.setRequestHeader("Content-Type", "application/json");
          oXhr.setRequestHeader("cache-control", "no-cache");
          oXhr.addEventListener("readystatechange", oHttpRequestDetails.readyStateListener);
+         oXhr.setRequestHeader("X-Csrf-Token", oHttpRequestDetails.xCsrfToken);
          
          oXhr.send(oHttpRequestDetails.data);
       },
@@ -78,7 +109,8 @@ sap.ui.define([
             resource : oCalculator.calculationResultsResource + "/" + oCalculationResultId,
             method: "GET",
             readyStateListener : checkIfCalculationIsCompleted,
-            data : null
+            data : null,
+            xCsrfToken : this.xCsrfToken
          };
          let oXhr = new XMLHttpRequest();
 

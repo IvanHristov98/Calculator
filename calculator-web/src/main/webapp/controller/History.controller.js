@@ -24,7 +24,8 @@ sap.ui.define([
             resource : oCalculator.calculationResultsResource,
             method: "GET",
             readyStateListener : onCalculationResultsDownloaded,
-            data : null
+            data : null,
+            xCsrfToken : oCalculator.xCsrfToken
         };
 
         let oXhr = new XMLHttpRequest();

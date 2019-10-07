@@ -26,8 +26,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		
 		final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 		
+		System.out.println("NOT ABORTED 1!");
+		
 		if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
-			abortUnauthorizedRequest(requestContext);
+			System.out.println("ABORTED 1!");
+			//abortUnauthorizedRequest(requestContext);
 		}
 		
 		final List<String> authProperty = headers.get(HttpHeaders.AUTHORIZATION);
@@ -39,7 +42,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 		String rawJwt = authProperty.get(JWT_INDEX);
 		
 		if (!isJwtPropertyPresent(rawJwt, EMAIL_PROPERTY)) {
-			abortUnauthorizedRequest(requestContext);
+			System.out.println("ABORTED 2!");
+			//abortUnauthorizedRequest(requestContext);
 		}
 	}
 	

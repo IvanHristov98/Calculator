@@ -1,22 +1,25 @@
 sap.ui.define([
     "sap/ui/core/util/MockServer",
-	"sap/base/util/UriParameters"
-], function (MockServer, UriParameters) {
+    "sap/base/util/UriParameters",
+    "com/calculator/webUi/controller/App.controller"
+], function (MockServer, UriParameters, App) {
     "use strict";
 
-    const sCalculateData = "1";
-    const sCalculationResultData = '{"requestId":1,"expression":"1+2*3","moment":1568291169665,"evaluation":7.0,"message":null,"status":2}';
-    const sCalculationResultsData = '['
-        +'{"requestId":1,"expression":"1","moment":1568291169665,"evaluation":1.0,"message":null,"status":2},'
-        +'{"requestId":2,"expression":"2","moment":1568291169666,"evaluation":2.0,"message":null,"status":2}'
-        +']';
+    const app = new App();
 
-    let oCalculate = getMockedCalculateResource(sCalculateData);
-    let oCalculationResult = getMockedCalculationResultResource(sCalculationResultData);
-    let oCalculationResults = getMockedCalculationResultsResource(sCalculationResultsData);
+    const oCalculateData = 1;
+    const oCalculationResultData = {"requestId":1,"expression":"1+2*3","moment":1568291169665,"evaluation":7.0,"message":null,"status":2};
+    const oCalculationResultsData = [
+            {"requestId":1,"expression":"1","moment":1568291169665,"evaluation":1.0,"message":null,"status":2},
+            {"requestId":2,"expression":"2","moment":1568291169666,"evaluation":2.0,"message":null,"status":2}
+        ];
+
+    let oCalculate = getMockedCalculateResource(JSON.stringify(oCalculateData));
+    let oCalculationResult = getMockedCalculationResultResource(JSON.stringify(oCalculationResultData));
+    let oCalculationResults = getMockedCalculationResultsResource(JSON.stringify(oCalculationResultsData));
     
     let oMockServer = new MockServer({
-        rootUri : "https://calculator.cfapps.sap.hana.ondemand.com/api/v1/",
+        rootUri : app.getBaseUrl() + "/api/v1/",
         requests : [oCalculate, oCalculationResult, oCalculationResults]
     });
 
