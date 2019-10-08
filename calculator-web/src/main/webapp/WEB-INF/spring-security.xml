@@ -21,12 +21,7 @@
       <sec:anonymous enabled="false" />
  
       <!-- section to protect your endpoints -->
- 
-      <!-- Example: Check a specific OAuth Scope (i.e., authorization) on a resource -->
-      <!--<sec:intercept-url pattern="/hello" access="#oauth2.hasScope('${xs.appname}.Display')" method="GET" />-->
- 
-      <!-- Example: Check only authentication on a resource -->
-      <sec:intercept-url pattern="/**" access="isAuthenticated()" method="GET" />
+      <sec:intercept-url pattern="/**" access="#oauth2.hasScope('${xs.appname}.Display')" method="GET" />
  
       <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
       <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
