@@ -22,7 +22,7 @@
   	<cloudFoundryPlugin.version>1.0.4</cloudFoundryPlugin.version>
   	
   	<!-- Dependencies -->
-  	<junit.version>4.12</junit.version>
+  	<junit.version>4.13.1</junit.version>
   </properties>
 
   <build>
