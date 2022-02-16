@@ -29,7 +29,7 @@
     <jaxrs.version>2.1.1</jaxrs.version>
     <jackson.version>2.9.9</jackson.version>
     
-    <postgreJdbcConnector.version>42.2.6</postgreJdbcConnector.version>
+    <postgreJdbcConnector.version>42.3.3</postgreJdbcConnector.version>
   </properties>
   
     <build>
